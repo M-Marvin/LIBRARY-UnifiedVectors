@@ -1,12 +1,14 @@
 package de.m_marvin.univec.impl;
 
+import de.m_marvin.unimat.api.IQuaternion;
+import de.m_marvin.unimat.impl.Quaternion;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
 
 /*
  * Implementation of a 3 dimensional float vector
  */
-public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Number>> {
+public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Number>, Quaternion> {
 
 	public float x;
 	public float y;
@@ -15,6 +17,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	public Vec3f(Float x, Float y, Float z) {
 		this.x = x;
 		this.y = y;
+		this.z = z;
 	}
 
 	public Vec3f(IVector3<? extends Number> vec) {
@@ -216,6 +219,18 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	@Override
 	public String toString() {
 		return "Vec3f[" + this.x + "," + this.y + "," + this.z + "]";
+	}
+
+	@Override
+	public IQuaternion<Quaternion> rotationRadians(Float angle) {
+		// TODO Verify
+		return new Quaternion(new Vec3i(this), angle);
+	}
+
+	@Override
+	public Vec3f transform(Quaternion quaternion) {
+		Quaternion q = quaternion.mul(new Quaternion(x, y, z, 0.0F)).mul(quaternion.conj());
+		return new Vec3f(q.i(), q.j(), q.k());
 	}
 	
 }

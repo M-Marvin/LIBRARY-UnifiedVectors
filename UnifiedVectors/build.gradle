@@ -3,7 +3,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 group = 'com.github.M-Marvin'
-version = '0.1'
+version = '1.0'
 
 // Add additional content to the manifest
 tasks.named('jar') {

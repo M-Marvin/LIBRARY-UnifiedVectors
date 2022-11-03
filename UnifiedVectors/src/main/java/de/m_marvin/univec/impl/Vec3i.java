@@ -1,12 +1,14 @@
 package de.m_marvin.univec.impl;
 
+import de.m_marvin.unimat.api.IQuaternion;
+import de.m_marvin.unimat.impl.Quaternion;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
 
 /*
  * Implementation of a 3 dimensional integer vector
  */
-public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Number>> {
+public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Number>, Quaternion> {
 
 	public int x;
 	public int y;
@@ -15,6 +17,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	public Vec3i(Integer x, Integer y, Integer z) {
 		this.x = x;
 		this.y = y;
+		this.z = z;
 	}
 
 	public Vec3i(IVector3<? extends Number> vec) {
@@ -216,6 +219,19 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	@Override
 	public String toString() {
 		return "Vec3i[" + this.x + "," + this.y + "," + this.z + "]";
+	}
+
+	@Override
+	public IQuaternion<Quaternion> rotationRadians(Integer angle) {
+		return new Quaternion(this, angle.floatValue());
+	}
+
+	@Override
+	public Vec3i transform(Quaternion quaternion) {
+		Quaternion quaternion2 = quaternion.copy().mulI(new Quaternion(x, y, z, 0F));
+		Quaternion quaternion3 = quaternion.copy().conjI();
+		quaternion2.mulI(quaternion3);
+		return new Vec3i((int) quaternion2.i(), (int) quaternion2.j(), (int) quaternion2.k());
 	}
 	
 }

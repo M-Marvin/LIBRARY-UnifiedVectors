@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" output="bin/main" path="src/main/java">
 		<attributes>
+			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>

@@ -1,12 +1,14 @@
 package de.m_marvin.univec.impl;
 
+import de.m_marvin.unimat.api.IQuaternion;
+import de.m_marvin.unimat.impl.Quaternion;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
 
 /*
  * Implementation of a 3 dimensional double vector
  */
-public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Number>> {
+public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Number>, Quaternion> {
 
 	public double x;
 	public double y;
@@ -15,6 +17,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	public Vec3d(Double x, Double y, Double z) {
 		this.x = x;
 		this.y = y;
+		this.z = z;
 	}
 
 	public Vec3d(IVector3<? extends Number> vec) {
@@ -216,6 +219,19 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	@Override
 	public String toString() {
 		return "Vec3i[" + this.x + "," + this.y + "," + this.z + "]";
+	}
+
+	@Override
+	public IQuaternion<Quaternion> rotationRadians(Double angle) {
+		return new Quaternion(new Vec3i(this), angle.floatValue());
+	}
+
+	@Override
+	public Vec3d transform(Quaternion quaternion) {
+		Quaternion quaternion2 = quaternion.copy().mulI(new Quaternion((float) x, (float) y, (float) z, 0F));
+		Quaternion quaternion3 = quaternion.copy().conjI();
+		quaternion2.mulI(quaternion3);
+		return new Vec3d((double) quaternion2.i(), (double) quaternion2.j(), (double) quaternion2.k());
 	}
 	
 }
