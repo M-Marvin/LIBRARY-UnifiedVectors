@@ -86,9 +86,9 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 		Matrix4f matrix4f = new Matrix4f();
 		matrix4f.m00 = xScale;
 		matrix4f.m11 = yScale;
-		matrix4f.m22 = -((far + near) / frustumLength);
+		matrix4f.m22 = ((far + near) / frustumLength);
 		matrix4f.m23 = -1;
-		matrix4f.m32 = -((2 * near * far) / frustumLength);
+		matrix4f.m32 = ((2 * near * far) / frustumLength);
 		matrix4f.m33 = 0;
 		return matrix4f;
 	}
