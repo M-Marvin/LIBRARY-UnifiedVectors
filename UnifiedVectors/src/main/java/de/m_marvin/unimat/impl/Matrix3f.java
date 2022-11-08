@@ -116,7 +116,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVec
 	}
 
 	@Override
-	public void setField(int x, int y, int f) {
+	public void setField(int x, int y, float f) {
 		switch (x) {
 		case 0: {
 			switch (y) {

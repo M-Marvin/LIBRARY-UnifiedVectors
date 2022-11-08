@@ -203,7 +203,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 	}
 
 	@Override
-	public void setField(int x, int y, int f) {
+	public void setField(int x, int y, float f) {
 		switch (x) {
 		case 0: {
 			switch (y) {
