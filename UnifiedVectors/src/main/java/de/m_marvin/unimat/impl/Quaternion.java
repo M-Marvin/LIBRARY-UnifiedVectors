@@ -1,5 +1,7 @@
 package de.m_marvin.unimat.impl;
 
+import java.util.Objects;
+
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.impl.Vec3f;
@@ -138,4 +140,29 @@ public class Quaternion implements IQuaternion<Quaternion> {
 		return new Quaternion(-i, -j, -k, r);
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(i, j, k, r);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Quaternion other = (Quaternion) obj;
+		return Float.floatToIntBits(i) == Float.floatToIntBits(other.i)
+				&& Float.floatToIntBits(j) == Float.floatToIntBits(other.j)
+				&& Float.floatToIntBits(k) == Float.floatToIntBits(other.k)
+				&& Float.floatToIntBits(r) == Float.floatToIntBits(other.r);
+	}
+
+	@Override
+	public String toString() {
+		return "Quternion[" + this.i + ", " + this.j + ", " + this.k + ", " + this.r + "]";
+	}
+	
 }
