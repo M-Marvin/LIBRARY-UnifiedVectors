@@ -9,10 +9,10 @@ import de.m_marvin.univec.impl.Vec3i;
 
 public class Quaternion implements IQuaternion<Quaternion> {
 	
-	private float i;
-	private float j;
-	private float k;
-	private float r;
+	public float i;
+	public float j;
+	public float k;
+	public float r;
 
 	public Quaternion(float i, float j, float k, float r) {
 		this.i = i;
