@@ -17,8 +17,8 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	}
 
 	public Vec2f(IVector2<? extends Number> vec) {
-		this.x = (float) vec.x();
-		this.y = (float) vec.y();
+		this.x = vec.x().floatValue();
+		this.y = vec.y().floatValue();
 	}
 	
 	@Override

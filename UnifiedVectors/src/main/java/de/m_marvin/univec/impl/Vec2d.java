@@ -17,8 +17,8 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	}
 	
 	public Vec2d(IVector2<? extends Number> vec) {
-		this.x = (double) vec.x();
-		this.y = (double) vec.y();
+		this.x = vec.x().doubleValue();
+		this.y = vec.y().doubleValue();
 	}
 	
 	@Override

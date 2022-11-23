@@ -18,10 +18,10 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	}
 
 	public Vec4f(IVector4<? extends Number> vec) {
-		this.x = (float) vec.x();
-		this.y = (float) vec.y();
-		this.z = (float) vec.z();
-		this.w = (float) vec.w();
+		this.x = vec.x().floatValue();
+		this.y = vec.y().floatValue();
+		this.z = vec.z().floatValue();
+		this.w = vec.w().floatValue();
 	}
 	
 	@Override
