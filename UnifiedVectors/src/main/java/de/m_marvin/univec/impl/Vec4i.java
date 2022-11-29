@@ -75,10 +75,10 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 
 	@Override
 	public Vec4i setI(IVector4<? extends Number> vec) {
-		this.x = (int) vec.x();
-		this.y = (int) vec.y();
-		this.z = (int) vec.z();
-		this.w = (int) vec.w();
+		this.x = (Integer) vec.x();
+		this.y = (Integer) vec.y();
+		this.z = (Integer) vec.z();
+		this.w = (Integer) vec.w();
 		return this;
 	}
 
@@ -89,7 +89,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 
 	@Override
 	public Vec4i add(IVector4<? extends Number> vec) {
-		return new Vec4i(this.x + (int) vec.x(), this.y + (int) vec.y(), this.z + (int) vec.z(), this.w + (int) vec.w());
+		return new Vec4i(this.x + (Integer) vec.x(), this.y + (Integer) vec.y(), this.z + (Integer) vec.z(), this.w + (Integer) vec.w());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 
 	@Override
 	public Vec4i sub(IVector4<? extends Number> vec) {
-		return new Vec4i(this.x - (int) vec.x(), this.y - (int) vec.y(), this.z - (int) vec.z(), this.w - (int) vec.w());
+		return new Vec4i(this.x - (Integer) vec.x(), this.y - (Integer) vec.y(), this.z - (Integer) vec.z(), this.w - (Integer) vec.w());
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 
 	@Override
 	public Vec4i mul(IVector4<? extends Number> vec) {
-		return new Vec4i(this.x * (int) vec.x(), this.y * (int) vec.y(), this.z * (int) vec.z(), this.w * (int) vec.w());
+		return new Vec4i(this.x * (Integer) vec.x(), this.y * (Integer) vec.y(), this.z * (Integer) vec.z(), this.w * (Integer) vec.w());
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	
 	@Override
 	public Vec4i div(IVector4<? extends Number> vec) {
-		return new Vec4i(this.x / (int) vec.x(), this.y / (int) vec.y(), this.z / (int) vec.z(), this.w / (int) vec.w());
+		return new Vec4i(this.x / (Integer) vec.x(), this.y / (Integer) vec.y(), this.z / (Integer) vec.z(), this.w / (Integer) vec.w());
 	}
 
 	@Override
@@ -145,26 +145,26 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	@Override
 	public Vec4i clamp(IVector4<? extends Number> min, IVector4<? extends Number> max) {
 		return new Vec4i(
-				Math.max((int) min.x(), Math.min(this.x, (int) max.x())),
-				Math.max((int) min.y(), Math.min(this.y, (int) max.y())),
-				Math.max((int) min.z(), Math.min(this.z, (int) max.z())),
-				Math.max((int) min.w(), Math.min(this.w, (int) max.w()))
+				Math.max((Integer) min.x(), Math.min(this.x, (Integer) max.x())),
+				Math.max((Integer) min.y(), Math.min(this.y, (Integer) max.y())),
+				Math.max((Integer) min.z(), Math.min(this.z, (Integer) max.z())),
+				Math.max((Integer) min.w(), Math.min(this.w, (Integer) max.w()))
 			);
 	}
 	
 	@Override
 	public Vec4i clamp(Integer min, Integer max) {
 		return new Vec4i(
-				Math.max((int) min, Math.min(this.x, (int) max)),
-				Math.max((int) min, Math.min(this.y, (int) max)),
-				Math.max((int) min, Math.min(this.z, (int) max)),
-				Math.max((int) min, Math.min(this.w, (int) max))
+				Math.max((Integer) min, Math.min(this.x, (Integer) max)),
+				Math.max((Integer) min, Math.min(this.y, (Integer) max)),
+				Math.max((Integer) min, Math.min(this.z, (Integer) max)),
+				Math.max((Integer) min, Math.min(this.w, (Integer) max))
 			);
 	}
 
 	@Override
 	public Integer dot(IVector4<? extends Number> vec) {
-		return this.x * (int) vec.x() + this.y * (int) vec.y() + this.z * (int) vec.z() + this.w * (int) vec.w();
+		return this.x * (Integer) vec.x() + this.y * (Integer) vec.y() + this.z * (Integer) vec.z() + this.w * (Integer) vec.w();
 	}
 	
 	@Override
@@ -187,10 +187,10 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	public Vec4i lerp(IVector4<? extends Number> vec, Integer delta) {
 		float f = 1.0F - delta;
 		return new Vec4i(
-				(int) (this.x * f + (int) vec.x() * delta),
-				(int) (this.y * f + (int) vec.y() * delta),
-				(int) (this.z * f + (int) vec.z() * delta),
-				(int) (this.w * f + (int) vec.w() * delta)
+				(int) (this.x * f + (Integer) vec.x() * delta),
+				(int) (this.y * f + (Integer) vec.y() * delta),
+				(int) (this.z * f + (Integer) vec.z() * delta),
+				(int) (this.w * f + (Integer) vec.w() * delta)
 			);
 	}
 

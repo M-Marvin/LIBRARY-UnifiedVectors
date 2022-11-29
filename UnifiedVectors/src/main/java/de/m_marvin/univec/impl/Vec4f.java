@@ -75,10 +75,10 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 
 	@Override
 	public Vec4f setI(IVector4<? extends Number> vec) {
-		this.x = (float) vec.x();
-		this.y = (float) vec.y();
-		this.z = (float) vec.z();
-		this.w = (float) vec.w();
+		this.x = (Float) vec.x();
+		this.y = (Float) vec.y();
+		this.z = (Float) vec.z();
+		this.w = (Float) vec.w();
 		return this;
 	}
 
@@ -89,7 +89,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 
 	@Override
 	public Vec4f add(IVector4<? extends Number> vec) {
-		return new Vec4f(this.x + (float) vec.x(), this.y + (float) vec.y(), this.z + (float) vec.z(), this.w + (float) vec.w());
+		return new Vec4f(this.x + (Float) vec.x(), this.y + (Float) vec.y(), this.z + (Float) vec.z(), this.w + (Float) vec.w());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 
 	@Override
 	public Vec4f sub(IVector4<? extends Number> vec) {
-		return new Vec4f(this.x - (float) vec.x(), this.y - (float) vec.y(), this.z - (float) vec.z(), this.w - (float) vec.w());
+		return new Vec4f(this.x - (Float) vec.x(), this.y - (Float) vec.y(), this.z - (Float) vec.z(), this.w - (Float) vec.w());
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 
 	@Override
 	public Vec4f mul(IVector4<? extends Number> vec) {
-		return new Vec4f(this.x * (float) vec.x(), this.y * (float) vec.y(), this.z * (float) vec.z(), this.w * (float) vec.w());
+		return new Vec4f(this.x * (Float) vec.x(), this.y * (Float) vec.y(), this.z * (Float) vec.z(), this.w * (Float) vec.w());
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	
 	@Override
 	public Vec4f div(IVector4<? extends Number> vec) {
-		return new Vec4f(this.x / (float) vec.x(), this.y / (float) vec.y(), this.z / (float) vec.z(), this.w / (float) vec.w());
+		return new Vec4f(this.x / (Float) vec.x(), this.y / (Float) vec.y(), this.z / (Float) vec.z(), this.w / (Float) vec.w());
 	}
 
 	@Override
@@ -145,26 +145,26 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	@Override
 	public Vec4f clamp(IVector4<? extends Number> min, IVector4<? extends Number> max) {
 		return new Vec4f(
-				Math.max((float) min.x(), Math.min(this.x, (float) max.x())),
-				Math.max((float) min.y(), Math.min(this.y, (float) max.y())),
-				Math.max((float) min.z(), Math.min(this.z, (float) max.z())),
-				Math.max((float) min.w(), Math.min(this.w, (float) max.w()))
+				Math.max((Float) min.x(), Math.min(this.x, (Float) max.x())),
+				Math.max((Float) min.y(), Math.min(this.y, (Float) max.y())),
+				Math.max((Float) min.z(), Math.min(this.z, (Float) max.z())),
+				Math.max((Float) min.w(), Math.min(this.w, (Float) max.w()))
 			);
 	}
 	
 	@Override
 	public Vec4f clamp(Float min, Float max) {
 		return new Vec4f(
-				Math.max((float) min, Math.min(this.x, (float) max)),
-				Math.max((float) min, Math.min(this.y, (float) max)),
-				Math.max((float) min, Math.min(this.z, (float) max)),
-				Math.max((float) min, Math.min(this.w, (float) max))
+				Math.max((Float) min, Math.min(this.x, (Float) max)),
+				Math.max((Float) min, Math.min(this.y, (Float) max)),
+				Math.max((Float) min, Math.min(this.z, (Float) max)),
+				Math.max((Float) min, Math.min(this.w, (Float) max))
 			);
 	}
 
 	@Override
 	public Float dot(IVector4<? extends Number> vec) {
-		return this.x * (float) vec.x() + this.y * (float) vec.y() + this.z * (float) vec.z() + this.w * (float) vec.w();
+		return this.x * (Float) vec.x() + this.y * (Float) vec.y() + this.z * (Float) vec.z() + this.w * (Float) vec.w();
 	}
 	
 	@Override
@@ -187,10 +187,10 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	public Vec4f lerp(IVector4<? extends Number> vec, Float delta) {
 		float f = 1.0F - delta;
 		return new Vec4f(
-				this.x * f + (float) vec.x() * delta,
-				this.y * f + (float) vec.y() * delta,
-				this.z * f + (float) vec.z() * delta,
-				this.w * f + (float) vec.w() * delta
+				this.x * f + (Float) vec.x() * delta,
+				this.y * f + (Float) vec.y() * delta,
+				this.z * f + (Float) vec.z() * delta,
+				this.w * f + (Float) vec.w() * delta
 			);
 	}
 

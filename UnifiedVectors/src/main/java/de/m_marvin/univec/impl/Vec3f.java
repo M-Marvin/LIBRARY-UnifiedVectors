@@ -66,9 +66,9 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 
 	@Override
 	public Vec3f setI(IVector3<? extends Number> vec) {
-		this.x = (float) vec.x();
-		this.y = (float) vec.y();
-		this.z = (float) vec.z();
+		this.x = (Float) vec.x();
+		this.y = (Float) vec.y();
+		this.z = (Float) vec.z();
 		return this;
 	}
 
@@ -79,7 +79,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 
 	@Override
 	public Vec3f add(IVector3<? extends Number> vec) {
-		return new Vec3f(this.x + (float) vec.x(), this.y + (float) vec.y(), this.z + (float) vec.z());
+		return new Vec3f(this.x + (Float) vec.x(), this.y + (Float) vec.y(), this.z + (Float) vec.z());
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 
 	@Override
 	public Vec3f sub(IVector3<? extends Number> vec) {
-		return new Vec3f(this.x - (float) vec.x(), this.y - (float) vec.y(), this.z - (float) vec.z());
+		return new Vec3f(this.x - (Float) vec.x(), this.y - (Float) vec.y(), this.z - (Float) vec.z());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 
 	@Override
 	public Vec3f mul(IVector3<? extends Number> vec) {
-		return new Vec3f(this.x * (float) vec.x(), this.y * (float) vec.y(), this.z * (float) vec.z());
+		return new Vec3f(this.x * (Float) vec.x(), this.y * (Float) vec.y(), this.z * (Float) vec.z());
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	
 	@Override
 	public Vec3f div(IVector3<? extends Number> vec) {
-		return new Vec3f(this.x / (float) vec.x(), this.y / (float) vec.y(), this.z / (float) vec.z());
+		return new Vec3f(this.x / (Float) vec.x(), this.y / (Float) vec.y(), this.z / (Float) vec.z());
 	}
 
 	@Override
@@ -135,40 +135,40 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	@Override
 	public Vec3f clamp(IVector3<? extends Number> min, IVector3<? extends Number> max) {
 		return new Vec3f(
-				Math.max((float) min.x(), Math.min(this.x, (float) max.x())),
-				Math.max((float) min.y(), Math.min(this.y, (float) max.y())),
-				Math.max((float) min.z(), Math.min(this.z, (float) max.z()))
+				Math.max((Float) min.x(), Math.min(this.x, (Float) max.x())),
+				Math.max((Float) min.y(), Math.min(this.y, (Float) max.y())),
+				Math.max((Float) min.z(), Math.min(this.z, (Float) max.z()))
 			);
 	}
 	
 	@Override
 	public Vec3f clamp(Float min, Float max) {
 		return new Vec3f(
-				Math.max((float) min, Math.min(this.x, (float) max)),
-				Math.max((float) min, Math.min(this.y, (float) max)),
-				Math.max((float) min, Math.min(this.z, (float) max))
+				Math.max((Float) min, Math.min(this.x, (Float) max)),
+				Math.max((Float) min, Math.min(this.y, (Float) max)),
+				Math.max((Float) min, Math.min(this.z, (Float) max))
 			);
 	}
 
 	@Override
 	public double angle(IVector3<? extends Number> vec) {
 		double f1 = this.dot(vec);
-		double f2 = this.length() * (float) vec.length();
+		double f2 = this.length() * (Float) vec.length();
 		return Math.acos(f1 / f2);
 	}
 	
 	@Override
 	public Vec3f cross(IVector3<? extends Number> vec) {
 		return new Vec3f(
-				this.y * (float) vec.z() - this.z * (float) vec.y(),
-				this.z * (float) vec.x() - this.x * (float) vec.z(),
-				this.x * (float) vec.y() - this.y * (float) vec.x()
+				this.y * (Float) vec.z() - this.z * (Float) vec.y(),
+				this.z * (Float) vec.x() - this.x * (Float) vec.z(),
+				this.x * (Float) vec.y() - this.y * (Float) vec.x()
 			);
 	}
 	
 	@Override
 	public Float dot(IVector3<? extends Number> vec) {
-		return this.x * (float) vec.x() + this.y * (float) vec.y() + this.z * (float) vec.z();
+		return this.x * (Float) vec.x() + this.y * (Float) vec.y() + this.z * (Float) vec.z();
 	}
 	
 	@Override
@@ -191,9 +191,9 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	public Vec3f lerp(IVector3<? extends Number> vec, Float delta) {
 		float f = 1.0F - delta;
 		return new Vec3f(
-				this.x * f + (float) vec.x() * delta,
-				this.y * f + (float) vec.y() * delta,
-				this.z * f + (float) vec.z() * delta
+				this.x * f + (Float) vec.x() * delta,
+				this.y * f + (Float) vec.y() * delta,
+				this.z * f + (Float) vec.z() * delta
 			);
 	}
 
