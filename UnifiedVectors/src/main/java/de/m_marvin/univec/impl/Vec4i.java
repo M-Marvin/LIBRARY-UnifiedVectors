@@ -75,10 +75,10 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 
 	@Override
 	public Vec4i setI(IVector4<? extends Number> vec) {
-		this.x = (Integer) vec.x();
-		this.y = (Integer) vec.y();
-		this.z = (Integer) vec.z();
-		this.w = (Integer) vec.w();
+		this.x = vec.x().intValue();
+		this.y = vec.y().intValue();
+		this.z = vec.z().intValue();
+		this.w = vec.w().intValue();
 		return this;
 	}
 
@@ -89,7 +89,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 
 	@Override
 	public Vec4i add(IVector4<? extends Number> vec) {
-		return new Vec4i(this.x + (Integer) vec.x(), this.y + (Integer) vec.y(), this.z + (Integer) vec.z(), this.w + (Integer) vec.w());
+		return new Vec4i(this.x + vec.x().intValue(), this.y + vec.y().intValue(), this.z + vec.z().intValue(), this.w + vec.w().intValue());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 
 	@Override
 	public Vec4i sub(IVector4<? extends Number> vec) {
-		return new Vec4i(this.x - (Integer) vec.x(), this.y - (Integer) vec.y(), this.z - (Integer) vec.z(), this.w - (Integer) vec.w());
+		return new Vec4i(this.x - vec.x().intValue(), this.y - vec.y().intValue(), this.z - vec.z().intValue(), this.w - vec.w().intValue());
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 
 	@Override
 	public Vec4i mul(IVector4<? extends Number> vec) {
-		return new Vec4i(this.x * (Integer) vec.x(), this.y * (Integer) vec.y(), this.z * (Integer) vec.z(), this.w * (Integer) vec.w());
+		return new Vec4i(this.x * vec.x().intValue(), this.y * vec.y().intValue(), this.z * vec.z().intValue(), this.w * vec.w().intValue());
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	
 	@Override
 	public Vec4i div(IVector4<? extends Number> vec) {
-		return new Vec4i(this.x / (Integer) vec.x(), this.y / (Integer) vec.y(), this.z / (Integer) vec.z(), this.w / (Integer) vec.w());
+		return new Vec4i(this.x / vec.x().intValue(), this.y / vec.y().intValue(), this.z / vec.z().intValue(), this.w / vec.w().intValue());
 	}
 
 	@Override
@@ -145,10 +145,10 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	@Override
 	public Vec4i clamp(IVector4<? extends Number> min, IVector4<? extends Number> max) {
 		return new Vec4i(
-				Math.max((Integer) min.x(), Math.min(this.x, (Integer) max.x())),
-				Math.max((Integer) min.y(), Math.min(this.y, (Integer) max.y())),
-				Math.max((Integer) min.z(), Math.min(this.z, (Integer) max.z())),
-				Math.max((Integer) min.w(), Math.min(this.w, (Integer) max.w()))
+				Math.max(min.x().intValue(), Math.min(this.x, max.x().intValue())),
+				Math.max(min.y().intValue(), Math.min(this.y, max.y().intValue())),
+				Math.max(min.z().intValue(), Math.min(this.z, max.z().intValue())),
+				Math.max(min.w().intValue(), Math.min(this.w, max.w().intValue()))
 			);
 	}
 	
@@ -164,7 +164,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 
 	@Override
 	public Integer dot(IVector4<? extends Number> vec) {
-		return this.x * (Integer) vec.x() + this.y * (Integer) vec.y() + this.z * (Integer) vec.z() + this.w * (Integer) vec.w();
+		return this.x * vec.x().intValue() + this.y * vec.y().intValue() + this.z * vec.z().intValue() + this.w * vec.w().intValue();
 	}
 	
 	@Override
@@ -187,10 +187,10 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	public Vec4i lerp(IVector4<? extends Number> vec, Integer delta) {
 		float f = 1.0F - delta;
 		return new Vec4i(
-				(int) (this.x * f + (Integer) vec.x() * delta),
-				(int) (this.y * f + (Integer) vec.y() * delta),
-				(int) (this.z * f + (Integer) vec.z() * delta),
-				(int) (this.w * f + (Integer) vec.w() * delta)
+				(int) (this.x * f + vec.x().intValue() * delta),
+				(int) (this.y * f + vec.y().intValue() * delta),
+				(int) (this.z * f + vec.z().intValue() * delta),
+				(int) (this.w * f + vec.w().intValue() * delta)
 			);
 	}
 

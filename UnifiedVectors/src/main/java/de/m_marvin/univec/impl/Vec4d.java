@@ -18,10 +18,10 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 	}
 
 	public Vec4d(IVector4<? extends Number> vec) {
-		this.x = (Double) vec.x();
-		this.y = (Double) vec.y();
-		this.z = (Double) vec.z();
-		this.w = (Double) vec.w();
+		this.x = vec.x().doubleValue();
+		this.y = vec.y().doubleValue();
+		this.z = vec.z().doubleValue();
+		this.w = vec.w().doubleValue();
 	}
 	
 	@Override
@@ -75,10 +75,10 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 
 	@Override
 	public Vec4d setI(IVector4<? extends Number> vec) {
-		this.x = (Double) vec.x();
-		this.y = (Double) vec.y();
-		this.z = (Double) vec.z();
-		this.w = (Double) vec.w();
+		this.x = vec.x().doubleValue();
+		this.y = vec.y().doubleValue();
+		this.z = vec.z().doubleValue();
+		this.w = vec.w().doubleValue();
 		return this;
 	}
 
@@ -89,7 +89,7 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 
 	@Override
 	public Vec4d add(IVector4<? extends Number> vec) {
-		return new Vec4d(this.x + (Double) vec.x(), this.y + (Double) vec.y(), this.z + (Double) vec.z(), this.w + (Double) vec.w());
+		return new Vec4d(this.x + vec.x().doubleValue(), this.y + vec.y().doubleValue(), this.z + vec.z().doubleValue(), this.w + vec.w().doubleValue());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 
 	@Override
 	public Vec4d sub(IVector4<? extends Number> vec) {
-		return new Vec4d(this.x - (Double) vec.x(), this.y - (Double) vec.y(), this.z - (Double) vec.z(), this.w - (Double) vec.w());
+		return new Vec4d(this.x - vec.x().doubleValue(), this.y - vec.y().doubleValue(), this.z - vec.z().doubleValue(), this.w - vec.w().doubleValue());
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 
 	@Override
 	public Vec4d mul(IVector4<? extends Number> vec) {
-		return new Vec4d(this.x * (Double) vec.x(), this.y * (Double) vec.y(), this.z * (Double) vec.z(), this.w * (Double) vec.w());
+		return new Vec4d(this.x * vec.x().doubleValue(), this.y * vec.y().doubleValue(), this.z * vec.z().doubleValue(), this.w * vec.w().doubleValue());
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 	
 	@Override
 	public Vec4d div(IVector4<? extends Number> vec) {
-		return new Vec4d(this.x / (Double) vec.x(), this.y / (Double) vec.y(), this.z / (Double) vec.z(), this.w / (Double) vec.w());
+		return new Vec4d(this.x / vec.x().doubleValue(), this.y / vec.y().doubleValue(), this.z / vec.z().doubleValue(), this.w / vec.w().doubleValue());
 	}
 
 	@Override
@@ -145,10 +145,10 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 	@Override
 	public Vec4d clamp(IVector4<? extends Number> min, IVector4<? extends Number> max) {
 		return new Vec4d(
-				Math.max((Double) min.x(), Math.min(this.x, (Double) max.x())),
-				Math.max((Double) min.y(), Math.min(this.y, (Double) max.y())),
-				Math.max((Double) min.z(), Math.min(this.z, (Double) max.z())),
-				Math.max((Double) min.w(), Math.min(this.w, (Double) max.w()))
+				Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue())),
+				Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue())),
+				Math.max(min.z().doubleValue(), Math.min(this.z, max.z().doubleValue())),
+				Math.max(min.w().doubleValue(), Math.min(this.w, max.w().doubleValue()))
 			);
 	}
 	
@@ -164,7 +164,7 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 
 	@Override
 	public Double dot(IVector4<? extends Number> vec) {
-		return this.x * (Double) vec.x() + this.y * (Double) vec.y() + this.z * (Double) vec.z() + this.w * (Double) vec.w();
+		return this.x * vec.x().doubleValue() + this.y * vec.y().doubleValue() + this.z * vec.z().doubleValue() + this.w * vec.w().doubleValue();
 	}
 	
 	@Override
@@ -187,10 +187,10 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 	public Vec4d lerp(IVector4<? extends Number> vec, Double delta) {
 		double f = 1.0F - delta;
 		return new Vec4d(
-				this.x * f + (Double) vec.x() * delta,
-				this.y * f + (Double) vec.y() * delta,
-				this.z * f + (Double) vec.z() * delta,
-				this.w * f + (Double) vec.w() * delta
+				this.x * f + vec.x().doubleValue() * delta,
+				this.y * f + vec.y().doubleValue() * delta,
+				this.z * f + vec.z().doubleValue() * delta,
+				this.w * f + vec.w().doubleValue() * delta
 			);
 	}
 

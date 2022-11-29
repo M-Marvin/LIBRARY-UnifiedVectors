@@ -66,9 +66,9 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 
 	@Override
 	public Vec3i setI(IVector3<? extends Number> vec) {
-		this.x = (Integer) vec.x();
-		this.y = (Integer) vec.y();
-		this.z = (Integer) vec.z();
+		this.x = vec.x().intValue();
+		this.y = vec.y().intValue();
+		this.z = vec.z().intValue();
 		return this;
 	}
 
@@ -79,7 +79,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 
 	@Override
 	public Vec3i add(IVector3<? extends Number> vec) {
-		return new Vec3i(this.x + (Integer) vec.x(), this.y + (Integer) vec.y(), this.z + (Integer) vec.z());
+		return new Vec3i(this.x + vec.x().intValue(), this.y + vec.y().intValue(), this.z + vec.z().intValue());
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 
 	@Override
 	public Vec3i sub(IVector3<? extends Number> vec) {
-		return new Vec3i(this.x - (Integer) vec.x(), this.y - (Integer) vec.y(), this.z - (Integer) vec.z());
+		return new Vec3i(this.x - vec.x().intValue(), this.y - vec.y().intValue(), this.z - vec.z().intValue());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 
 	@Override
 	public Vec3i mul(IVector3<? extends Number> vec) {
-		return new Vec3i(this.x * (Integer) vec.x(), this.y * (Integer) vec.y(), this.z * (Integer) vec.z());
+		return new Vec3i(this.x * vec.x().intValue(), this.y * vec.y().intValue(), this.z * vec.z().intValue());
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	
 	@Override
 	public Vec3i div(IVector3<? extends Number> vec) {
-		return new Vec3i(this.x / (Integer) vec.x(), this.y / (Integer) vec.y(), this.z / (Integer) vec.z());
+		return new Vec3i(this.x / vec.x().intValue(), this.y / vec.y().intValue(), this.z / vec.z().intValue());
 	}
 
 	@Override
@@ -135,9 +135,9 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	@Override
 	public Vec3i clamp(IVector3<? extends Number> min, IVector3<? extends Number> max) {
 		return new Vec3i(
-				Math.max((Integer) min.x(), Math.min(this.x, (Integer) max.x())),
-				Math.max((Integer) min.y(), Math.min(this.y, (Integer) max.y())),
-				Math.max((Integer) min.z(), Math.min(this.z, (Integer) max.z()))
+				Math.max(min.x().intValue(), Math.min(this.x, max.x().intValue())),
+				Math.max(min.y().intValue(), Math.min(this.y, max.y().intValue())),
+				Math.max(min.z().intValue(), Math.min(this.z, max.z().intValue()))
 			);
 	}
 	
@@ -160,15 +160,15 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	@Override
 	public Vec3i cross(IVector3<? extends Number> vec) {
 		return new Vec3i(
-				this.y * (Integer) vec.z() - this.z * (Integer) vec.y(),
-				this.z * (Integer) vec.x() - this.x * (Integer) vec.z(),
-				this.x * (Integer) vec.y() - this.y * (Integer) vec.x()
+				this.y * vec.z().intValue() - this.z * vec.y().intValue(),
+				this.z * vec.x().intValue() - this.x * vec.z().intValue(),
+				this.x * vec.y().intValue() - this.y * vec.x().intValue()
 			);
 	}
 	
 	@Override
 	public Integer dot(IVector3<? extends Number> vec) {
-		return this.x * (Integer) vec.x() + this.y * (Integer) vec.y() + this.z * (Integer) vec.z();
+		return this.x * vec.x().intValue() + this.y * vec.y().intValue() + this.z * vec.z().intValue();
 	}
 	
 	@Override
@@ -191,9 +191,9 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	public Vec3i lerp(IVector3<? extends Number> vec, Integer delta) {
 		float f = 1.0F - delta;
 		return new Vec3i(
-				(int) (this.x * f + (Integer) vec.x() * delta),
-				(int) (this.y * f + (Integer) vec.y() * delta),
-				(int) (this.z * f + (Integer) vec.z() * delta)
+				(int) (this.x * f + vec.x().intValue() * delta),
+				(int) (this.y * f + vec.y().intValue() * delta),
+				(int) (this.z * f + vec.z().intValue() * delta)
 			);
 	}
 

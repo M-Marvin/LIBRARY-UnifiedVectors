@@ -50,8 +50,8 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 
 	@Override
 	public Vec2d setI(IVector2<? extends Number> vec) {
-		this.x = (Double) vec.x();
-		this.y = (Double) vec.y();
+		this.x = vec.x().doubleValue();
+		this.y = vec.y().doubleValue();
 		return this;
 	}
 
@@ -62,7 +62,7 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 
 	@Override
 	public Vec2d add(IVector2<? extends Number> vec) {
-		return new Vec2d(this.x + (Double) vec.x(), this.y + (Double) vec.y());
+		return new Vec2d(this.x + vec.x().doubleValue(), this.y + vec.y().doubleValue());
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 
 	@Override
 	public Vec2d sub(IVector2<? extends Number> vec) {
-		return new Vec2d(this.x - (Double) vec.x(), this.y - (Double) vec.y());
+		return new Vec2d(this.x - vec.x().doubleValue(), this.y - vec.y().doubleValue());
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 
 	@Override
 	public Vec2d mul(IVector2<? extends Number> vec) {
-		return new Vec2d(this.x * (Double) vec.x(), this.y * (Double) vec.y());
+		return new Vec2d(this.x * vec.x().doubleValue(), this.y * vec.y().doubleValue());
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	
 	@Override
 	public Vec2d div(IVector2<? extends Number> vec) {
-		return new Vec2d(this.x / (Double) vec.x(), this.y / (Double) vec.y());
+		return new Vec2d(this.x / vec.x().doubleValue(), this.y / vec.y().doubleValue());
 	}
 
 	@Override
@@ -118,8 +118,8 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	@Override
 	public Vec2d clamp(IVector2<? extends Number> min, IVector2<? extends Number> max) {
 		return new Vec2d(
-				Math.max((Double) min.x(), Math.min(this.x, (Double) max.x())),
-				Math.max((Double) min.y(), Math.min(this.y, (Double) max.y()))
+				Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue())),
+				Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()))
 			);
 	}
 	
@@ -133,17 +133,17 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 
 	@Override
 	public double angle(IVector2<? extends Number> vec) {
-		return Math.atan2(this.y, this.x)-Math.atan2((Double) vec.y(), (Double) vec.x());
+		return Math.atan2(this.y, this.x)-Math.atan2(vec.y().doubleValue(), vec.x().doubleValue());
 	}
 	
 	@Override
 	public Double cross(IVector2<? extends Number> vec) {
-		return this.x * (Double) vec.y() - this.y * (Double) vec.x();	
+		return this.x * vec.y().doubleValue() - this.y * vec.x().doubleValue();	
 	}
 	
 	@Override
 	public Double dot(IVector2<? extends Number> vec) {
-		return this.x * (Double) vec.x() + this.y * (Double) vec.y();
+		return this.x * vec.x().doubleValue() + this.y * vec.y().doubleValue();
 	}
 	
 	@Override
@@ -166,8 +166,8 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	public Vec2d lerp(IVector2<? extends Number> vec, Double delta) {
 		double f = 1.0F - delta;
 		return new Vec2d(
-				this.x * f + (Double) vec.x() * delta,
-				this.y * f + (Double) vec.y() * delta
+				this.x * f + vec.x().doubleValue() * delta,
+				this.y * f + vec.y().doubleValue() * delta
 			);
 	}
 	

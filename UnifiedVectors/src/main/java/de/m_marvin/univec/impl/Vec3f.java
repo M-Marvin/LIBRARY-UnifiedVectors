@@ -66,9 +66,9 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 
 	@Override
 	public Vec3f setI(IVector3<? extends Number> vec) {
-		this.x = (Float) vec.x();
-		this.y = (Float) vec.y();
-		this.z = (Float) vec.z();
+		this.x = vec.x().floatValue();
+		this.y = vec.y().floatValue();
+		this.z = vec.z().floatValue();
 		return this;
 	}
 
@@ -79,7 +79,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 
 	@Override
 	public Vec3f add(IVector3<? extends Number> vec) {
-		return new Vec3f(this.x + (Float) vec.x(), this.y + (Float) vec.y(), this.z + (Float) vec.z());
+		return new Vec3f(this.x + vec.x().floatValue(), this.y + vec.y().floatValue(), this.z + vec.z().floatValue());
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 
 	@Override
 	public Vec3f sub(IVector3<? extends Number> vec) {
-		return new Vec3f(this.x - (Float) vec.x(), this.y - (Float) vec.y(), this.z - (Float) vec.z());
+		return new Vec3f(this.x - vec.x().floatValue(), this.y - vec.y().floatValue(), this.z - vec.z().floatValue());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 
 	@Override
 	public Vec3f mul(IVector3<? extends Number> vec) {
-		return new Vec3f(this.x * (Float) vec.x(), this.y * (Float) vec.y(), this.z * (Float) vec.z());
+		return new Vec3f(this.x * vec.x().floatValue(), this.y * vec.y().floatValue(), this.z * vec.z().floatValue());
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	
 	@Override
 	public Vec3f div(IVector3<? extends Number> vec) {
-		return new Vec3f(this.x / (Float) vec.x(), this.y / (Float) vec.y(), this.z / (Float) vec.z());
+		return new Vec3f(this.x / vec.x().floatValue(), this.y / vec.y().floatValue(), this.z / vec.z().floatValue());
 	}
 
 	@Override
@@ -135,9 +135,9 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	@Override
 	public Vec3f clamp(IVector3<? extends Number> min, IVector3<? extends Number> max) {
 		return new Vec3f(
-				Math.max((Float) min.x(), Math.min(this.x, (Float) max.x())),
-				Math.max((Float) min.y(), Math.min(this.y, (Float) max.y())),
-				Math.max((Float) min.z(), Math.min(this.z, (Float) max.z()))
+				Math.max(min.x().floatValue(), Math.min(this.x, max.x().floatValue())),
+				Math.max(min.y().floatValue(), Math.min(this.y, max.y().floatValue())),
+				Math.max(min.z().floatValue(), Math.min(this.z, max.z().floatValue()))
 			);
 	}
 	
@@ -160,15 +160,15 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	@Override
 	public Vec3f cross(IVector3<? extends Number> vec) {
 		return new Vec3f(
-				this.y * (Float) vec.z() - this.z * (Float) vec.y(),
-				this.z * (Float) vec.x() - this.x * (Float) vec.z(),
-				this.x * (Float) vec.y() - this.y * (Float) vec.x()
+				this.y * vec.z().floatValue() - this.z * vec.y().floatValue(),
+				this.z * vec.x().floatValue() - this.x * vec.z().floatValue(),
+				this.x * vec.y().floatValue() - this.y * vec.x().floatValue()
 			);
 	}
 	
 	@Override
 	public Float dot(IVector3<? extends Number> vec) {
-		return this.x * (Float) vec.x() + this.y * (Float) vec.y() + this.z * (Float) vec.z();
+		return this.x * vec.x().floatValue() + this.y * vec.y().floatValue() + this.z * vec.z().floatValue();
 	}
 	
 	@Override
@@ -191,9 +191,9 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	public Vec3f lerp(IVector3<? extends Number> vec, Float delta) {
 		float f = 1.0F - delta;
 		return new Vec3f(
-				this.x * f + (Float) vec.x() * delta,
-				this.y * f + (Float) vec.y() * delta,
-				this.z * f + (Float) vec.z() * delta
+				this.x * f + vec.x().floatValue() * delta,
+				this.y * f + vec.y().floatValue() * delta,
+				this.z * f + vec.z().floatValue() * delta
 			);
 	}
 

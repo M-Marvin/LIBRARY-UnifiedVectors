@@ -75,10 +75,10 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 
 	@Override
 	public Vec4f setI(IVector4<? extends Number> vec) {
-		this.x = (Float) vec.x();
-		this.y = (Float) vec.y();
-		this.z = (Float) vec.z();
-		this.w = (Float) vec.w();
+		this.x = vec.x().floatValue();
+		this.y = vec.y().floatValue();
+		this.z = vec.z().floatValue();
+		this.w = vec.w().floatValue();
 		return this;
 	}
 
@@ -89,7 +89,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 
 	@Override
 	public Vec4f add(IVector4<? extends Number> vec) {
-		return new Vec4f(this.x + (Float) vec.x(), this.y + (Float) vec.y(), this.z + (Float) vec.z(), this.w + (Float) vec.w());
+		return new Vec4f(this.x + vec.x().floatValue(), this.y + vec.y().floatValue(), this.z + vec.z().floatValue(), this.w + vec.w().floatValue());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 
 	@Override
 	public Vec4f sub(IVector4<? extends Number> vec) {
-		return new Vec4f(this.x - (Float) vec.x(), this.y - (Float) vec.y(), this.z - (Float) vec.z(), this.w - (Float) vec.w());
+		return new Vec4f(this.x - vec.x().floatValue(), this.y - vec.y().floatValue(), this.z - vec.z().floatValue(), this.w - vec.w().floatValue());
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 
 	@Override
 	public Vec4f mul(IVector4<? extends Number> vec) {
-		return new Vec4f(this.x * (Float) vec.x(), this.y * (Float) vec.y(), this.z * (Float) vec.z(), this.w * (Float) vec.w());
+		return new Vec4f(this.x * vec.x().floatValue(), this.y * vec.y().floatValue(), this.z * vec.z().floatValue(), this.w * vec.w().floatValue());
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	
 	@Override
 	public Vec4f div(IVector4<? extends Number> vec) {
-		return new Vec4f(this.x / (Float) vec.x(), this.y / (Float) vec.y(), this.z / (Float) vec.z(), this.w / (Float) vec.w());
+		return new Vec4f(this.x / vec.x().floatValue(), this.y / vec.y().floatValue(), this.z / vec.z().floatValue(), this.w / vec.w().floatValue());
 	}
 
 	@Override
@@ -145,10 +145,10 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	@Override
 	public Vec4f clamp(IVector4<? extends Number> min, IVector4<? extends Number> max) {
 		return new Vec4f(
-				Math.max((Float) min.x(), Math.min(this.x, (Float) max.x())),
-				Math.max((Float) min.y(), Math.min(this.y, (Float) max.y())),
-				Math.max((Float) min.z(), Math.min(this.z, (Float) max.z())),
-				Math.max((Float) min.w(), Math.min(this.w, (Float) max.w()))
+				Math.max(min.x().floatValue(), Math.min(this.x, max.x().floatValue())),
+				Math.max(min.y().floatValue(), Math.min(this.y, max.y().floatValue())),
+				Math.max(min.z().floatValue(), Math.min(this.z, max.z().floatValue())),
+				Math.max(min.w().floatValue(), Math.min(this.w, max.w().floatValue()))
 			);
 	}
 	
@@ -164,7 +164,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 
 	@Override
 	public Float dot(IVector4<? extends Number> vec) {
-		return this.x * (Float) vec.x() + this.y * (Float) vec.y() + this.z * (Float) vec.z() + this.w * (Float) vec.w();
+		return this.x * vec.x().floatValue() + this.y * vec.y().floatValue() + this.z * vec.z().floatValue() + this.w * vec.w().floatValue();
 	}
 	
 	@Override
@@ -187,10 +187,10 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	public Vec4f lerp(IVector4<? extends Number> vec, Float delta) {
 		float f = 1.0F - delta;
 		return new Vec4f(
-				this.x * f + (Float) vec.x() * delta,
-				this.y * f + (Float) vec.y() * delta,
-				this.z * f + (Float) vec.z() * delta,
-				this.w * f + (Float) vec.w() * delta
+				this.x * f + vec.x().floatValue() * delta,
+				this.y * f + vec.y().floatValue() * delta,
+				this.z * f + vec.z().floatValue() * delta,
+				this.w * f + vec.w().floatValue() * delta
 			);
 	}
 

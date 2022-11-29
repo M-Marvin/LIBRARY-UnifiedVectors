@@ -66,9 +66,9 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 
 	@Override
 	public Vec3d setI(IVector3<? extends Number> vec) {
-		this.x = (Double) vec.x();
-		this.y = (Double) vec.y();
-		this.z = (Double) vec.z();
+		this.x = vec.x().doubleValue();
+		this.y = vec.y().doubleValue();
+		this.z = vec.z().doubleValue();
 		return this;
 	}
 
@@ -79,7 +79,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 
 	@Override
 	public Vec3d add(IVector3<? extends Number> vec) {
-		return new Vec3d(this.x + (Double) vec.x(), this.y + (Double) vec.y(), this.z + (Double) vec.z());
+		return new Vec3d(this.x + vec.x().doubleValue(), this.y + vec.y().doubleValue(), this.z + vec.z().doubleValue());
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 
 	@Override
 	public Vec3d sub(IVector3<? extends Number> vec) {
-		return new Vec3d(this.x - (Double) vec.x(), this.y - (Double) vec.y(), this.z - (Double) vec.z());
+		return new Vec3d(this.x - vec.x().doubleValue(), this.y - vec.y().doubleValue(), this.z - vec.z().doubleValue());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 
 	@Override
 	public Vec3d mul(IVector3<? extends Number> vec) {
-		return new Vec3d(this.x * (Double) vec.x(), this.y * (Double) vec.y(), this.z * (Double) vec.z());
+		return new Vec3d(this.x * vec.x().doubleValue(), this.y * vec.y().doubleValue(), this.z * vec.z().doubleValue());
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	
 	@Override
 	public Vec3d div(IVector3<? extends Number> vec) {
-		return new Vec3d(this.x / (Double) vec.x(), this.y / (Double) vec.y(), this.z / (Double) vec.z());
+		return new Vec3d(this.x / vec.x().doubleValue(), this.y / vec.y().doubleValue(), this.z / vec.z().doubleValue());
 	}
 
 	@Override
@@ -135,9 +135,9 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	@Override
 	public Vec3d clamp(IVector3<? extends Number> min, IVector3<? extends Number> max) {
 		return new Vec3d(
-				Math.max((Double) min.x(), Math.min(this.x, (Double) max.x())),
-				Math.max((Double) min.y(), Math.min(this.y, (Double) max.y())),
-				Math.max((Double) min.z(), Math.min(this.z, (Double) max.z()))
+				Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue())),
+				Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue())),
+				Math.max(min.z().doubleValue(), Math.min(this.z, max.z().doubleValue()))
 			);
 	}
 	
@@ -160,15 +160,15 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	@Override
 	public Vec3d cross(IVector3<? extends Number> vec) {
 		return new Vec3d(
-				this.y * (Double) vec.z() - this.z * (Double) vec.y(),
-				this.z * (Double) vec.x() - this.x * (Double) vec.z(),
-				this.x * (Double) vec.y() - this.y * (Double) vec.x()
+				this.y * vec.z().doubleValue() - this.z * vec.y().doubleValue(),
+				this.z * vec.x().doubleValue() - this.x * vec.z().doubleValue(),
+				this.x * vec.y().doubleValue() - this.y * vec.x().doubleValue()
 			);
 	}
 	
 	@Override
 	public Double dot(IVector3<? extends Number> vec) {
-		return this.x * (Double) vec.x() + this.y * (Double) vec.y() + this.z * (Double) vec.z();
+		return this.x * vec.x().doubleValue() + this.y * vec.y().doubleValue() + this.z * vec.z().doubleValue();
 	}
 	
 	@Override
@@ -191,9 +191,9 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	public Vec3d lerp(IVector3<? extends Number> vec, Double delta) {
 		double f = 1.0F - delta;
 		return new Vec3d(
-				this.x * f + (Double) vec.x() * delta,
-				this.y * f + (Double) vec.y() * delta,
-				this.z * f + (Double) vec.z() * delta
+				this.x * f + vec.x().doubleValue() * delta,
+				this.y * f + vec.y().doubleValue() * delta,
+				this.z * f + vec.z().doubleValue() * delta
 			);
 	}
 
