@@ -20,5 +20,5 @@ public interface IQuaternion<Q extends IQuaternion<?>> {
 	default public Q conjI() { return this.setI(this.conj()); }
 	
 	public Q copy();
-
+	
 }

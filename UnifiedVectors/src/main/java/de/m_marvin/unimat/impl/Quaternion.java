@@ -2,6 +2,7 @@ package de.m_marvin.unimat.impl;
 
 import java.util.Objects;
 
+import de.m_marvin.unimat.api.IMatrix3f;
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.impl.Vec3f;
@@ -27,6 +28,15 @@ public class Quaternion implements IQuaternion<Quaternion> {
 		this.i = f * rotationAxis.x();
 		this.j = f * rotationAxis.y();
 		this.k = f * rotationAxis.z();
+	}
+	
+	public static Quaternion fromOrientationMatrix(IMatrix3f<?> matrix) {
+		float w = (float) (Math.sqrt(1.0 + matrix.getField(0, 0) + matrix.getField(1, 1) + matrix.getField(2, 2)) / 2.0);
+		float w4 = (4F * w);
+		float x = (matrix.getField(2, 1) - matrix.getField(1, 2)) / w4;
+		float y = (matrix.getField(0, 2) - matrix.getField(2, 0)) / w4;
+		float z = (matrix.getField(1, 0) - matrix.getField(0, 1)) / w4;
+		return new Quaternion(x, y, z, w);
 	}
 	
 	public static Quaternion fromXYZDegrees(IVector3<?> eulerVec) {
