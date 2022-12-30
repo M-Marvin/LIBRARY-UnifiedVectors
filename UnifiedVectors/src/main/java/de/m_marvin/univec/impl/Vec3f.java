@@ -14,7 +14,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	public float y;
 	public float z;
 	
-	public Vec3f(Float x, Float y, Float z) {
+	public Vec3f(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;

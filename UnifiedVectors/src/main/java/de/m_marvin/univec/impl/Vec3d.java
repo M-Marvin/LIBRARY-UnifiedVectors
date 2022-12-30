@@ -14,7 +14,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	public double y;
 	public double z;
 	
-	public Vec3d(Double x, Double y, Double z) {
+	public Vec3d(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;

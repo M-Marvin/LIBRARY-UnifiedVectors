@@ -11,7 +11,7 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	public Integer x;
 	public Integer y;
 	
-	public Vec2i(Integer x, Integer y) {
+	public Vec2i(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
