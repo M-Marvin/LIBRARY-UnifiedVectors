@@ -489,7 +489,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 	public boolean invert() {
 		float f = this.adjugateAndDet();
 		if (Math.abs(f) > 1.0E-6F) {
-			this.scalar(f);
+			this.scalarI(f);
 			return true;
 		} else {
 			return false;
