@@ -223,6 +223,14 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	}
 
 	@Override
+	public Double distSqr(IVector3<? extends Number> vec) {
+		Double d1 = this.getX().doubleValue() - vec.getX().doubleValue();
+		Double d2 = this.getY().doubleValue() - vec.getY().doubleValue();
+		Double d3 = this.getZ().doubleValue() - vec.getZ().doubleValue();
+		return d1 * d1 + d2 * d2 + d3 * d3;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Vec3d) {
 			return	((Vec3d) obj).x == x && 

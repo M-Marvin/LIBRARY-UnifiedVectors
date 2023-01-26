@@ -197,6 +197,13 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	}
 
 	@Override
+	public Integer distSqr(IVector2<? extends Number> vec) {
+		Integer d1 = this.getX().intValue() - vec.getX().intValue();
+		Integer d2 = this.getY().intValue() - vec.getY().intValue();
+		return d1 * d1 + d2 * d2;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Vec2i) {
 			return	((Vec2i) obj).x == x && 

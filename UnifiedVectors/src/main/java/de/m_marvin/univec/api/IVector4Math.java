@@ -46,6 +46,8 @@ public interface IVector4Math<N extends Number, VO extends IVector4<N>, VI exten
 
 	public N dot(VI vec);
 	public VO lerp(VI vec, N delta);
+	public N distSqr(VI vec);
+	default public N dist(VI vec) { return (N) (Double) Math.sqrt((Double) this.distSqr(vec)); }
 	
 	public VO module(N m);
 	default public VO moduleI(N m) { return this.setI((VI) this.module(m)); }

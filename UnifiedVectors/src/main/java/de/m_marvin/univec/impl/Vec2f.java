@@ -197,6 +197,13 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	}
 
 	@Override
+	public Float distSqr(IVector2<? extends Number> vec) {
+		Float d1 = this.getX().floatValue() - vec.getX().floatValue();
+		Float d2 = this.getY().floatValue() - vec.getY().floatValue();
+		return d1 * d1 + d2 * d2;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Vec2f) {
 			return	((Vec2f) obj).x == x && 

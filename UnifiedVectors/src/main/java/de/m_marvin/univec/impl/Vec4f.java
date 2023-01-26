@@ -220,6 +220,15 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	}
 
 	@Override
+	public Float distSqr(IVector4<? extends Number> vec) {
+		Float d1 = this.getX().floatValue() - vec.getX().floatValue();
+		Float d2 = this.getY().floatValue() - vec.getY().floatValue();
+		Float d3 = this.getZ().floatValue() - vec.getZ().floatValue();
+		Float d4 = this.getW().floatValue() - vec.getW().floatValue();
+		return d1 * d1 + d2 * d2 + d3 * d3 + d4 * d4;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Vec4f) {
 			return	((Vec4f) obj).x == x && 

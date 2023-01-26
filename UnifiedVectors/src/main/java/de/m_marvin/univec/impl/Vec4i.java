@@ -220,6 +220,15 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	}
 
 	@Override
+	public Integer distSqr(IVector4<? extends Number> vec) {
+		Integer d1 = this.getX().intValue() - vec.getX().intValue();
+		Integer d2 = this.getY().intValue() - vec.getY().intValue();
+		Integer d3 = this.getZ().intValue() - vec.getZ().intValue();
+		Integer d4 = this.getW().intValue() - vec.getW().intValue();
+		return d1 * d1 + d2 * d2 + d3 * d3 + d4 * d4;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Vec4i) {
 			return	((Vec4i) obj).x == x && 
