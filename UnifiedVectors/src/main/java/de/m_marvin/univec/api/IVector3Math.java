@@ -8,6 +8,9 @@ import de.m_marvin.unimat.api.IQuaternion;
 @SuppressWarnings("unchecked")
 public interface IVector3Math<N extends Number, VO extends IVector3<N>, VI extends IVector3<? extends Number>, Q extends IQuaternion<?>> extends IVector3<N> {
 
+	public <T> VO readFrom(T vectorObject);
+	public <T> T writeTo(T vectorObject);
+	
 	/* Basic math */
 	
 	public VO setI(N x, N y, N z);

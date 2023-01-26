@@ -1,5 +1,6 @@
 package de.m_marvin.univec.impl;
 
+import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector2Math;
 
@@ -19,6 +20,30 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	public Vec2f(IVector2<? extends Number> vec) {
 		this.x = vec.x().floatValue();
 		this.y = vec.y().floatValue();
+	}
+
+	public static Vec2f fromVec(Object vectorObject) {
+		return new Vec2f(0, 0).readFrom(vectorObject);
+	}
+	
+	@Override
+	public <T> Vec2f readFrom(T vectorObject) {
+		try {
+			return (Vec2f) VectorParser.parseVectorObject(vectorObject, new Vec2f(0, 0));
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return new Vec2f(0, 0);
+		}
+	}
+
+	@Override
+	public <T> T writeTo(T vectorObject) {
+		try {
+			return VectorParser.parseToVectorObject(vectorObject, this);
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return vectorObject;
+		}
 	}
 	
 	@Override

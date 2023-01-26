@@ -2,6 +2,7 @@ package de.m_marvin.univec.impl;
 
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.unimat.impl.Quaternion;
+import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
 
@@ -24,6 +25,30 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		this.x = vec.x().doubleValue();
 		this.y = vec.y().doubleValue();
 		this.z = vec.z().doubleValue();
+	}
+
+	public static Vec3d fromVec(Object vectorObject) {
+		return new Vec3d(0, 0, 0).readFrom(vectorObject);
+	}
+	
+	@Override
+	public <T> Vec3d readFrom(T vectorObject) {
+		try {
+			return (Vec3d) VectorParser.parseVectorObject(vectorObject, new Vec3d(0, 0, 0));
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return new Vec3d(0, 0, 0);
+		}
+	}
+
+	@Override
+	public <T> T writeTo(T vectorObject) {
+		try {
+			return VectorParser.parseToVectorObject(vectorObject, this);
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return vectorObject;
+		}
 	}
 	
 	@Override

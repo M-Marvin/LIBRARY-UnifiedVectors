@@ -3,6 +3,9 @@ package de.m_marvin.univec.api;
 @SuppressWarnings("unchecked")
 public interface IVector4Math<N extends Number, VO extends IVector4<N>, VI extends IVector4<? extends Number>> extends IVector4<N> {
 
+	public <T> VO readFrom(T vectorObject);
+	public <T> T writeTo(T vectorObject);
+	
 	/* Basic math */
 	
 	public VO setI(N x, N y, N z, N w);

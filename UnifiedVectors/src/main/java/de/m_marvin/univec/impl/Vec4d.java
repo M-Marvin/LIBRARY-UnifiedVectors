@@ -1,5 +1,6 @@
 package de.m_marvin.univec.impl;
 
+import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.api.IVector4Math;
 
@@ -22,6 +23,30 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 		this.y = vec.y().doubleValue();
 		this.z = vec.z().doubleValue();
 		this.w = vec.w().doubleValue();
+	}
+
+	public static Vec4d fromVec(Object vectorObject) {
+		return new Vec4d(0, 0, 0, 0).readFrom(vectorObject);
+	}
+	
+	@Override
+	public <T> Vec4d readFrom(T vectorObject) {
+		try {
+			return (Vec4d) VectorParser.parseVectorObject(vectorObject, new Vec4d(0, 0, 0, 0));
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return new Vec4d(0, 0, 0, 0);
+		}
+	}
+
+	@Override
+	public <T> T writeTo(T vectorObject) {
+		try {
+			return VectorParser.parseToVectorObject(vectorObject, this);
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return vectorObject;
+		}
 	}
 	
 	@Override

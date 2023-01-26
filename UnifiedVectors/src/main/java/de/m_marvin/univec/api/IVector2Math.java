@@ -6,6 +6,9 @@ package de.m_marvin.univec.api;
 @SuppressWarnings("unchecked")
 public interface IVector2Math<N extends Number, VO extends IVector2<N>, VI extends IVector2<? extends Number>> extends IVector2<N> {
 	
+	public <T> VO readFrom(T vectorObject);
+	public <T> T writeTo(T vectorObject);
+	
 	/* Basic math */
 	
 	public VO setI(N x, N y);

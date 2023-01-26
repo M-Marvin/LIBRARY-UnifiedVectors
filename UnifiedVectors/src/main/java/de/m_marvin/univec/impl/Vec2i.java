@@ -1,5 +1,6 @@
 package de.m_marvin.univec.impl;
 
+import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector2Math;
 
@@ -19,6 +20,30 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	public Vec2i(IVector2<? extends Number> vec) {
 		this.x = vec.x().intValue();
 		this.y = vec.y().intValue();
+	}
+
+	public static Vec2i fromVec(Object vectorObject) {
+		return new Vec2i(0, 0).readFrom(vectorObject);
+	}
+	
+	@Override
+	public <T> Vec2i readFrom(T vectorObject) {
+		try {
+			return (Vec2i) VectorParser.parseVectorObject(vectorObject, new Vec2i(0, 0));
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return new Vec2i(0, 0);
+		}
+	}
+
+	@Override
+	public <T> T writeTo(T vectorObject) {
+		try {
+			return VectorParser.parseToVectorObject(vectorObject, this);
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return vectorObject;
+		}
 	}
 	
 	@Override

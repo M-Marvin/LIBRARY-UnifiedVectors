@@ -10,7 +10,7 @@ public interface IVector2<N extends Number> extends IVector {
 	default N getX() {return x();}
 	
 	public N y();
-	default N geY() {return y();}
+	default N getY() {return y();}
 	
 	public void setX(N x);
 	public void setY(N y);
