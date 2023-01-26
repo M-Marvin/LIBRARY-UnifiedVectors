@@ -224,5 +224,10 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	public String toString() {
 		return "Vec2d[" + this.x + "," + this.y + "]";
 	}
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Double.class;
+	}
 	
 }

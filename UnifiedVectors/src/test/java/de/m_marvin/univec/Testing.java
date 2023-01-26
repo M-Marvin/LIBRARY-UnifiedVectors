@@ -1,6 +1,6 @@
 package de.m_marvin.univec;
 
-import de.m_marvin.univec.impl.Vec3f;
+import de.m_marvin.univec.impl.Vec3d;
 
 public class Testing {
 	
@@ -10,7 +10,7 @@ public class Testing {
 		
 		TestVec test = new TestVec(2, 3, 5);
 		
-		Vec3f vec = Vec3f.fromVec(test);
+		Vec3d vec = Vec3d.fromVec(test);
 		
 		System.out.println(vec);
 		

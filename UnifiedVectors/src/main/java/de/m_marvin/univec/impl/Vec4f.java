@@ -254,4 +254,9 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 		return "Vec4f[" + this.x + "," + this.y + "," + this.z + "," + this.w + "]";
 	}
 
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Float.class;
+	}
+	
 }

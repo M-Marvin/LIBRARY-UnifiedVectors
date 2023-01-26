@@ -224,5 +224,10 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	public String toString() {
 		return "Vec2i[" + this.x + "," + this.y + "]";
 	}
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Integer.class;
+	}
 	
 }

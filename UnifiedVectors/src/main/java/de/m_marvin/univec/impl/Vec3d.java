@@ -278,5 +278,10 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		float angle = (float) Math.acos(this.dot(reference));
 		return new Quaternion(v, angle);
 	}
-		
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Double.class;
+	}
+	
 }

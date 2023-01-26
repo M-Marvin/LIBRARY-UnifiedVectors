@@ -224,5 +224,10 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	public String toString() {
 		return "Vec2f[" + this.x + "," + this.y + "]";
 	}
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Float.class;
+	}
 	
 }

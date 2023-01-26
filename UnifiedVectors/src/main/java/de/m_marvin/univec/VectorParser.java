@@ -15,19 +15,19 @@ public class VectorParser {
 		Field[] vectorFields = vectorClass.getDeclaredFields();
 		
 		if (outputVector instanceof IVector4 vec4) {
-			vec4.setX(findField(vectorFields, vectorObject, "x"));
-			vec4.setY(findField(vectorFields, vectorObject, "y"));
-			vec4.setZ(findField(vectorFields, vectorObject, "z"));
-			vec4.setW(findField(vectorFields, vectorObject, "w"));
+			vec4.setX(castValue(findField(vectorFields, vectorObject, "x"), outputVector.getTypeClass()));
+			vec4.setY(castValue(findField(vectorFields, vectorObject, "y"), outputVector.getTypeClass()));
+			vec4.setZ(castValue(findField(vectorFields, vectorObject, "z"), outputVector.getTypeClass()));
+			vec4.setW(castValue(findField(vectorFields, vectorObject, "w"), outputVector.getTypeClass()));
 			return vec4;
 		} else if (outputVector instanceof IVector3 vec3) {
-			vec3.setX(findField(vectorFields, vectorObject, "x"));
-			vec3.setY(findField(vectorFields, vectorObject, "y"));
-			vec3.setZ(findField(vectorFields, vectorObject, "z"));
+			vec3.setX(castValue(findField(vectorFields, vectorObject, "x"), outputVector.getTypeClass()));
+			vec3.setY(castValue(findField(vectorFields, vectorObject, "y"), outputVector.getTypeClass()));
+			vec3.setZ(castValue(findField(vectorFields, vectorObject, "z"), outputVector.getTypeClass()));
 			return vec3;
 		} else if (outputVector instanceof IVector2 vec2) {
-			vec2.setX(findField(vectorFields, vectorObject, "x"));
-			vec2.setY(findField(vectorFields, vectorObject, "y"));
+			vec2.setX(castValue(findField(vectorFields, vectorObject, "x"), outputVector.getTypeClass()));
+			vec2.setY(castValue(findField(vectorFields, vectorObject, "y"), outputVector.getTypeClass()));
 			return vec2;
 		}
 		
@@ -59,7 +59,19 @@ public class VectorParser {
 		throw new IllegalArgumentException(outputVector + " is not a valid univector type!");
 	}
 	
-	public static <N extends Number> void writeField(Field[] fields, Object vectorObject, String valueName, N value) throws IllegalAccessException, IllegalArgumentException {
+	private static Number castValue(Number value, Class<? extends Number> clazz) {
+		if (clazz == Double.class || clazz == double.class) {
+			return value.doubleValue();
+		} else if (clazz == Float.class || clazz == float.class) {
+			return value.floatValue();
+		} else if (clazz == Integer.class || clazz == int.class) {
+			return value.intValue();
+		}
+		return 0;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static <N extends Number> void writeField(Field[] fields, Object vectorObject, String valueName, N value) throws IllegalAccessException, IllegalArgumentException {
 		String[] matchList = { valueName };
 		for (Field field : fields) {
 			for (String matchName : matchList) {
@@ -67,7 +79,7 @@ public class VectorParser {
 					field.setAccessible(true);
 					Object rawValue = field.get(vectorObject);
 					if (rawValue instanceof Number) {
-						field.set(vectorObject, value);
+						field.set(vectorObject, castValue(value, (Class<? extends Number>) field.getType()));
 						field.setAccessible(false);
 						return;
 					}
@@ -79,7 +91,7 @@ public class VectorParser {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <N extends Number> N findField(Field[] fields, Object vectorObject, String valueName) throws IllegalAccessException, IllegalArgumentException, IllegalArgumentException {
+	private static <N extends Number> N findField(Field[] fields, Object vectorObject, String valueName) throws IllegalAccessException, IllegalArgumentException, IllegalArgumentException {
 		String[] matchList = { valueName };
 		for (Field field : fields) {
 			for (String matchName : matchList) {

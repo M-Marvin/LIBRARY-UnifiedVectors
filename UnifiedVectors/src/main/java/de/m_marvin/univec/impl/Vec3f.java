@@ -276,5 +276,10 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		float angle = (float) Math.acos(this.dot(reference));
 		return new Quaternion(v, angle);
 	}
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Float.class;
+	}
 	
 }

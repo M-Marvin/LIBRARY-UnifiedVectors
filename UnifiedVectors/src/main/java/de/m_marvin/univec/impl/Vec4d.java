@@ -254,4 +254,9 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 		return "Vec4f[" + this.x + "," + this.y + "," + this.z + "," + this.w + "]";
 	}
 
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Double.class;
+	}
+	
 }

@@ -254,4 +254,9 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 		return "Vec4f[" + this.x + "," + this.y + "," + this.z + "," + this.w + "]";
 	}
 
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Integer.class;
+	}
+	
 }
