@@ -6,7 +6,6 @@ import de.m_marvin.unimat.api.IMatrix3f;
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.impl.Vec3f;
-import de.m_marvin.univec.impl.Vec3i;
 
 public class Quaternion implements IQuaternion<Quaternion> {
 	
@@ -22,12 +21,12 @@ public class Quaternion implements IQuaternion<Quaternion> {
 		this.r = r;
 	}
 	
-	public Quaternion(Vec3i rotationAxis, float radians) {
+	public Quaternion(IVector3<? extends Number> rotationAxis, float radians) {
 		float f = (float) Math.sin(radians / 2F);
 		this.r = (float) Math.cos(radians / 2F);
-		this.i = f * rotationAxis.x();
-		this.j = f * rotationAxis.y();
-		this.k = f * rotationAxis.z();
+		this.i = f * rotationAxis.x().floatValue();
+		this.j = f * rotationAxis.y().floatValue();
+		this.k = f * rotationAxis.z().floatValue();
 	}
 	
 	public static Quaternion fromOrientationMatrix(IMatrix3f<?> matrix) {
