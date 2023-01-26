@@ -269,11 +269,11 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 
 	@Override
 	public Quaternion relativeRotationQuat(IVector3<? extends Number> reference) {		
-		Vec3d v = new Vec3d(reference.y().doubleValue(), reference.z().doubleValue(), reference.x().doubleValue()).cross(this);
+		Vec3d v = new Vec3d(reference.x().doubleValue(), reference.y().doubleValue(), reference.z().doubleValue()).cross(this);
 		if (v.length() == 0) {
 			v = new Vec3d(reference.y().doubleValue(), reference.z().doubleValue(), reference.x().doubleValue());
 		} else {
-			v.normalize();
+			v.normalizeI();
 		}
 		float angle = (float) Math.acos(this.dot(reference));
 		return new Quaternion(v, angle);

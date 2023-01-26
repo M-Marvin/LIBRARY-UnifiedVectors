@@ -8,7 +8,7 @@ public class Testing {
 		
 		System.out.println("Testing ...");
 		
-		TestVec test = new TestVec(2, 3, 5);
+		TestVec test = new ITest(2, 3, 5);
 		
 		Vec3d vec = Vec3d.fromVec(test);
 		
@@ -17,6 +17,15 @@ public class Testing {
 		TestVec test2 = vec.writeTo(new TestVec(0, 0, 0));
 		
 		System.out.println(test2.getX() + " " + test2.getY() + " " + test2.getZ());
+		
+	}
+	
+	public static class ITest extends TestVec {
+
+		public ITest(float x, float y, float z) {
+			super(x, y, z);
+			// TODO Auto-generated constructor stub
+		}
 		
 	}
 	

@@ -1,6 +1,8 @@
 package de.m_marvin.univec;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.m_marvin.univec.api.IVector;
 import de.m_marvin.univec.api.IVector2;
@@ -12,7 +14,7 @@ public class VectorParser {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T, V extends IVector, N extends Number> IVector parseVectorObject(T vectorObject, IVector outputVector) throws IllegalAccessException, IllegalArgumentException, IllegalArgumentException {
 		Class<?> vectorClass = vectorObject.getClass();
-		Field[] vectorFields = vectorClass.getDeclaredFields();
+		Field[] vectorFields = listFields(vectorClass);
 		
 		if (outputVector instanceof IVector4 vec4) {
 			vec4.setX(castValue(findField(vectorFields, vectorObject, "x"), outputVector.getTypeClass()));
@@ -37,7 +39,7 @@ public class VectorParser {
 	@SuppressWarnings("rawtypes")
 	public static <T, V extends IVector, N extends Number> T parseToVectorObject(T vectorObject, IVector outputVector) throws IllegalAccessException, IllegalArgumentException, IllegalArgumentException {
 		Class<?> vectorClass = vectorObject.getClass();
-		Field[] vectorFields = vectorClass.getDeclaredFields();
+		Field[] vectorFields = listFields(vectorClass);
 		
 		if (outputVector instanceof IVector4 vec4) {
 			writeField(vectorFields, vectorObject, "x", vec4.getX());
@@ -106,6 +108,21 @@ public class VectorParser {
 			}
 		}
 		throw new IllegalArgumentException("The vector object " + vectorObject + " is missing the " + valueName + " value!");
+	}
+	
+	private static Field[] listFields(Class<?> clazz) {
+		List<Field> fields = new ArrayList<Field>();
+		listFields0(clazz, fields);
+		return fields.toArray(new Field[] {});
+	}
+	
+	private static void listFields0(Class<?> clazz, List<Field> fields) {
+		for (Field field : clazz.getDeclaredFields()) {
+			fields.add(field);
+		}
+		if (clazz.getSuperclass() != null) {
+			listFields0(clazz.getSuperclass(), fields);
+		}
 	}
 	
 }
