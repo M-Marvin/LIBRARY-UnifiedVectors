@@ -229,6 +229,11 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		Double d3 = this.getZ().doubleValue() - vec.getZ().doubleValue();
 		return d1 * d1 + d2 * d2 + d3 * d3;
 	}
+
+	@Override
+	public Double dist(IVector3<? extends Number> vec) {
+		return Math.sqrt(this.distSqr(vec));
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

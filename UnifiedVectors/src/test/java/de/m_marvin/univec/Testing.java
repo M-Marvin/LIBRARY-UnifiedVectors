@@ -1,6 +1,7 @@
 package de.m_marvin.univec;
 
 import de.m_marvin.univec.impl.Vec3d;
+import de.m_marvin.univec.impl.Vec3f;
 
 public class Testing {
 	
@@ -17,6 +18,8 @@ public class Testing {
 		TestVec test2 = vec.writeTo(new TestVec(0, 0, 0));
 		
 		System.out.println(test2.getX() + " " + test2.getY() + " " + test2.getZ());
+		
+		System.out.println(new Vec3f(1F, 2F, 3F).dist(new Vec3f(3F, 4F, 5F)));
 		
 	}
 	

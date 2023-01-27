@@ -229,6 +229,11 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		Float d3 = this.getZ().floatValue() - vec.getZ().floatValue();
 		return d1 * d1 + d2 * d2 + d3 * d3;
 	}
+
+	@Override
+	public Float dist(IVector3<? extends Number> vec) {
+		return (float) Math.sqrt(this.distSqr(vec));
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

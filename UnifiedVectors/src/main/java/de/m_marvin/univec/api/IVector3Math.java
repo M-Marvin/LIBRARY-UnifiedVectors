@@ -55,7 +55,7 @@ public interface IVector3Math<N extends Number, VO extends IVector3<N>, VI exten
 	public VO cross(VI vec);
 	public VO lerp(VI vec, N delta);
 	public N distSqr(VI vec);
-	default public N dist(VI vec) { return (N) (Double) Math.sqrt((Double) this.distSqr(vec)); }
+	public N dist(VI vec);
 	
 	public Quaternion relativeRotationQuat(VI reference);
 	
