@@ -17,6 +17,11 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 		this.y = y;
 	}
 
+	public Vec2i() {
+		this.x = 0;
+		this.y = 0;
+	}
+
 	public Vec2i(IVector2<? extends Number> vec) {
 		this.x = vec.x().intValue();
 		this.y = vec.y().intValue();

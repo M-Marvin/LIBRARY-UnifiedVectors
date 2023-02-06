@@ -21,6 +21,12 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		this.z = z;
 	}
 
+	public Vec3f() {
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+	}
+
 	public Vec3f(IVector3<? extends Number> vec) {
 		this.x = vec.x().floatValue();
 		this.y = vec.y().floatValue();

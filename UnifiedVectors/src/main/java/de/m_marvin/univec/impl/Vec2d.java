@@ -16,6 +16,11 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 		this.x = x;
 		this.y = y;
 	}
+
+	public Vec2d() {
+		this.x = 0;
+		this.y = 0;
+	}
 	
 	public Vec2d(IVector2<? extends Number> vec) {
 		this.x = vec.x().doubleValue();
