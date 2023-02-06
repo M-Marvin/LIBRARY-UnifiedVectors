@@ -18,6 +18,13 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 		this.w = w;
 	}
 
+	public Vec4f() {
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+		this.w = 0;
+	}
+
 	public Vec4f(IVector4<? extends Number> vec) {
 		this.x = vec.x().floatValue();
 		this.y = vec.y().floatValue();

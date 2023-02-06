@@ -18,6 +18,13 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 		this.w = w;
 	}
 
+	public Vec4d() {
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+		this.w = 0;
+	}
+
 	public Vec4d(IVector4<? extends Number> vec) {
 		this.x = vec.x().doubleValue();
 		this.y = vec.y().doubleValue();

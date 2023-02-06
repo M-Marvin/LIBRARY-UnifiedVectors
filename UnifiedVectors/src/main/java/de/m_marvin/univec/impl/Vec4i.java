@@ -18,6 +18,13 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 		this.w = w;
 	}
 
+	public Vec4i() {
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+		this.w = 0;
+	}
+
 	public Vec4i(IVector4<? extends Number> vec) {
 		this.x = vec.x().intValue();
 		this.y = vec.y().intValue();
