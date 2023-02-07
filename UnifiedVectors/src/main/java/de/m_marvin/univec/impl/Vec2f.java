@@ -1,5 +1,6 @@
 package de.m_marvin.univec.impl;
 
+import de.m_marvin.univec.MathHelper;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector2Math;
@@ -57,6 +58,10 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 			e.printStackTrace();
 			return vectorObject;
 		}
+	}
+
+	public boolean isFinite() {
+		return MathHelper.isFinite(x) && MathHelper.isFinite(y);
 	}
 	
 	@Override

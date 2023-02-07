@@ -2,6 +2,7 @@ package de.m_marvin.univec.impl;
 
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.unimat.impl.Quaternion;
+import de.m_marvin.univec.MathHelper;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
@@ -65,6 +66,10 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 			e.printStackTrace();
 			return vectorObject;
 		}
+	}
+
+	public boolean isFinite() {
+		return MathHelper.isFinite(x) && MathHelper.isFinite(y) && MathHelper.isFinite(z);
 	}
 	
 	@Override
