@@ -30,7 +30,11 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 		this.y = vec.y();
 	}
 
-	public Vector2dc conv() {
+	public Vector2dc convB() {
+		return new Vector2d(x,y);
+	}
+
+	public Vector2d conv() {
 		return new Vector2d(x,y);
 	}
 	

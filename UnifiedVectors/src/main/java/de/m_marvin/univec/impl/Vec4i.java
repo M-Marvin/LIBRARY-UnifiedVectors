@@ -27,7 +27,11 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 		this.w = vec.w();
 	}
 
-	public Vector4ic conv() {
+	public Vector4ic convB() {
+		return new Vector4i(x, y, z, w);
+	}
+
+	public Vector4i conv() {
 		return new Vector4i(x, y, z, w);
 	}
 

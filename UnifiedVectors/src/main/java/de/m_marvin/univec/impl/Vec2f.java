@@ -25,7 +25,11 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 		this.y = vec.y();
 	}
 
-	public Vector2fc conv() {
+	public Vector2fc convB() {
+		return new Vector2f(x,y);
+	}
+
+	public Vector2f conv() {
 		return new Vector2f(x,y);
 	}
 

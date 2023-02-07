@@ -24,7 +24,11 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 		this.y = vec.y();
 	}
 
-	public Vector2ic conv() {
+	public Vector2ic convB() {
+		return new Vector2i(x,y);
+	}
+
+	public Vector2i conv() {
 		return new Vector2i(x,y);
 	}
 

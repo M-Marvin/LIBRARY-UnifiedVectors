@@ -55,7 +55,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVec
 		this.m22 = m.m22();
 	}
 
-	public org.joml.Matrix3fc conv() {
+	public org.joml.Matrix3fc convB() {
 		return new org.joml.Matrix3f(
 			this.m00,
 			this.m01,
@@ -66,6 +66,20 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVec
 			this.m20,
 			this.m21,
 			this.m22
+		);
+	}
+
+	public org.joml.Matrix3f conv() {
+		return new org.joml.Matrix3f(
+				this.m00,
+				this.m01,
+				this.m02,
+				this.m10,
+				this.m11,
+				this.m12,
+				this.m20,
+				this.m21,
+				this.m22
 		);
 	}
 

@@ -28,7 +28,11 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 		this.w = vec.w();
 	}
 
-	public Vector4fc conv() {
+	public Vector4fc convB() {
+		return new Vector4f(x, y, z, w);
+	}
+
+	public Vector4f conv() {
 		return new Vector4f(x, y, z, w);
 	}
 

@@ -30,7 +30,11 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		this.z = vec.z();
 	}
 
-	public Vector3dc conv() {
+	public Vector3dc convB() {
+		return new Vector3d(x,y, z);
+	}
+
+	public Vector3d conv() {
 		return new Vector3d(x,y, z);
 	}
 

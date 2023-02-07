@@ -39,12 +39,21 @@ public class Quaternion implements IQuaternion<Quaternion> {
 		this.r = (float)q.w();
 	}
 
-	public Quaternionfc conv() {
+	public Quaternionfc convB() {
 		return new Quaternionf(
 			this.i,
 			this.j,
 			this.k,
 			this.r
+		);
+	}
+
+	public Quaternionf conv() {
+		return new Quaternionf(
+				this.i,
+				this.j,
+				this.k,
+				this.r
 		);
 	}
 

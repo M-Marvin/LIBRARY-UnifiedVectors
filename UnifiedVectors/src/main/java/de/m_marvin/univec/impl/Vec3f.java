@@ -30,6 +30,10 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		this.z = vec.z();
 	}
 
+	public Vector3fc convB() {
+		return new Vector3f(x,y, z);
+	}
+
 	public Vector3fc conv() {
 		return new Vector3f(x,y, z);
 	}

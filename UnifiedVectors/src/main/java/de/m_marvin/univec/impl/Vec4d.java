@@ -28,7 +28,11 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 		this.w = vec.w();
 	}
 
-	public Vector4dc conv() {
+	public Vector4dc convB() {
+		return new Vector4d(x, y, z, w);
+	}
+
+	public Vector4d conv() {
 		return new Vector4d(x, y, z, w);
 	}
 

@@ -29,7 +29,11 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 		this.z = vec.z();
 	}
 
-	public Vector3ic conv() {
+	public Vector3ic convB() {
+		return new Vector3i(x,y, z);
+	}
+
+	public Vector3i conv() {
 		return new Vector3i(x,y, z);
 	}
 
