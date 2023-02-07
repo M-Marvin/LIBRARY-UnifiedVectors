@@ -40,15 +40,23 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	public static Vec2i fromVec(Object vectorObject) {
 		return new Vec2i(0, 0).readFrom(vectorObject);
 	}
-	
+
+	public <T> Vec2i(T vectorObject) {
+		readFrom(vectorObject);
+	}
+
 	@Override
 	public <T> Vec2i readFrom(T vectorObject) {
 		try {
-			return (Vec2i) VectorParser.parseVectorObject(vectorObject, new Vec2i(0, 0));
+			Vec2i v = (Vec2i) VectorParser.parseVectorObject(vectorObject, new Vec2i(0, 0));
+			this.x = v.x;
+			this.y = v.y;
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec2i(0, 0);
+			this.x = 0;
+			this.y = 0;
 		}
+		return this;
 	}
 
 	@Override
