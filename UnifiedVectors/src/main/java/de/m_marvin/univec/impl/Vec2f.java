@@ -30,15 +30,23 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	public static Vec2f fromVec(Object vectorObject) {
 		return new Vec2f(0, 0).readFrom(vectorObject);
 	}
-	
+
+	public <T> Vec2f(T vectorObject) {
+		readFrom(vectorObject);
+	}
+
 	@Override
 	public <T> Vec2f readFrom(T vectorObject) {
 		try {
-			return (Vec2f) VectorParser.parseVectorObject(vectorObject, new Vec2f(0, 0));
+			Vec2f v = (Vec2f) VectorParser.parseVectorObject(vectorObject, new Vec2f(0, 0));
+			this.x = v.x;
+			this.y = v.y;
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec2f(0, 0);
+			this.x = 0;
+			this.y = 0;
 		}
+		return this;
 	}
 
 	@Override

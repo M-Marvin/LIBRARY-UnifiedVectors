@@ -36,15 +36,25 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	public static Vec3i fromVec(Object vectorObject) {
 		return new Vec3i(0, 0, 0).readFrom(vectorObject);
 	}
-	
+
+	public <T> Vec3i(T vectorObject) {
+		readFrom(vectorObject);
+	}
+
 	@Override
 	public <T> Vec3i readFrom(T vectorObject) {
 		try {
-			return (Vec3i) VectorParser.parseVectorObject(vectorObject, new Vec3i(0, 0, 0));
+			Vec3i v = (Vec3i) VectorParser.parseVectorObject(vectorObject, new Vec3i(0, 0, 0));
+			this.x = v.x;
+			this.y = v.y;
+			this.z = v.z;
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec3i(0, 0, 0);
+			this.x = 0;
+			this.y = 0;
+			this.z = 0;
 		}
+		return this;
 	}
 
 	@Override

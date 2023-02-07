@@ -35,15 +35,27 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	public static Vec4f fromVec(Object vectorObject) {
 		return new Vec4f(0, 0, 0, 0).readFrom(vectorObject);
 	}
-	
+
+	public <T> Vec4f(T vectorObject) {
+		readFrom(vectorObject);
+	}
+
 	@Override
 	public <T> Vec4f readFrom(T vectorObject) {
 		try {
-			return (Vec4f) VectorParser.parseVectorObject(vectorObject, new Vec4f(0, 0, 0, 0));
+			Vec4f v = (Vec4f) VectorParser.parseVectorObject(vectorObject, new Vec4f(0, 0, 0, 0));
+			this.x = v.x;
+			this.y = v.y;
+			this.z = v.z;
+			this.w = v.w;
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec4f(0, 0, 0, 0);
+			this.x = 0;
+			this.y = 0;
+			this.z = 0;
+			this.w = 0;
 		}
+		return this;
 	}
 
 	@Override

@@ -36,15 +36,25 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	public static Vec3d fromVec(Object vectorObject) {
 		return new Vec3d(0, 0, 0).readFrom(vectorObject);
 	}
-	
+
+	public <T> Vec3d(T vectorObject) {
+		readFrom(vectorObject);
+	}
+
 	@Override
 	public <T> Vec3d readFrom(T vectorObject) {
 		try {
-			return (Vec3d) VectorParser.parseVectorObject(vectorObject, new Vec3d(0, 0, 0));
+			Vec3d v = (Vec3d) VectorParser.parseVectorObject(vectorObject, new Vec3d(0, 0, 0));
+			this.x = v.x;
+			this.y = v.y;
+			this.z = v.z;
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec3d(0, 0, 0);
+			this.x = 0;
+			this.y = 0;
+			this.z = 0;
 		}
+		return this;
 	}
 
 	@Override

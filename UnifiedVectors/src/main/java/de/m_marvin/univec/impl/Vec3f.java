@@ -36,15 +36,25 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	public static Vec3f fromVec(Object vectorObject) {
 		return new Vec3f(0, 0, 0).readFrom(vectorObject);
 	}
-	
+
+	public <T> Vec3f(T vectorObject) {
+		readFrom(vectorObject);
+	}
+
 	@Override
 	public <T> Vec3f readFrom(T vectorObject) {
 		try {
-			return (Vec3f) VectorParser.parseVectorObject(vectorObject, new Vec3f(0, 0, 0));
+			Vec3f v = (Vec3f) VectorParser.parseVectorObject(vectorObject, new Vec3f(0, 0, 0));
+			this.x = v.x;
+			this.y = v.y;
+			this.z = v.z;
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec3f(0, 0, 0);
+			this.x = 0;
+			this.y = 0;
+			this.z = 0;
 		}
+		return this;
 	}
 	
 	@Override
