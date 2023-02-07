@@ -3,6 +3,7 @@ package de.m_marvin.univec.impl;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector2Math;
+import org.joml.Vector2d;
 
 /*
  * Implementation of a 3 dimensional double vector
@@ -20,6 +21,15 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	public Vec2d() {
 		this.x = 0;
 		this.y = 0;
+	}
+
+	public Vec2d(Vector2d vec) {
+		this.x = vec.x;
+		this.y = vec.y;
+	}
+
+	public Vector2d conv() {
+		return new Vector2d(x,y);
 	}
 	
 	public Vec2d(IVector2<? extends Number> vec) {

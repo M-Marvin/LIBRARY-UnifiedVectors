@@ -5,6 +5,7 @@ import de.m_marvin.unimat.impl.Quaternion;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
+import org.joml.Vector3f;
 
 /*
  * Implementation of a 3 dimensional float vector
@@ -19,6 +20,16 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+
+	public Vec3f(Vector3f vec) {
+		this.x = vec.x;
+		this.y = vec.y;
+		this.z = vec.z;
+	}
+
+	public Vector3f conv() {
+		return new Vector3f(x,y, z);
 	}
 
 	public Vec3f() {

@@ -3,6 +3,7 @@ package de.m_marvin.univec.impl;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector2Math;
+import org.joml.Vector2f;
 
 /*
  * Implementation of a 2 dimensional float vector
@@ -15,6 +16,15 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	public Vec2f(float x, float y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public Vec2f(Vector2f vec) {
+		this.x = vec.x;
+		this.y = vec.y;
+	}
+
+	public Vector2f conv() {
+		return new Vector2f(x,y);
 	}
 
 	public Vec2f() {

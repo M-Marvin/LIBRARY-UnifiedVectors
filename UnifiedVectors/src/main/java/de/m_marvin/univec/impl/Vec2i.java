@@ -3,6 +3,7 @@ package de.m_marvin.univec.impl;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector2Math;
+import org.joml.Vector2i;
 
 /*
  * Implementation of a 2 dimensional integer vector
@@ -15,6 +16,15 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	public Vec2i(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public Vec2i(Vector2i vec) {
+		this.x = vec.x;
+		this.y = vec.y;
+	}
+
+	public Vector2i conv() {
+		return new Vector2i(x,y);
 	}
 
 	public Vec2i() {

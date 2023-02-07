@@ -3,6 +3,7 @@ package de.m_marvin.univec.impl;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.api.IVector4Math;
+import org.joml.Vector4i;
 
 public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Number>> {
 	
@@ -16,6 +17,17 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 		this.y = y;
 		this.z = z;
 		this.w = w;
+	}
+
+	public Vec4i(Vector4i vec) {
+		this.x = vec.x;
+		this.y = vec.y;
+		this.z = vec.z;
+		this.w = vec.w;
+	}
+
+	public Vector4i conv() {
+		return new Vector4i(x, y, z, w);
 	}
 
 	public Vec4i() {

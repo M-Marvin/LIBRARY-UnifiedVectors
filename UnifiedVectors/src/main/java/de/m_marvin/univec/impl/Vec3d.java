@@ -5,6 +5,7 @@ import de.m_marvin.unimat.impl.Quaternion;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
+import org.joml.Vector3d;
 
 /*
  * Implementation of a 3 dimensional double vector
@@ -19,6 +20,16 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+
+	public Vec3d(Vector3d vec) {
+		this.x = vec.x;
+		this.y = vec.y;
+		this.z = vec.z;
+	}
+
+	public Vector3d conv() {
+		return new Vector3d(x,y, z);
 	}
 
 	public Vec3d() {
