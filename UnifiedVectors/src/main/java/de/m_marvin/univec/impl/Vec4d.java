@@ -1,5 +1,6 @@
 package de.m_marvin.univec.impl;
 
+import de.m_marvin.univec.MathHelper;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.api.IVector4Math;
@@ -78,6 +79,10 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 			e.printStackTrace();
 			return vectorObject;
 		}
+	}
+
+	public boolean isFinite() {
+		return MathHelper.isFinite(x) && MathHelper.isFinite(y) && MathHelper.isFinite(z) && MathHelper.isFinite(w);
 	}
 	
 	@Override
