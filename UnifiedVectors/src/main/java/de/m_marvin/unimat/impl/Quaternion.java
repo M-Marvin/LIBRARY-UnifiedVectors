@@ -8,6 +8,10 @@ import de.m_marvin.univec.MathHelper;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.impl.Vec3d;
 import de.m_marvin.univec.impl.Vec3f;
+import org.joml.Quaterniond;
+import org.joml.Quaterniondc;
+import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 
 public class Quaternion implements IQuaternion<Quaternion> {
 	
@@ -23,11 +27,53 @@ public class Quaternion implements IQuaternion<Quaternion> {
 		this.r = r;
 	}
 
+
 	public Quaternion(double i, double j, double k, double r) {
 		this.i = (float)i;
 		this.j = (float)j;
 		this.k = (float)k;
 		this.r = (float)r;
+
+	public Quaternion(Quaternionfc q) {
+		this.i = q.x();
+		this.j = q.y();
+		this.k = q.z();
+		this.r = q.w();
+	}
+
+	public Quaternion(Quaterniondc q) {
+		this.i = (float)q.x();
+		this.j = (float)q.y();
+		this.k = (float)q.z();
+		this.r = (float)q.w();
+	}
+
+	public Quaternionfc convB() {
+		return new Quaternionf(
+			this.i,
+			this.j,
+			this.k,
+			this.r
+		);
+	}
+
+	public Quaternionf conv() {
+		return new Quaternionf(
+				this.i,
+				this.j,
+				this.k,
+				this.r
+		);
+	}
+
+	public Quaterniondc convD() {
+		return new Quaterniond(
+				this.i,
+				this.j,
+				this.k,
+				this.r
+		);
+
 	}
 	
 	public Quaternion(IVector3<? extends Number> rotationAxis, float radians) {

@@ -43,6 +43,46 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVec
 		this.m12 = 2.0F * (f8 - f10);
 	}
 
+	public Matrix3f(org.joml.Matrix3fc m) {
+		this.m00 = m.m00();
+		this.m01 = m.m01();
+		this.m02 = m.m02();
+		this.m10 = m.m10();
+		this.m11 = m.m11();
+		this.m12 = m.m12();
+		this.m20 = m.m20();
+		this.m21 = m.m21();
+		this.m22 = m.m22();
+	}
+
+	public org.joml.Matrix3fc convB() {
+		return new org.joml.Matrix3f(
+			this.m00,
+			this.m01,
+			this.m02,
+			this.m10,
+			this.m11,
+			this.m12,
+			this.m20,
+			this.m21,
+			this.m22
+		);
+	}
+
+	public org.joml.Matrix3f conv() {
+		return new org.joml.Matrix3f(
+				this.m00,
+				this.m01,
+				this.m02,
+				this.m10,
+				this.m11,
+				this.m12,
+				this.m20,
+				this.m21,
+				this.m22
+		);
+	}
+
 	public Matrix3f(
 			float m00, float m01, float m02, 
 			float m10, float m11, float m12, 

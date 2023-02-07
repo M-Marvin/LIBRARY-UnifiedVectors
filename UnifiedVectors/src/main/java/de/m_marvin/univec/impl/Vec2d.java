@@ -1,8 +1,11 @@
 package de.m_marvin.univec.impl;
 
+import de.m_marvin.univec.MathHelper;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector2Math;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 /*
  * Implementation of a 3 dimensional double vector
@@ -21,6 +24,19 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 		this.x = 0;
 		this.y = 0;
 	}
+
+	public Vec2d(Vector2dc vec) {
+		this.x = vec.x();
+		this.y = vec.y();
+	}
+
+	public Vector2dc convB() {
+		return new Vector2d(x,y);
+	}
+
+	public Vector2d conv() {
+		return new Vector2d(x,y);
+	}
 	
 	public Vec2d(IVector2<? extends Number> vec) {
 		this.x = vec.x().doubleValue();
@@ -30,15 +46,35 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	public static Vec2d fromVec(Object vectorObject) {
 		return new Vec2d(0, 0).readFrom(vectorObject);
 	}
+
+	public <T> Vec2d(T vectorObject) {
+		readFrom(vectorObject);
+	}
+
+	public Vec2d add(Vector2dc vec) {
+		return add(new Vec2d(vec));
+	}
+
+	public Vec2d sub(Vector2dc vec) {
+		return sub(new Vec2d(vec));
+	}
+
+	public Vec2d mul(Vector2dc vec) {
+		return mul(new Vec2d(vec));
+	}
 	
 	@Override
 	public <T> Vec2d readFrom(T vectorObject) {
 		try {
-			return (Vec2d) VectorParser.parseVectorObject(vectorObject, new Vec2d(0, 0));
+			Vec2d v = (Vec2d) VectorParser.parseVectorObject(vectorObject, new Vec2d(0, 0));
+			this.x = v.x;
+			this.y = v.y;
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec2d(0, 0);
+			this.x = 0;
+			this.y = 0;
 		}
+		return this;
 	}
 
 	@Override
@@ -49,6 +85,10 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 			e.printStackTrace();
 			return vectorObject;
 		}
+	}
+
+	public boolean isFinite() {
+		return MathHelper.isFinite(x) && MathHelper.isFinite(y);
 	}
 	
 	@Override

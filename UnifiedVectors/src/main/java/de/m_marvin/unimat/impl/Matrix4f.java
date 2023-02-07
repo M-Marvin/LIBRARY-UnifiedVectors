@@ -50,6 +50,67 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 		this.m21 = 2.0F * (f8 + f10);
 		this.m12 = 2.0F * (f8 - f10);
 	}
+
+	public Matrix4f(org.joml.Matrix4fc m) {
+		this.m00 = m.m00();
+		this.m01 = m.m01();
+		this.m02 = m.m02();
+		this.m03 = m.m03();
+		this.m10 = m.m10();
+		this.m11 = m.m11();
+		this.m12 = m.m12();
+		this.m13 = m.m13();
+		this.m20 = m.m20();
+		this.m21 = m.m21();
+		this.m22 = m.m22();
+		this.m23 = m.m23();
+		this.m30 = m.m30();
+		this.m31 = m.m31();
+		this.m32 = m.m32();
+		this.m33 = m.m33();
+	}
+
+	public org.joml.Matrix4fc convB() {
+		return new org.joml.Matrix4f(
+			this.m00,
+			this.m01,
+			this.m02,
+			this.m03,
+			this.m10,
+			this.m11,
+			this.m12,
+			this.m13,
+			this.m20,
+			this.m21,
+			this.m22,
+			this.m23,
+			this.m30,
+			this.m31,
+			this.m32,
+			this.m33
+		);
+	}
+
+	public org.joml.Matrix4f conv() {
+		return new org.joml.Matrix4f(
+				this.m00,
+				this.m01,
+				this.m02,
+				this.m03,
+				this.m10,
+				this.m11,
+				this.m12,
+				this.m13,
+				this.m20,
+				this.m21,
+				this.m22,
+				this.m23,
+				this.m30,
+				this.m31,
+				this.m32,
+				this.m33
+		);
+	}
 	
 	public Matrix4f(
 			float m00, float m01, float m02,  float m03, 

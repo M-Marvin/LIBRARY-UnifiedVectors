@@ -31,3 +31,14 @@ wrapper {
     gradleVersion = "7.4.2"
     distributionType = Wrapper.DistributionType.ALL
 }
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+project.ext.jomlVersion = "1.10.5"
+dependencies {
+    implementation "org.joml:joml:${jomlVersion}"
+}
