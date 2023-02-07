@@ -53,6 +53,18 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		readFrom(vectorObject);
 	}
 
+	public Vec3d add(Vector3d vec) {
+		return add(new Vec3d(vec));
+	}
+
+	public Vec3d sub(Vector3d vec) {
+		return sub(new Vec3d(vec));
+	}
+
+	public Vec3d mul(Vector3d vec) {
+		return mul(new Vec3d(vec));
+	}
+
 	@Override
 	public <T> Vec3d readFrom(T vectorObject) {
 		try {

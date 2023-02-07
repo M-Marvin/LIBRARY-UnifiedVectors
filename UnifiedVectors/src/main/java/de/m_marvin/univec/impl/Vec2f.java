@@ -46,6 +46,18 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 		readFrom(vectorObject);
 	}
 
+	public Vec2f add(Vector2f vec) {
+		return add(new Vec2f(vec));
+	}
+
+	public Vec2f sub(Vector2f vec) {
+		return sub(new Vec2f(vec));
+	}
+
+	public Vec2f mul(Vector2f vec) {
+		return mul(new Vec2f(vec));
+	}
+
 	@Override
 	public <T> Vec2f readFrom(T vectorObject) {
 		try {

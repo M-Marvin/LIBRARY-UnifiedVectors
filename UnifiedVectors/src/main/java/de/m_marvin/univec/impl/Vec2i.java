@@ -45,6 +45,18 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 		readFrom(vectorObject);
 	}
 
+	public Vec2i add(Vector2i vec) {
+		return add(new Vec2i(vec));
+	}
+
+	public Vec2i sub(Vector2i vec) {
+		return sub(new Vec2i(vec));
+	}
+
+	public Vec2i mul(Vector2i vec) {
+		return mul(new Vec2i(vec));
+	}
+
 	@Override
 	public <T> Vec2i readFrom(T vectorObject) {
 		try {

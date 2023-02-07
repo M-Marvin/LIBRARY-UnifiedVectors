@@ -53,6 +53,18 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		readFrom(vectorObject);
 	}
 
+	public Vec3f add(Vector3f vec) {
+		return add(new Vec3f(vec));
+	}
+
+	public Vec3f sub(Vector3f vec) {
+		return sub(new Vec3f(vec));
+	}
+
+	public Vec3f mul(Vector3f vec) {
+		return mul(new Vec3f(vec));
+	}
+
 	@Override
 	public <T> Vec3f readFrom(T vectorObject) {
 		try {

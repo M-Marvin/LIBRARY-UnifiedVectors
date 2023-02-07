@@ -52,6 +52,18 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 		readFrom(vectorObject);
 	}
 
+	public Vec3i add(Vector3i vec) {
+		return add(new Vec3i(vec));
+	}
+
+	public Vec3i sub(Vector3i vec) {
+		return sub(new Vec3i(vec));
+	}
+
+	public Vec3i mul(Vector3i vec) {
+		return mul(new Vec3i(vec));
+	}
+
 	@Override
 	public <T> Vec3i readFrom(T vectorObject) {
 		try {

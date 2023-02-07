@@ -45,6 +45,18 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	public <T> Vec2d(T vectorObject) {
 		readFrom(vectorObject);
 	}
+
+	public Vec2d add(Vector2d vec) {
+		return add(new Vec2d(vec));
+	}
+
+	public Vec2d sub(Vector2d vec) {
+		return sub(new Vec2d(vec));
+	}
+
+	public Vec2d mul(Vector2d vec) {
+		return mul(new Vec2d(vec));
+	}
 	
 	@Override
 	public <T> Vec2d readFrom(T vectorObject) {
