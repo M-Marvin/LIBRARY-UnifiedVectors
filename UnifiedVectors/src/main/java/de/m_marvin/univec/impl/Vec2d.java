@@ -5,6 +5,7 @@ import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector2Math;
 import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 /*
  * Implementation of a 3 dimensional double vector
@@ -24,12 +25,12 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 		this.y = 0;
 	}
 
-	public Vec2d(Vector2d vec) {
-		this.x = vec.x;
-		this.y = vec.y;
+	public Vec2d(Vector2dc vec) {
+		this.x = vec.x();
+		this.y = vec.y();
 	}
 
-	public Vector2d conv() {
+	public Vector2dc conv() {
 		return new Vector2d(x,y);
 	}
 	
@@ -46,15 +47,15 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 		readFrom(vectorObject);
 	}
 
-	public Vec2d add(Vector2d vec) {
+	public Vec2d add(Vector2dc vec) {
 		return add(new Vec2d(vec));
 	}
 
-	public Vec2d sub(Vector2d vec) {
+	public Vec2d sub(Vector2dc vec) {
 		return sub(new Vec2d(vec));
 	}
 
-	public Vec2d mul(Vector2d vec) {
+	public Vec2d mul(Vector2dc vec) {
 		return mul(new Vec2d(vec));
 	}
 	

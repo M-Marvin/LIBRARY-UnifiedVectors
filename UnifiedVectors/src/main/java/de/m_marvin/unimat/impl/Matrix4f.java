@@ -51,7 +51,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 		this.m12 = 2.0F * (f8 - f10);
 	}
 
-	public Matrix4f(org.joml.Matrix4f m) {
+	public Matrix4f(org.joml.Matrix4fc m) {
 		this.m00 = m.m00();
 		this.m01 = m.m01();
 		this.m02 = m.m02();
@@ -70,7 +70,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 		this.m33 = m.m33();
 	}
 
-	public org.joml.Matrix4f conv() {
+	public org.joml.Matrix4fc conv() {
 		return new org.joml.Matrix4f(
 			this.m00,
 			this.m01,

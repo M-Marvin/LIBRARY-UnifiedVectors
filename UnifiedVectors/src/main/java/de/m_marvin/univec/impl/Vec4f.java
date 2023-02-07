@@ -5,6 +5,7 @@ import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.api.IVector4Math;
 import org.joml.Vector4f;
+import org.joml.Vector4fc;
 
 public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Number>> {
 	
@@ -20,14 +21,14 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 		this.w = w;
 	}
 
-	public Vec4f(Vector4f vec) {
-		this.x = vec.x;
-		this.y = vec.y;
-		this.z = vec.z;
-		this.w = vec.w;
+	public Vec4f(Vector4fc vec) {
+		this.x = vec.x();
+		this.y = vec.y();
+		this.z = vec.z();
+		this.w = vec.w();
 	}
 
-	public Vector4f conv() {
+	public Vector4fc conv() {
 		return new Vector4f(x, y, z, w);
 	}
 

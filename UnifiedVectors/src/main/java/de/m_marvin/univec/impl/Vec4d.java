@@ -5,6 +5,7 @@ import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.api.IVector4Math;
 import org.joml.Vector4d;
+import org.joml.Vector4dc;
 
 public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Number>> {
 	
@@ -20,14 +21,14 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 		this.w = w;
 	}
 
-	public Vec4d(Vector4d vec) {
-		this.x = vec.x;
-		this.y = vec.y;
-		this.z = vec.z;
-		this.w = vec.w;
+	public Vec4d(Vector4dc vec) {
+		this.x = vec.x();
+		this.y = vec.y();
+		this.z = vec.z();
+		this.w = vec.w();
 	}
 
-	public Vector4d conv() {
+	public Vector4dc conv() {
 		return new Vector4d(x, y, z, w);
 	}
 

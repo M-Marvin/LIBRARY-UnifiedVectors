@@ -7,6 +7,7 @@ import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 /*
  * Implementation of a 3 dimensional float vector
@@ -23,13 +24,13 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		this.z = z;
 	}
 
-	public Vec3f(Vector3f vec) {
-		this.x = vec.x;
-		this.y = vec.y;
-		this.z = vec.z;
+	public Vec3f(Vector3fc vec) {
+		this.x = vec.x();
+		this.y = vec.y();
+		this.z = vec.z();
 	}
 
-	public Vector3f conv() {
+	public Vector3fc conv() {
 		return new Vector3f(x,y, z);
 	}
 
@@ -53,15 +54,15 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		readFrom(vectorObject);
 	}
 
-	public Vec3f add(Vector3f vec) {
+	public Vec3f add(Vector3fc vec) {
 		return add(new Vec3f(vec));
 	}
 
-	public Vec3f sub(Vector3f vec) {
+	public Vec3f sub(Vector3fc vec) {
 		return sub(new Vec3f(vec));
 	}
 
-	public Vec3f mul(Vector3f vec) {
+	public Vec3f mul(Vector3fc vec) {
 		return mul(new Vec3f(vec));
 	}
 

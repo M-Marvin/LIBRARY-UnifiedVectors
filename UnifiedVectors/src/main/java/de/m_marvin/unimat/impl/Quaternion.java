@@ -7,7 +7,9 @@ import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.impl.Vec3f;
 import org.joml.Quaterniond;
+import org.joml.Quaterniondc;
 import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 
 public class Quaternion implements IQuaternion<Quaternion> {
 	
@@ -23,26 +25,35 @@ public class Quaternion implements IQuaternion<Quaternion> {
 		this.r = r;
 	}
 
-	public Quaternion(Quaternionf q) {
-		this.i = q.x;
-		this.j = q.y;
-		this.k = q.z;
-		this.r = q.w;
+	public Quaternion(Quaternionfc q) {
+		this.i = q.x();
+		this.j = q.y();
+		this.k = q.z();
+		this.r = q.w();
 	}
 
-	public Quaternion(Quaterniond q) {
-		this.i = (float)q.x;
-		this.j = (float)q.y;
-		this.k = (float)q.z;
-		this.r = (float)q.w;
+	public Quaternion(Quaterniondc q) {
+		this.i = (float)q.x();
+		this.j = (float)q.y();
+		this.k = (float)q.z();
+		this.r = (float)q.w();
 	}
 
-	public Quaternionf conv() {
+	public Quaternionfc conv() {
 		return new Quaternionf(
 			this.i,
 			this.j,
 			this.k,
 			this.r
+		);
+	}
+
+	public Quaterniondc convD() {
+		return new Quaterniond(
+				this.i,
+				this.j,
+				this.k,
+				this.r
 		);
 	}
 	
