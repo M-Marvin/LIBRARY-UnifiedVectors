@@ -34,11 +34,11 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	@Override
 	public <T> Vec2i readFrom(T vectorObject) {
 		try {
-			return (Vec2i) VectorParser.parseVectorObject(vectorObject, new Vec2i(0, 0));
+			VectorParser.parseVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec2i(0, 0);
 		}
+		return this;
 	}
 
 	@Override

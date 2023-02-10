@@ -40,11 +40,11 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	@Override
 	public <T> Vec3f readFrom(T vectorObject) {
 		try {
-			return (Vec3f) VectorParser.parseVectorObject(vectorObject, new Vec3f(0, 0, 0));
+			VectorParser.parseVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec3f(0, 0, 0);
 		}
+		return this;
 	}
 	
 	@Override

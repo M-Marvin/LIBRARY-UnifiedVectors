@@ -40,11 +40,11 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	@Override
 	public <T> Vec3i readFrom(T vectorObject) {
 		try {
-			return (Vec3i) VectorParser.parseVectorObject(vectorObject, new Vec3i(0, 0, 0));
+			VectorParser.parseVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec3i(0, 0, 0);
 		}
+		return this;
 	}
 
 	@Override

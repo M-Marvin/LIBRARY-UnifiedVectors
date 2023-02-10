@@ -34,11 +34,11 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	@Override
 	public <T> Vec2d readFrom(T vectorObject) {
 		try {
-			return (Vec2d) VectorParser.parseVectorObject(vectorObject, new Vec2d(0, 0));
+			VectorParser.parseVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec2d(0, 0);
 		}
+		return this;
 	}
 
 	@Override

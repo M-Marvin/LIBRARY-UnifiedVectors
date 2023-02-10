@@ -32,7 +32,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		this.y = vec.y().doubleValue();
 		this.z = vec.z().doubleValue();
 	}
-
+	
 	public static Vec3d fromVec(Object vectorObject) {
 		return new Vec3d(0, 0, 0).readFrom(vectorObject);
 	}
@@ -40,11 +40,11 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	@Override
 	public <T> Vec3d readFrom(T vectorObject) {
 		try {
-			return (Vec3d) VectorParser.parseVectorObject(vectorObject, new Vec3d(0, 0, 0));
+			VectorParser.parseVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec3d(0, 0, 0);
 		}
+		return this;
 	}
 
 	@Override
@@ -262,7 +262,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	
 	@Override
 	public String toString() {
-		return "Vec3i[" + this.x + "," + this.y + "," + this.z + "]";
+		return "Vec3d[" + this.x + "," + this.y + "," + this.z + "]";
 	}
 
 	@Override

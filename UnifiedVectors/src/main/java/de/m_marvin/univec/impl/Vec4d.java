@@ -39,11 +39,11 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 	@Override
 	public <T> Vec4d readFrom(T vectorObject) {
 		try {
-			return (Vec4d) VectorParser.parseVectorObject(vectorObject, new Vec4d(0, 0, 0, 0));
+			VectorParser.parseVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec4d(0, 0, 0, 0);
 		}
+		return this;
 	}
 
 	@Override

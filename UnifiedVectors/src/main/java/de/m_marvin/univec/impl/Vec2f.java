@@ -34,11 +34,11 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	@Override
 	public <T> Vec2f readFrom(T vectorObject) {
 		try {
-			return (Vec2f) VectorParser.parseVectorObject(vectorObject, new Vec2f(0, 0));
+			VectorParser.parseVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec2f(0, 0);
 		}
+		return this;
 	}
 
 	@Override

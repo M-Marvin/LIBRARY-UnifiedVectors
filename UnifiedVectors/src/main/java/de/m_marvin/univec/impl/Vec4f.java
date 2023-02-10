@@ -39,11 +39,11 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	@Override
 	public <T> Vec4f readFrom(T vectorObject) {
 		try {
-			return (Vec4f) VectorParser.parseVectorObject(vectorObject, new Vec4f(0, 0, 0, 0));
+			VectorParser.parseVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
-			return new Vec4f(0, 0, 0, 0);
 		}
+		return this;
 	}
 
 	@Override
