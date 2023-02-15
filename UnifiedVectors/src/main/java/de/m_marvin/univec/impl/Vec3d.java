@@ -180,7 +180,12 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 				Math.max((Double) min, Math.min(this.z, (Double) max))
 			);
 	}
-
+	
+	@Override
+	public boolean isFinite() {
+		return Double.isFinite(x) && Double.isFinite(y) && Double.isFinite(z);
+	}
+	
 	@Override
 	public double angle(IVector3<? extends Number> vec) {
 		double f1 = this.dot(vec);
@@ -293,6 +298,17 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	@Override
 	public Class<? extends Number> getTypeClass() {
 		return Double.class;
+	}
+
+	@Override
+	public Vec3d anyOrthogonal() {
+		return new Vec3d(-(z / x), 0, 1).normalize();
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Vec3d[] orthogonals(IVector3<? extends Number> vec2) {
+		return new Vec3d[] {this.cross(vec2), new Vec3d(((IVector3Math) vec2).cross(this))};
 	}
 	
 }

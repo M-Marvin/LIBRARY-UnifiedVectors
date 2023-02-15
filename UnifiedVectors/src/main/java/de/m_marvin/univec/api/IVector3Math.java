@@ -47,6 +47,8 @@ public interface IVector3Math<N extends Number, VO extends IVector3<N>, VI exten
 	public VO clamp(N min, N max);
 	default public VO clampI(VI min, VI max) { return this.setI((VI) this.clamp(min, max)); }
 	default public VO clampI(N min, N max) { return this.setI((VI) this.clamp(min, max)); }
+
+	public boolean isFinite();
 	
 	/* Vector math */
 
@@ -70,5 +72,8 @@ public interface IVector3Math<N extends Number, VO extends IVector3<N>, VI exten
 	
 	public VO transform(Q quaternion);
 	default public VO transformI(Q quaternion) { return setI((VI) transform(quaternion)); }
+
+	public VO anyOrthogonal();
+	public VO[] orthogonals(VI vec2);
 	
 }

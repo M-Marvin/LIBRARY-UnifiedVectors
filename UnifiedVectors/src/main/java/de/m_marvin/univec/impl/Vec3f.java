@@ -180,7 +180,12 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 				Math.max((Float) min, Math.min(this.z, (Float) max))
 			);
 	}
-
+	
+	@Override
+	public boolean isFinite() {
+		return Float.isFinite(x) && Float.isFinite(y) && Float.isFinite(z);
+	}
+	
 	@Override
 	public double angle(IVector3<? extends Number> vec) {
 		double f1 = this.dot(vec);
@@ -291,6 +296,17 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	@Override
 	public Class<? extends Number> getTypeClass() {
 		return Float.class;
+	}
+
+	@Override
+	public Vec3f anyOrthogonal() {
+		return new Vec3f(-(z / x), 0, 1).normalize();
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Vec3f[] orthogonals(IVector3<? extends Number> vec2) {
+		return new Vec3f[] {this.cross(vec2), new Vec3f(((IVector3Math) vec2).cross(this))};
 	}
 	
 }

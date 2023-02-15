@@ -45,6 +45,8 @@ public interface IVector2Math<N extends Number, VO extends IVector2<N>, VI exten
 	default public VO clampI(VI min, VI max) { return this.setI((VI) this.clamp(min, max)); }
 	default public VO clampI(N min, N max) { return this.setI((VI) this.clamp(min, max)); }
 	
+	public boolean isFinite();
+	
 	/* Vector math */
 
 	public double angle(VI vec);
@@ -59,5 +61,8 @@ public interface IVector2Math<N extends Number, VO extends IVector2<N>, VI exten
 	
 	public VO normalize();
 	default public VO normalizeI() { return this.setI((VI) this.normalize()); }
-
+	
+	public VO anyOrthogonal();
+	public VO[] orthogonals();
+	
 }

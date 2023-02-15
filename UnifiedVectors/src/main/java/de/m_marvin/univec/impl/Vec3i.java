@@ -180,7 +180,12 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 				Math.max((Integer) min, Math.min(this.z, (Integer) max))
 			);
 	}
-
+	
+	@Override
+	public boolean isFinite() {
+		return true;
+	}
+	
 	@Override
 	public double angle(IVector3<? extends Number> vec) {
 		double f1 = this.dot(vec);
@@ -293,6 +298,17 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	@Override
 	public Class<? extends Number> getTypeClass() {
 		return Integer.class;
+	}
+
+	@Override
+	public Vec3i anyOrthogonal() {
+		return new Vec3i(-(z / x), 0, 1).normalize();
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Vec3i[] orthogonals(IVector3<? extends Number> vec2) {
+		return new Vec3i[] {this.cross(vec2), new Vec3i(((IVector3Math) vec2).cross(this))};
 	}
 	
 }

@@ -41,6 +41,8 @@ public interface IVector4Math<N extends Number, VO extends IVector4<N>, VI exten
 	public VO clamp(N min, N max);
 	default public VO clampI(VI min, VI max) { return this.setI((VI) this.clamp(min, max)); }
 	default public VO clampI(N min, N max) { return this.setI((VI) this.clamp(min, max)); }
+
+	public boolean isFinite();
 	
 	/* Vector math */
 

@@ -160,7 +160,12 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 				Math.max((Integer) min, Math.min(this.y, (Integer) max))
 			);
 	}
-
+	
+	@Override
+	public boolean isFinite() {
+		return true;
+	}
+	
 	@Override
 	public double angle(IVector2<? extends Number> vec) {
 		return Math.atan2(this.y, this.x)-Math.atan2(vec.y().intValue(), vec.x().intValue());
@@ -233,6 +238,16 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	@Override
 	public Class<? extends Number> getTypeClass() {
 		return Integer.class;
+	}
+
+	@Override
+	public Vec2i anyOrthogonal() {
+		return new Vec2i(-y, x);
+	}
+	
+	@Override
+	public Vec2i[] orthogonals() {
+		return new Vec2i[] {new Vec2i(-y, x), new Vec2i(y, -x)};
 	}
 	
 }

@@ -160,7 +160,12 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 				Math.max((Float) min, Math.min(this.y, (Float) max))
 			);
 	}
-
+	
+	@Override
+	public boolean isFinite() {
+		return Float.isFinite(x) && Float.isFinite(y);
+	}
+	
 	@Override
 	public double angle(IVector2<? extends Number> vec) {
 		return Math.atan2(this.y, this.x)-Math.atan2(vec.y().floatValue(), vec.x().floatValue());
@@ -233,6 +238,16 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	@Override
 	public Class<? extends Number> getTypeClass() {
 		return Float.class;
+	}
+
+	@Override
+	public Vec2f anyOrthogonal() {
+		return new Vec2f(-y, x);
+	}
+	
+	@Override
+	public Vec2f[] orthogonals() {
+		return new Vec2f[] {new Vec2f(-y, x), new Vec2f(y, -x)};
 	}
 	
 }

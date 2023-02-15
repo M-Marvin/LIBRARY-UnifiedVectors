@@ -195,6 +195,11 @@ public class Vec4d implements IVector4Math<Double, Vec4d, IVector4<? extends Num
 	}
 
 	@Override
+	public boolean isFinite() {
+		return Double.isFinite(x) && Double.isFinite(y) && Double.isFinite(z) && Double.isFinite(w);
+	}
+	
+	@Override
 	public Double dot(IVector4<? extends Number> vec) {
 		return this.x * vec.x().doubleValue() + this.y * vec.y().doubleValue() + this.z * vec.z().doubleValue() + this.w * vec.w().doubleValue();
 	}

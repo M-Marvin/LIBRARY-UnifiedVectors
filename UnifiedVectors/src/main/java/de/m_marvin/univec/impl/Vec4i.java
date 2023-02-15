@@ -193,7 +193,12 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 				Math.max((Integer) min, Math.min(this.w, (Integer) max))
 			);
 	}
-
+	
+	@Override
+	public boolean isFinite() {
+		return true;
+	}
+	
 	@Override
 	public Integer dot(IVector4<? extends Number> vec) {
 		return this.x * vec.x().intValue() + this.y * vec.y().intValue() + this.z * vec.z().intValue() + this.w * vec.w().intValue();

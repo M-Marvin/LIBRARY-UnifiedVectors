@@ -195,6 +195,11 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	}
 
 	@Override
+	public boolean isFinite() {
+		return Float.isFinite(x) && Float.isFinite(y) && Float.isFinite(z) && Float.isFinite(w);
+	}
+	
+	@Override
 	public Float dot(IVector4<? extends Number> vec) {
 		return this.x * vec.x().floatValue() + this.y * vec.y().floatValue() + this.z * vec.z().floatValue() + this.w * vec.w().floatValue();
 	}
