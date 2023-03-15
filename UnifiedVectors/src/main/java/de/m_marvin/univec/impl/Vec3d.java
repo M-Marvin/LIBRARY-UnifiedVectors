@@ -40,7 +40,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	@Override
 	public <T> Vec3d readFrom(T vectorObject) {
 		try {
-			VectorParser.parseVectorObject(vectorObject, this);
+			VectorParser.parseFromVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -171,6 +171,26 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 				Math.max(min.z().doubleValue(), Math.min(this.z, max.z().doubleValue()))
 			);
 	}
+
+	@Override
+	public Vec3d min(Double value) {
+		return new Vec3d(Math.min(this.x, value), Math.min(this.y, value), Math.min(this.z, value));
+	}
+	
+	@Override
+	public Vec3d min(IVector3<? extends Number> vec) {
+		return new Vec3d(Math.min(this.x,  vec.x().doubleValue()), Math.min(this.y,  vec.y().doubleValue()), Math.min(this.z,  vec.z().doubleValue()));
+	}
+	
+	@Override
+	public Vec3d max(Double value) {
+		return new Vec3d(Math.max(this.x, value), Math.max(this.y, value), Math.max(this.z, value));
+	}
+	
+	@Override
+	public Vec3d max(IVector3<? extends Number> vec) {
+		return new Vec3d(Math.max(this.x,  vec.x().doubleValue()), Math.max(this.y,  vec.y().doubleValue()), Math.max(this.z,  vec.z().doubleValue()));
+	}
 	
 	@Override
 	public Vec3d clamp(Double min, Double max) {
@@ -180,7 +200,12 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 				Math.max((Double) min, Math.min(this.z, (Double) max))
 			);
 	}
-	
+
+	@Override
+	public Vec3d abs() {
+		return new Vec3d(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z));
+	}
+
 	@Override
 	public boolean isFinite() {
 		return Double.isFinite(x) && Double.isFinite(y) && Double.isFinite(z);

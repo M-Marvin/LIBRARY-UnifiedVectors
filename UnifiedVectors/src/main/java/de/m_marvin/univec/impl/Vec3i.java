@@ -40,7 +40,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	@Override
 	public <T> Vec3i readFrom(T vectorObject) {
 		try {
-			VectorParser.parseVectorObject(vectorObject, this);
+			VectorParser.parseFromVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -164,6 +164,26 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	}
 
 	@Override
+	public Vec3i min(Integer value) {
+		return new Vec3i(Math.min(this.x, value), Math.min(this.y, value), Math.min(this.z, value));
+	}
+	
+	@Override
+	public Vec3i min(IVector3<? extends Number> vec) {
+		return new Vec3i(Math.min(this.x,  vec.x().intValue()), Math.min(this.y,  vec.y().intValue()), Math.min(this.z,  vec.z().intValue()));
+	}
+	
+	@Override
+	public Vec3i max(Integer value) {
+		return new Vec3i(Math.max(this.x, value), Math.max(this.y, value), Math.max(this.z, value));
+	}
+	
+	@Override
+	public Vec3i max(IVector3<? extends Number> vec) {
+		return new Vec3i(Math.max(this.x,  vec.x().intValue()), Math.max(this.y,  vec.y().intValue()), Math.max(this.z,  vec.z().intValue()));
+	}
+	
+	@Override
 	public Vec3i clamp(IVector3<? extends Number> min, IVector3<? extends Number> max) {
 		return new Vec3i(
 				Math.max(min.x().intValue(), Math.min(this.x, max.x().intValue())),
@@ -180,7 +200,12 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 				Math.max((Integer) min, Math.min(this.z, (Integer) max))
 			);
 	}
-	
+
+	@Override
+	public Vec3i abs() {
+		return new Vec3i(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z));
+	}
+
 	@Override
 	public boolean isFinite() {
 		return true;

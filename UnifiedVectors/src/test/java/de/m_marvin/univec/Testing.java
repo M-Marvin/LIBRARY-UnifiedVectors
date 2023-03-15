@@ -16,9 +16,19 @@ public class Testing {
 		Vec3d vec = Vec3d.fromVec(test);
 		
 		System.out.println(vec);
-		
+
 		TestVec test2 = vec.writeTo(new TestVec(0, 0, 0));
+
+		TestVec test3 = vec.writeTo(new TestVec(0, 0, 0));
+
+		TestVec test4 = vec.writeTo(new TestVec(0, 0, 0));
+
+		TestVec test5 = vec.writeTo(new TestVec(0, 0, 0));
 		
+		System.out.println(test2.getX() + " " + test2.getY() + " " + test2.getZ());
+		System.out.println(test3.getX() + " " + test2.getY() + " " + test2.getZ());
+		System.out.println(test4.getX() + " " + test2.getY() + " " + test2.getZ());
+		System.out.println(test5.getX() + " " + test2.getY() + " " + test2.getZ());
 		System.out.println(test2.getX() + " " + test2.getY() + " " + test2.getZ());
 		
 		System.out.println(new Vec3f(1F, 2F, 3F).dist(new Vec3f(3F, 4F, 5F)));
@@ -52,13 +62,14 @@ public class Testing {
 		
 		System.out.println(resulta);
 		
+		System.out.println(new Vec3d(-3, 1, -3.45).abs().max(2.0));
+		
 	}
 	
 	public static class ITest extends TestVec {
 
 		public ITest(float x, float y, float z) {
 			super(x, y, z);
-			// TODO Auto-generated constructor stub
 		}
 		
 	}

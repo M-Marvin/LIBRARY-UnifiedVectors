@@ -39,7 +39,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	@Override
 	public <T> Vec4f readFrom(T vectorObject) {
 		try {
-			VectorParser.parseVectorObject(vectorObject, this);
+			VectorParser.parseFromVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -175,6 +175,26 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	}
 
 	@Override
+	public Vec4f min(Float value) {
+		return new Vec4f(Math.min(this.x, value), Math.min(this.y, value), Math.min(this.z, value), Math.min(this.w, value));
+	}
+	
+	@Override
+	public Vec4f min(IVector4<? extends Number> vec) {
+		return new Vec4f(Math.min(this.x,  vec.x().floatValue()), Math.min(this.y,  vec.y().floatValue()), Math.min(this.z,  vec.z().floatValue()), Math.min(this.w,  vec.w().floatValue()));
+	}
+	
+	@Override
+	public Vec4f max(Float value) {
+		return new Vec4f(Math.max(this.x, value), Math.max(this.y, value), Math.max(this.z, value), Math.max(this.w, value));
+	}
+	
+	@Override
+	public Vec4f max(IVector4<? extends Number> vec) {
+		return new Vec4f(Math.max(this.x,  vec.x().floatValue()), Math.max(this.y,  vec.y().floatValue()), Math.max(this.z,  vec.z().floatValue()), Math.max(this.w,  vec.w().floatValue()));
+	}
+	
+	@Override
 	public Vec4f clamp(IVector4<? extends Number> min, IVector4<? extends Number> max) {
 		return new Vec4f(
 				Math.max(min.x().floatValue(), Math.min(this.x, max.x().floatValue())),
@@ -192,6 +212,11 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 				Math.max((Float) min, Math.min(this.z, (Float) max)),
 				Math.max((Float) min, Math.min(this.w, (Float) max))
 			);
+	}
+
+	@Override
+	public Vec4f abs() {
+		return new Vec4f(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z), Math.abs(this.w));
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	@Override
 	public <T> Vec2i readFrom(T vectorObject) {
 		try {
-			VectorParser.parseVectorObject(vectorObject, this);
+			VectorParser.parseFromVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -146,6 +146,26 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	}
 
 	@Override
+	public Vec2i min(Integer value) {
+		return new Vec2i(Math.min(this.x, value), Math.min(this.y, value));
+	}
+	
+	@Override
+	public Vec2i min(IVector2<? extends Number> vec) {
+		return new Vec2i(Math.min(this.x,  vec.x().intValue()), Math.min(this.y,  vec.y().intValue()));
+	}
+	
+	@Override
+	public Vec2i max(Integer value) {
+		return new Vec2i(Math.max(this.x, value), Math.max(this.y, value));
+	}
+	
+	@Override
+	public Vec2i max(IVector2<? extends Number> vec) {
+		return new Vec2i(Math.max(this.x,  vec.x().intValue()), Math.max(this.y,  vec.y().intValue()));
+	}
+	
+	@Override
 	public Vec2i clamp(IVector2<? extends Number> min, IVector2<? extends Number> max) {
 		return new Vec2i(
 				Math.max(min.x().intValue(), Math.min(this.x,  max.x().intValue())),
@@ -160,7 +180,12 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 				Math.max((Integer) min, Math.min(this.y, (Integer) max))
 			);
 	}
-	
+
+	@Override
+	public Vec2i abs() {
+		return new Vec2i(Math.abs(this.x), Math.abs(this.y));
+	}
+
 	@Override
 	public boolean isFinite() {
 		return true;

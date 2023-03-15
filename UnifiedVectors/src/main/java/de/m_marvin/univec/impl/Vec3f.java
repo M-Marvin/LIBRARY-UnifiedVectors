@@ -40,7 +40,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	@Override
 	public <T> Vec3f readFrom(T vectorObject) {
 		try {
-			VectorParser.parseVectorObject(vectorObject, this);
+			VectorParser.parseFromVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -164,6 +164,26 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	}
 
 	@Override
+	public Vec3f min(Float value) {
+		return new Vec3f(Math.min(this.x, value), Math.min(this.y, value), Math.min(this.z, value));
+	}
+	
+	@Override
+	public Vec3f min(IVector3<? extends Number> vec) {
+		return new Vec3f(Math.min(this.x,  vec.x().floatValue()), Math.min(this.y,  vec.y().floatValue()), Math.min(this.z,  vec.z().floatValue()));
+	}
+	
+	@Override
+	public Vec3f max(Float value) {
+		return new Vec3f(Math.max(this.x, value), Math.max(this.y, value), Math.max(this.z, value));
+	}
+	
+	@Override
+	public Vec3f max(IVector3<? extends Number> vec) {
+		return new Vec3f(Math.max(this.x,  vec.x().floatValue()), Math.max(this.y,  vec.y().floatValue()), Math.max(this.z,  vec.z().floatValue()));
+	}
+	
+	@Override
 	public Vec3f clamp(IVector3<? extends Number> min, IVector3<? extends Number> max) {
 		return new Vec3f(
 				Math.max(min.x().floatValue(), Math.min(this.x, max.x().floatValue())),
@@ -180,7 +200,12 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 				Math.max((Float) min, Math.min(this.z, (Float) max))
 			);
 	}
-	
+
+	@Override
+	public Vec3f abs() {
+		return new Vec3f(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z));
+	}
+
 	@Override
 	public boolean isFinite() {
 		return Float.isFinite(x) && Float.isFinite(y) && Float.isFinite(z);

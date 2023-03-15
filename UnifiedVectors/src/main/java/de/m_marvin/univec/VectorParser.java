@@ -2,7 +2,13 @@ package de.m_marvin.univec;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import de.m_marvin.univec.api.IVector;
 import de.m_marvin.univec.api.IVector2;
@@ -11,103 +17,183 @@ import de.m_marvin.univec.api.IVector4;
 
 public class VectorParser {
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static <T, V extends IVector, N extends Number> IVector parseVectorObject(T vectorObject, IVector outputVector) throws IllegalAccessException, IllegalArgumentException, IllegalArgumentException {
-		Class<?> vectorClass = vectorObject.getClass();
-		Field[] vectorFields = listFields(vectorClass);
-		
-		if (outputVector instanceof IVector4 vec4) {
-			vec4.setX(castValue(findField(vectorFields, vectorObject, "x"), outputVector.getTypeClass()));
-			vec4.setY(castValue(findField(vectorFields, vectorObject, "y"), outputVector.getTypeClass()));
-			vec4.setZ(castValue(findField(vectorFields, vectorObject, "z"), outputVector.getTypeClass()));
-			vec4.setW(castValue(findField(vectorFields, vectorObject, "w"), outputVector.getTypeClass()));
-			return vec4;
-		} else if (outputVector instanceof IVector3 vec3) {
-			vec3.setX(castValue(findField(vectorFields, vectorObject, "x"), outputVector.getTypeClass()));
-			vec3.setY(castValue(findField(vectorFields, vectorObject, "y"), outputVector.getTypeClass()));
-			vec3.setZ(castValue(findField(vectorFields, vectorObject, "z"), outputVector.getTypeClass()));
-			return vec3;
-		} else if (outputVector instanceof IVector2 vec2) {
-			vec2.setX(castValue(findField(vectorFields, vectorObject, "x"), outputVector.getTypeClass()));
-			vec2.setY(castValue(findField(vectorFields, vectorObject, "y"), outputVector.getTypeClass()));
-			return vec2;
+	private static BiFunction<Class<?>, String, Optional<String>> obfuscationResolver = (clazz, fieldName) -> Optional.of(fieldName);
+	
+	private static Map<Class<?>, BiFunction<IVector, Object, IVector>> memorizedReader = new HashMap<>();
+	private static Map<Class<?>, BiFunction<IVector, Object, Object>> memorizedWriter = new HashMap<>();
+	
+	public static void setObfuscationResolver(BiFunction<Class<?>, String, Optional<String>> resolverFunction) {
+		obfuscationResolver = resolverFunction;
+	}
+	
+	public static <T, V extends IVector> IVector parseFromVectorObject(T vectorObject, IVector outputVector) throws IllegalAccessException, IllegalArgumentException, IllegalArgumentException {
+		BiFunction<IVector, Object, IVector> vectorReader = memorizedReader.get(vectorObject.getClass());
+		if (vectorReader == null) {
+			vectorReader = findVectorReader(vectorObject, outputVector);
+			memorizedReader.put(vectorObject.getClass(), vectorReader);
 		}
-		
-		throw new IllegalArgumentException(outputVector + " is not a valid univector type!");
+		return vectorReader.apply(outputVector, vectorObject);
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	public static <T, V extends IVector> T parseToVectorObject(T vectorObject, IVector inputVector) throws IllegalAccessException, IllegalArgumentException, IllegalArgumentException {
+		BiFunction<IVector, Object, Object> vectorWriter = memorizedWriter.get(vectorObject.getClass());
+		if (vectorWriter == null) {
+			vectorWriter = findVectorWriter(vectorObject, inputVector);
+			memorizedWriter.put(vectorObject.getClass(), vectorWriter);
+		}
+		return (T) vectorWriter.apply(inputVector, vectorObject);
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static <T, V extends IVector, N extends Number> BiFunction<IVector, Object, IVector> findVectorReader(T vectorObject, IVector outputVector) {
+		Field[] vectorFields = listFields(vectorObject.getClass());
+		if (outputVector instanceof IVector4 vec4) {
+			Function<Object, N> fieldXreader = findFieldReader(vectorFields, vectorObject, "x");
+			Function<Object, N> fieldYreader = findFieldReader(vectorFields, vectorObject, "y");
+			Function<Object, N> fieldZreader = findFieldReader(vectorFields, vectorObject, "z");
+			Function<Object, N> fieldWreader = findFieldReader(vectorFields, vectorObject, "w");
+			BiFunction<IVector, Object, IVector> vectorReader = (vecInst, vecObj) -> {
+				if (vecInst instanceof IVector4 castVecInst) {
+					castVecInst.setX(castValue(fieldXreader.apply(vecObj), castVecInst.getTypeClass()));
+					castVecInst.setY(castValue(fieldYreader.apply(vecObj), castVecInst.getTypeClass()));
+					castVecInst.setZ(castValue(fieldZreader.apply(vecObj), castVecInst.getTypeClass()));
+					castVecInst.setW(castValue(fieldWreader.apply(vecObj), castVecInst.getTypeClass()));
+					return castVecInst;
+				}
+				throw new IllegalArgumentException("The passed output vector is invalid! It has to be of type IVector4");
+			};
+			return vectorReader;
+		} else if (outputVector instanceof IVector3 vec3) {
+			Function<Object, N> fieldXreader = findFieldReader(vectorFields, vectorObject, "x");
+			Function<Object, N> fieldYreader = findFieldReader(vectorFields, vectorObject, "y");
+			Function<Object, N> fieldZreader = findFieldReader(vectorFields, vectorObject, "z");
+			BiFunction<IVector, Object, IVector> vectorReader = (vecInst, vecObj) -> {
+				if (vecInst instanceof IVector3 castVecInst) {
+					castVecInst.setX(castValue(fieldXreader.apply(vecObj), castVecInst.getTypeClass()));
+					castVecInst.setY(castValue(fieldYreader.apply(vecObj), castVecInst.getTypeClass()));
+					castVecInst.setZ(castValue(fieldZreader.apply(vecObj), castVecInst.getTypeClass()));
+					return castVecInst;
+				}
+				throw new IllegalArgumentException("The passed output vector is invalid! It has to be of type IVector3");
+			};
+			return vectorReader;
+		} else if (outputVector instanceof IVector2 vec2) {
+			Function<Object, N> fieldXreader = findFieldReader(vectorFields, vectorObject, "x");
+			Function<Object, N> fieldYreader = findFieldReader(vectorFields, vectorObject, "y");
+			BiFunction<IVector, Object, IVector> vectorReader = (vecInst, vecObj) -> {
+				if (vecInst instanceof IVector2 castVecInst) {
+					castVecInst.setX(castValue(fieldXreader.apply(vecObj), castVecInst.getTypeClass()));
+					castVecInst.setY(castValue(fieldYreader.apply(vecObj), castVecInst.getTypeClass()));
+					return castVecInst;
+				}
+				throw new IllegalArgumentException("The passed output vector is invalid! It has to be of type IVector2");
+			};
+			return vectorReader;
+		}
+		throw new IllegalArgumentException("Could not find reader for the vector object, is it realy a vector?");
 	}
 
-	@SuppressWarnings("rawtypes")
-	public static <T, V extends IVector, N extends Number> T parseToVectorObject(T vectorObject, IVector outputVector) throws IllegalAccessException, IllegalArgumentException, IllegalArgumentException {
-		Class<?> vectorClass = vectorObject.getClass();
-		Field[] vectorFields = listFields(vectorClass);
-		
-		if (outputVector instanceof IVector4 vec4) {
-			writeField(vectorFields, vectorObject, "x", vec4.getX());
-			writeField(vectorFields, vectorObject, "y", vec4.getY());
-			writeField(vectorFields, vectorObject, "z", vec4.getZ());
-			writeField(vectorFields, vectorObject, "w", vec4.getW());
-			return vectorObject;
-		} else if (outputVector instanceof IVector3 vec3) {
-			writeField(vectorFields, vectorObject, "x", vec3.getX());
-			writeField(vectorFields, vectorObject, "y", vec3.getY());
-			writeField(vectorFields, vectorObject, "z", vec3.getZ());
-			return vectorObject;
-		} else if (outputVector instanceof IVector2 vec2) {
-			writeField(vectorFields, vectorObject, "x", vec2.getX());
-			writeField(vectorFields, vectorObject, "y", vec2.getY());
-			return vectorObject;
+	@SuppressWarnings({ "rawtypes" })
+	private static <T, V extends IVector, N extends Number> BiFunction<IVector, Object, Object> findVectorWriter(T vectorObject, IVector inputVector) {
+		Field[] vectorFields = listFields(vectorObject.getClass());
+		if (inputVector instanceof IVector4 vec4) {
+			BiConsumer<Number, Object> fieldXwriter = findFieldWriter(vectorFields, vectorObject, "x");
+			BiConsumer<Number, Object> fieldYwriter = findFieldWriter(vectorFields, vectorObject, "y");
+			BiConsumer<Number, Object> fieldZwriter = findFieldWriter(vectorFields, vectorObject, "z");
+			BiConsumer<Number, Object> fieldWwriter = findFieldWriter(vectorFields, vectorObject, "w");
+			BiFunction<IVector, Object, Object> vectorReader = (vecInst, vecObj) -> {
+				if (vecInst instanceof IVector4 castVecInst) {
+					fieldXwriter.accept(castVecInst.x(), vecObj);
+					fieldYwriter.accept(castVecInst.y(), vecObj);
+					fieldZwriter.accept(castVecInst.z(), vecObj);
+					fieldWwriter.accept(castVecInst.w(), vecObj);
+					return vecObj;
+				}
+				throw new IllegalArgumentException("The passed input vector is invalid! It has to be of type IVector4");
+			};
+			return vectorReader;
+		} else if (inputVector instanceof IVector3 vec3) {
+			BiConsumer<Number, Object> fieldXwriter = findFieldWriter(vectorFields, vectorObject, "x");
+			BiConsumer<Number, Object> fieldYwriter = findFieldWriter(vectorFields, vectorObject, "y");
+			BiConsumer<Number, Object> fieldZwriter = findFieldWriter(vectorFields, vectorObject, "z");
+			BiFunction<IVector, Object, Object> vectorReader = (vecInst, vecObj) -> {
+				if (vecInst instanceof IVector3 castVecInst) {
+					fieldXwriter.accept(castVecInst.x(), vecObj);
+					fieldYwriter.accept(castVecInst.y(), vecObj);
+					fieldZwriter.accept(castVecInst.z(), vecObj);
+					return vecObj;
+				}
+				throw new IllegalArgumentException("The passed input vector is invalid! It has to be of type IVector3");
+			};
+			return vectorReader;
+		} else if (inputVector instanceof IVector2 vec2) {
+			BiConsumer<Number, Object> fieldXwriter = findFieldWriter(vectorFields, vectorObject, "x");
+			BiConsumer<Number, Object> fieldYwriter = findFieldWriter(vectorFields, vectorObject, "y");
+			BiFunction<IVector, Object, Object> vectorReader = (vecInst, vecObj) -> {
+				if (vecInst instanceof IVector2 castVecInst) {
+					fieldXwriter.accept(castVecInst.x(), vecObj);
+					fieldYwriter.accept(castVecInst.y(), vecObj);
+					return vecObj;
+				}
+				throw new IllegalArgumentException("The passed input vector is invalid! It has to be of type IVector2");
+			};
+			return vectorReader;
 		}
-		
-		throw new IllegalArgumentException(outputVector + " is not a valid univector type!");
-	}
-	
-	private static Number castValue(Number value, Class<? extends Number> clazz) {
-		if (clazz == Double.class || clazz == double.class) {
-			return value.doubleValue();
-		} else if (clazz == Float.class || clazz == float.class) {
-			return value.floatValue();
-		} else if (clazz == Integer.class || clazz == int.class) {
-			return value.intValue();
-		}
-		return 0;
+		throw new IllegalArgumentException("Could not find writer for the vector object, is it realy a vector?");
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static <N extends Number> void writeField(Field[] fields, Object vectorObject, String valueName, N value) throws IllegalAccessException, IllegalArgumentException {
-		String[] matchList = { valueName };
+	private static <N extends Number> Function<Object, N> findFieldReader(Field[] fields, Object vectorObject, String valueName) {
+		String[] matchList = obfuscateFields(vectorObject.getClass(), valueName);
 		for (Field field : fields) {
 			for (String matchName : matchList) {
 				if (field.getName().equalsIgnoreCase(matchName)) {
 					field.setAccessible(true);
-					Object rawValue = field.get(vectorObject);
-					if (rawValue instanceof Number) {
-						field.set(vectorObject, castValue(value, (Class<? extends Number>) field.getType()));
-						field.setAccessible(false);
-						return;
-					}
-					field.setAccessible(false);
+					return (vecObj) -> {
+						try {
+							Object rawValue = field.get(vecObj);
+							if (rawValue instanceof Number) {
+								return (N) rawValue;
+							}
+						} catch (IllegalArgumentException | IllegalAccessException e) {
+							throw new IllegalArgumentException("An error occured while reading an (most likely) invalid vector object!", e);
+						}
+						throw new IllegalArgumentException("An error occured while reading an invalid vector object!");
+					};
+				}
+			}
+		}
+		throw new IllegalArgumentException("The vector object " + vectorObject + " is missing the " + valueName + " value!");
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <N extends Number> BiConsumer<N, Object> findFieldWriter(Field[] fields, Object vectorObject, String valueName) {
+		String[] matchList = obfuscateFields(vectorObject.getClass(), valueName);
+		for (Field field : fields) {
+			for (String matchName : matchList) {
+				if (field.getName().equalsIgnoreCase(matchName)) {
+					field.setAccessible(true);
+					return (value, vecObj) -> {
+						try {
+							field.set(vecObj, castValue(value, (Class<? extends Number>) field.getType()));
+						} catch (IllegalArgumentException | IllegalAccessException e) {
+							throw new IllegalArgumentException("An error occured while writing an (most likely) invalid vector object!", e);
+						}
+					};
 				}
 			}
 		}
 		throw new IllegalArgumentException("The vector object " + vectorObject + " is missing the " + valueName + " value!");
 	}
 	
-	@SuppressWarnings("unchecked")
-	private static <N extends Number> N findField(Field[] fields, Object vectorObject, String valueName) throws IllegalAccessException, IllegalArgumentException, IllegalArgumentException {
-		String[] matchList = { valueName };
-		for (Field field : fields) {
-			for (String matchName : matchList) {
-				if (field.getName().equalsIgnoreCase(matchName)) {
-					field.setAccessible(true);
-					Object rawValue = field.get(vectorObject);
-					field.setAccessible(false);
-					if (rawValue instanceof Number) {
-						return (N) rawValue;
-					}
-				}
-			}
+	private static String[] obfuscateFields(Class<?> clazz, String... fields) {
+		List<String> obfuscatedFieldNames = new ArrayList<>();
+		for (int i = 0; i < fields.length; i++) {
+			Optional<String> obfuscatedField = obfuscationResolver.apply(clazz, fields[i]);
+			if (obfuscatedField.isPresent()) obfuscatedFieldNames.add(obfuscatedField.get());
 		}
-		throw new IllegalArgumentException("The vector object " + vectorObject + " is missing the " + valueName + " value!");
+		return obfuscatedFieldNames.toArray(l -> new String[l]);
 	}
 	
 	private static Field[] listFields(Class<?> clazz) {
@@ -123,6 +209,17 @@ public class VectorParser {
 		if (clazz.getSuperclass() != null) {
 			listFields0(clazz.getSuperclass(), fields);
 		}
+	}
+
+	private static Number castValue(Number value, Class<? extends Number> clazz) {
+		if (clazz == Double.class || clazz == double.class) {
+			return value.doubleValue();
+		} else if (clazz == Float.class || clazz == float.class) {
+			return value.floatValue();
+		} else if (clazz == Integer.class || clazz == int.class) {
+			return value.intValue();
+		}
+		return 0;
 	}
 	
 }

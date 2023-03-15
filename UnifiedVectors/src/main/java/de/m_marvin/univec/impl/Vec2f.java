@@ -34,7 +34,7 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	@Override
 	public <T> Vec2f readFrom(T vectorObject) {
 		try {
-			VectorParser.parseVectorObject(vectorObject, this);
+			VectorParser.parseFromVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -146,6 +146,26 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	}
 
 	@Override
+	public Vec2f min(Float value) {
+		return new Vec2f(Math.min(this.x, value), Math.min(this.y, value));
+	}
+	
+	@Override
+	public Vec2f min(IVector2<? extends Number> vec) {
+		return new Vec2f(Math.min(this.x,  vec.x().floatValue()), Math.min(this.y,  vec.y().floatValue()));
+	}
+	
+	@Override
+	public Vec2f max(Float value) {
+		return new Vec2f(Math.max(this.x, value), Math.max(this.y, value));
+	}
+	
+	@Override
+	public Vec2f max(IVector2<? extends Number> vec) {
+		return new Vec2f(Math.max(this.x,  vec.x().floatValue()), Math.max(this.y,  vec.y().floatValue()));
+	}
+	
+	@Override
 	public Vec2f clamp(IVector2<? extends Number> min, IVector2<? extends Number> max) {
 		return new Vec2f(
 				Math.max(min.x().floatValue(), Math.min(this.x, max.x().floatValue())),
@@ -160,7 +180,12 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 				Math.max((Float) min, Math.min(this.y, (Float) max))
 			);
 	}
-	
+
+	@Override
+	public Vec2f abs() {
+		return new Vec2f(Math.abs(this.x), Math.abs(this.y));
+	}
+
 	@Override
 	public boolean isFinite() {
 		return Float.isFinite(x) && Float.isFinite(y);

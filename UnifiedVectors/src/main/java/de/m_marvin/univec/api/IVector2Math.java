@@ -40,10 +40,23 @@ public interface IVector2Math<N extends Number, VO extends IVector2<N>, VI exten
 	default public VO divI(N x, N y) { return this.setI((VI) this.div(x, y)); }
 	default public VO divI(N n) { return this.setI((VI) this.div(n)); }
 	
+	public VO min(VI vec);
+	public VO min(N value);
+	default public VO minI(VI vec) { return this.setI((VI) this.min(vec)); }
+	default public VO minI(N value) { return this.setI((VI) this.min(value)); }
+	
+	public VO max(VI vec);
+	public VO max(N value);
+	default public VO maxI(VI vec) { return this.setI((VI) this.max(vec)); }
+	default public VO maxI(N value) { return this.setI((VI) this.max(value)); }
+	
 	public VO clamp(VI min, VI max);
 	public VO clamp(N min, N max);
 	default public VO clampI(VI min, VI max) { return this.setI((VI) this.clamp(min, max)); }
 	default public VO clampI(N min, N max) { return this.setI((VI) this.clamp(min, max)); }
+	
+	public VO abs();
+	default public VO absI() { return this.setI((VI) this.abs()); }
 	
 	public boolean isFinite();
 	

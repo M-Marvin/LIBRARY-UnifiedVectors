@@ -39,7 +39,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	@Override
 	public <T> Vec4i readFrom(T vectorObject) {
 		try {
-			VectorParser.parseVectorObject(vectorObject, this);
+			VectorParser.parseFromVectorObject(vectorObject, this);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -175,6 +175,26 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	}
 
 	@Override
+	public Vec4i min(Integer value) {
+		return new Vec4i(Math.min(this.x, value), Math.min(this.y, value), Math.min(this.z, value), Math.min(this.w, value));
+	}
+	
+	@Override
+	public Vec4i min(IVector4<? extends Number> vec) {
+		return new Vec4i(Math.min(this.x,  vec.x().intValue()), Math.min(this.y,  vec.y().intValue()), Math.min(this.z,  vec.z().intValue()), Math.min(this.w,  vec.w().intValue()));
+	}
+	
+	@Override
+	public Vec4i max(Integer value) {
+		return new Vec4i(Math.max(this.x, value), Math.max(this.y, value), Math.max(this.z, value), Math.max(this.w, value));
+	}
+	
+	@Override
+	public Vec4i max(IVector4<? extends Number> vec) {
+		return new Vec4i(Math.max(this.x,  vec.x().intValue()), Math.max(this.y,  vec.y().intValue()), Math.max(this.z,  vec.z().intValue()), Math.max(this.w,  vec.w().intValue()));
+	}
+	
+	@Override
 	public Vec4i clamp(IVector4<? extends Number> min, IVector4<? extends Number> max) {
 		return new Vec4i(
 				Math.max(min.x().intValue(), Math.min(this.x, max.x().intValue())),
@@ -193,7 +213,12 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 				Math.max((Integer) min, Math.min(this.w, (Integer) max))
 			);
 	}
-	
+
+	@Override
+	public Vec4i abs() {
+		return new Vec4i(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z), Math.abs(this.w));
+	}
+
 	@Override
 	public boolean isFinite() {
 		return true;
