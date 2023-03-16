@@ -9,8 +9,8 @@ import de.m_marvin.univec.api.IVector2Math;
  */
 public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Number>> {
 	
-	public Integer x;
-	public Integer y;
+	public int x;
+	public int y;
 	
 	public Vec2i(int x, int y) {
 		this.x = x;
@@ -250,7 +250,7 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	@Override
 	public int hashCode() {
 		int result = 1;
-		result = result * 31 + Integer.hashCode(this.x); // Could be just 31 + x/y
+		result = result * 31 + Integer.hashCode(this.x);
 		result = result * 31 + Integer.hashCode(this.y);
 		return result;
 	}

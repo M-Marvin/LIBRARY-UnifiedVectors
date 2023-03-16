@@ -1,6 +1,7 @@
 package de.m_marvin.univec;
 
 import de.m_marvin.univec.impl.Vec2d;
+import de.m_marvin.univec.impl.Vec2f;
 import de.m_marvin.univec.impl.Vec3d;
 import de.m_marvin.univec.impl.Vec3f;
 import de.m_marvin.univec.impl.Vec3i;
@@ -63,6 +64,11 @@ public class Testing {
 		System.out.println(resulta);
 		
 		System.out.println(new Vec3d(-3, 1, -3.45).abs().max(2.0));
+		
+		Vec2f a = new Vec2f(240, 130);
+		Vec2f b = new Vec2f(240, 130);
+		
+		System.out.println(a.equals(b));
 		
 	}
 	

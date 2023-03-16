@@ -284,7 +284,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	@Override
 	public int hashCode() {
 		int result = 1;
-		result = result * 31 + Double.hashCode(this.x); // Could be just 31 + x/y/z
+		result = result * 31 + Double.hashCode(this.x);
 		result = result * 31 + Double.hashCode(this.y);
 		result = result * 32 + Double.hashCode(this.z);
 		return result;
