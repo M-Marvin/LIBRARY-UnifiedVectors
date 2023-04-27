@@ -237,6 +237,11 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 		Double d2 = this.getY().doubleValue() - vec.getY().doubleValue();
 		return d1 * d1 + d2 * d2;
 	}
+
+	@Override
+	public Double dist(IVector2<? extends Number> vec) {
+		 return (double) Math.sqrt(this.distSqr(vec).doubleValue());
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

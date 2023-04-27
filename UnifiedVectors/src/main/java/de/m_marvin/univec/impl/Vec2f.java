@@ -237,6 +237,11 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 		Float d2 = this.getY().floatValue() - vec.getY().floatValue();
 		return d1 * d1 + d2 * d2;
 	}
+
+	@Override
+	public Float dist(IVector2<? extends Number> vec) {
+		 return (float) Math.sqrt(this.distSqr(vec).floatValue());
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

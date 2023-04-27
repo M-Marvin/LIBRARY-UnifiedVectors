@@ -72,7 +72,7 @@ public class Testing {
 		System.out.println(a.equals(b));
 		
 		Vec2i vd = new Vec2i(23, 23);
-		System.out.println(vd.dist(new Vec2d(23, 26)));
+		System.out.println(new Vec2i().dist(new Vec2i()));
 		
 	}
 	

@@ -239,6 +239,11 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	}
 	
 	@Override
+	public Integer dist(IVector2<? extends Number> vec) {
+		 return (int) Math.sqrt(this.distSqr(vec).intValue());
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Vec2i) {
 			return	((Vec2i) obj).x == x && 
