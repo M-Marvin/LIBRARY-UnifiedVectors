@@ -144,11 +144,11 @@ public class VectorParser {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static <N extends Number> Function<Object, N> findFieldReader(Field[] fields, Object vectorObject, String valueName) {
-		String[] matchList = obfuscateFields(vectorObject.getClass(), valueName);
+	private static <N extends Number> Function<Object, N> findFieldReader(Field[] fields, Object vectorObject, String... valueName) {
 		for (Field field : fields) {
-			for (String matchName : matchList) {
-				if (field.getName().equalsIgnoreCase(matchName)) {
+			for (String matchName : valueName) {
+				Optional<String> deobfFieldName = obfuscationResolver.apply(field.getDeclaringClass(), field.getName());
+				if (deobfFieldName.isPresent() && deobfFieldName.get().equalsIgnoreCase(matchName)) {
 					field.setAccessible(true);
 					return (vecObj) -> {
 						try {
@@ -168,11 +168,11 @@ public class VectorParser {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <N extends Number> BiConsumer<N, Object> findFieldWriter(Field[] fields, Object vectorObject, String valueName) {
-		String[] matchList = obfuscateFields(vectorObject.getClass(), valueName);
+	private static <N extends Number> BiConsumer<N, Object> findFieldWriter(Field[] fields, Object vectorObject, String... valueName) {
 		for (Field field : fields) {
-			for (String matchName : matchList) {
-				if (field.getName().equalsIgnoreCase(matchName)) {
+			for (String matchName : valueName) {
+				Optional<String> deobfFieldName = obfuscationResolver.apply(field.getDeclaringClass(), field.getName());
+				if (deobfFieldName.isPresent() && deobfFieldName.get().equalsIgnoreCase(matchName)) {
 					field.setAccessible(true);
 					return (value, vecObj) -> {
 						try {
@@ -184,17 +184,17 @@ public class VectorParser {
 				}
 			}
 		}
-		throw new IllegalArgumentException("The vector object " + vectorObject + " is missing the " + valueName + " value!");
+		throw new IllegalArgumentException("The vector object " + vectorObject + " is missing the " + valueName[0] + " value!");
 	}
 	
-	private static String[] obfuscateFields(Class<?> clazz, String... fields) {
-		List<String> obfuscatedFieldNames = new ArrayList<>();
-		for (int i = 0; i < fields.length; i++) {
-			Optional<String> obfuscatedField = obfuscationResolver.apply(clazz, fields[i]);
-			if (obfuscatedField.isPresent()) obfuscatedFieldNames.add(obfuscatedField.get());
-		}
-		return obfuscatedFieldNames.toArray(l -> new String[l]);
-	}
+//	private static String[] obfuscateFields(Class<?> clazz, String... fields) {
+//		List<String> obfuscatedFieldNames = new ArrayList<>();
+//		for (int i = 0; i < fields.length; i++) {
+//			Optional<String> obfuscatedField = obfuscationResolver.apply(clazz, fields[i]);
+//			if (obfuscatedField.isPresent()) obfuscatedFieldNames.add(obfuscatedField.get());
+//		}
+//		return obfuscatedFieldNames.toArray(l -> new String[l]);
+//	}
 	
 	private static Field[] listFields(Class<?> clazz) {
 		List<Field> fields = new ArrayList<Field>();

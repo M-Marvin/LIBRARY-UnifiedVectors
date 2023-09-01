@@ -1,5 +1,7 @@
 package de.m_marvin.univec;
 
+import java.util.Optional;
+
 import de.m_marvin.univec.impl.Vec2d;
 import de.m_marvin.univec.impl.Vec2f;
 import de.m_marvin.univec.impl.Vec2i;
@@ -10,6 +12,8 @@ import de.m_marvin.univec.impl.Vec3i;
 public class Testing {
 	
 	public static void main(String... args) {
+		
+		//VectorParser.setObfuscationResolver((clazz, field) -> Optional.of("dfsdf"));
 		
 		System.out.println("Testing ...");
 		
