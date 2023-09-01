@@ -164,7 +164,7 @@ public class VectorParser {
 				}
 			}
 		}
-		throw new IllegalArgumentException("The vector object " + vectorObject + " is missing the " + valueName + " value!");
+		throw new IllegalArgumentException("The vector object " + vectorObject + " is missing the " + valueName[0] + " value!");
 	}
 
 	@SuppressWarnings("unchecked")
