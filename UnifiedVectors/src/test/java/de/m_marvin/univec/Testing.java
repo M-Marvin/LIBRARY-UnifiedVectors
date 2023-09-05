@@ -1,7 +1,5 @@
 package de.m_marvin.univec;
 
-import java.util.Optional;
-
 import de.m_marvin.univec.impl.Vec2d;
 import de.m_marvin.univec.impl.Vec2f;
 import de.m_marvin.univec.impl.Vec2i;
@@ -75,7 +73,7 @@ public class Testing {
 		
 		System.out.println(a.equals(b));
 		
-		Vec2i vd = new Vec2i(23, 23);
+		//Vec2i vd = new Vec2i(23, 23);
 		System.out.println(new Vec2i().dist(new Vec2i()));
 		
 	}
