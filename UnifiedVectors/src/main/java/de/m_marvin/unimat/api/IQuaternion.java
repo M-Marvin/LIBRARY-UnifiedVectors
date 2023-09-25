@@ -16,6 +16,15 @@ public interface IQuaternion<Q extends IQuaternion<?>> {
 	public Q mul(float f);
 	default public Q mulI(float f) { return this.setI(this.mul(f)); }
 	
+	public Q div(float f);
+	default public Q divI(float f) { return this.setI(this.div(f)); }
+	
+	public Q add(Q quat);
+	default public Q addI(Q quat) { return this.setI(this.add(quat)); }
+
+	public Q sub(Q quat);
+	default public Q subI(Q quat) { return this.setI(this.sub(quat)); }
+	
 	public Q conj();
 	default public Q conjI() { return this.setI(this.conj()); }
 	

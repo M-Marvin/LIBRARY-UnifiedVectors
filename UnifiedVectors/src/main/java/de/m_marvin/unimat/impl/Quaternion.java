@@ -119,24 +119,63 @@ public class Quaternion implements IQuaternion<Quaternion> {
 
 	@Override
 	public Quaternion mul(Quaternion quat) {
-			float f = this.i();
-			float f1 = this.j();
-			float f2 = this.k();
-			float f3 = this.r();
-			float f4 = quat.i();
-			float f5 = quat.j();
-			float f6 = quat.k();
-			float f7 = quat.r();
-			float i = f3 * f4 + f * f7 + f1 * f6 - f2 * f5;
-			float j = f3 * f5 - f * f6 + f1 * f7 + f2 * f4;
-			float k = f3 * f6 + f * f5 - f1 * f4 + f2 * f7;
-			float r = f3 * f7 - f * f4 - f1 * f5 - f2 * f6;
-			return new Quaternion(i, j, k, r);
+		float f = this.i();
+		float f1 = this.j();
+		float f2 = this.k();
+		float f3 = this.r();
+		float f4 = quat.i();
+		float f5 = quat.j();
+		float f6 = quat.k();
+		float f7 = quat.r();
+		float i = f3 * f4 + f * f7 + f1 * f6 - f2 * f5;
+		float j = f3 * f5 - f * f6 + f1 * f7 + f2 * f4;
+		float k = f3 * f6 + f * f5 - f1 * f4 + f2 * f7;
+		float r = f3 * f7 - f * f4 - f1 * f5 - f2 * f6;
+		return new Quaternion(i, j, k, r);
 	}
 
 	@Override
+	public Quaternion add(Quaternion quat) {
+		float f = this.i();
+		float f1 = this.j();
+		float f2 = this.k();
+		float f3 = this.r();
+		float f4 = this.i();
+		float f5 = this.j();
+		float f6 = this.k();
+		float f7 = this.r();
+		float i = f + f4;
+		float j = f1 + f5;
+		float k = f2 + f6;
+		float r = f3 + f7;
+		return new Quaternion(i, j, k, r);
+	}
+
+	@Override
+	public Quaternion sub(Quaternion quat) {
+		float f = this.i();
+		float f1 = this.j();
+		float f2 = this.k();
+		float f3 = this.r();
+		float f4 = this.i();
+		float f5 = this.j();
+		float f6 = this.k();
+		float f7 = this.r();
+		float i = f - f4;
+		float j = f1 - f5;
+		float k = f2 - f6;
+		float r = f3 - f7;
+		return new Quaternion(i, j, k, r);
+	}
+	
+	@Override
 	public Quaternion mul(float f) {
 		return new Quaternion(i * f, j * f, k, r);
+	}
+
+	@Override
+	public Quaternion div(float f) {
+		return new Quaternion(i / f, j / f, k, r);
 	}
 
 	@Override
