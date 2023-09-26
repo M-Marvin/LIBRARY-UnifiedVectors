@@ -359,10 +359,6 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 
 	@Override
 	public Matrix4f mul(Matrix4f mat) {
-//		return new Matrix4f(
-//				mat.m00 + mat.m01 + mat.m02 + mat.m03
-//			);
-		
 		return new Matrix4f(
 			this.m00 * mat.m00 + this.m01 * mat.m10 + this.m02 * mat.m20 + this.m03 * mat.m30,
 			this.m00 * mat.m01 + this.m01 * mat.m11 + this.m02 * mat.m21 + this.m03 * mat.m31,
