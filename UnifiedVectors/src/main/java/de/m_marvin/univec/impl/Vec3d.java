@@ -308,7 +308,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		} else {
 			v.normalizeI();
 		}
-		float angle = (float) Math.acos(this.dot(reference));
+		double angle = Math.acos(this.dot(reference));
 		return new Quaterniond(v, angle);
 	}
 
