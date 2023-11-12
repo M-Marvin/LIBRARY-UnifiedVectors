@@ -136,36 +136,12 @@ public class Quaternion implements IQuaternion<Quaternion> {
 
 	@Override
 	public Quaternion add(Quaternion quat) {
-		float f = this.i();
-		float f1 = this.j();
-		float f2 = this.k();
-		float f3 = this.r();
-		float f4 = this.i();
-		float f5 = this.j();
-		float f6 = this.k();
-		float f7 = this.r();
-		float i = f + f4;
-		float j = f1 + f5;
-		float k = f2 + f6;
-		float r = f3 + f7;
-		return new Quaternion(i, j, k, r);
+		return new Quaternion(this.i + quat.i, this.j + quat.j, this.k + quat.k, this.r + quat.r);
 	}
 
 	@Override
 	public Quaternion sub(Quaternion quat) {
-		float f = this.i();
-		float f1 = this.j();
-		float f2 = this.k();
-		float f3 = this.r();
-		float f4 = this.i();
-		float f5 = this.j();
-		float f6 = this.k();
-		float f7 = this.r();
-		float i = f - f4;
-		float j = f1 - f5;
-		float k = f2 - f6;
-		float r = f3 - f7;
-		return new Quaternion(i, j, k, r);
+		return new Quaternion(this.i - quat.i, this.j - quat.j, this.k - quat.k, this.r - quat.r);
 	}
 	
 	@Override
