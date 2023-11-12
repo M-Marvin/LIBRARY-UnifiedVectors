@@ -1,13 +1,13 @@
 package de.m_marvin.univec.api;
 
 import de.m_marvin.unimat.api.IQuaternion;
-import de.m_marvin.unimat.impl.Quaternion;
+import de.m_marvin.unimat.impl.Quaternionf;
 
 /*
  * Declares all mathematical methods for the 3d vectors
  */
 @SuppressWarnings("unchecked")
-public interface IVector3Math<N extends Number, VO extends IVector3<N>, VI extends IVector3<? extends Number>, Q extends IQuaternion<?>> extends IVector3<N> {
+public interface IVector3Math<N extends Number, VO extends IVector3<N>, VI extends IVector3<? extends Number>, Q extends IQuaternion<? extends Number>> extends IVector3<N> {
 
 	public <T> VO readFrom(T vectorObject);
 	public <T> T writeTo(T vectorObject);
@@ -72,16 +72,13 @@ public interface IVector3Math<N extends Number, VO extends IVector3<N>, VI exten
 	public N distSqr(VI vec);
 	public N dist(VI vec);
 	
-	public Quaternion relativeRotationQuat(VI reference);
+	public Quaternionf relativeRotationQuat(VI reference);
 	
 	public VO module(N m);
 	default public VO moduleI(N m) { return this.setI((VI) this.module(m)); }
 	
 	public VO normalize();
 	default public VO normalizeI() { return this.setI((VI) this.normalize()); }
-	
-	public IQuaternion<Q> rotationRadians(N angle);
-	default public IQuaternion<Q> rotationDegrees(N angle) { return rotationRadians((N) Double.valueOf(Math.toRadians((double) angle))); }
 	
 	public VO transform(Q quaternion);
 	default public VO transformI(Q quaternion) { return setI((VI) transform(quaternion)); }

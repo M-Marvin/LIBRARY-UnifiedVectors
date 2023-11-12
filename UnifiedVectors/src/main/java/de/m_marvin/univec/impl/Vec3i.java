@@ -1,7 +1,6 @@
 package de.m_marvin.univec.impl;
 
-import de.m_marvin.unimat.api.IQuaternion;
-import de.m_marvin.unimat.impl.Quaternion;
+import de.m_marvin.unimat.impl.Quaternionf;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
@@ -9,7 +8,7 @@ import de.m_marvin.univec.api.IVector3Math;
 /*
  * Implementation of a 3 dimensional integer vector
  */
-public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Number>, Quaternion> {
+public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Number>, Quaternionf> {
 
 	public int x;
 	public int y;
@@ -296,20 +295,13 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	}
 
 	@Override
-	public IQuaternion<Quaternion> rotationRadians(Integer angle) {
-		return new Quaternion(this, angle.floatValue());
+	public Vec3i transform(Quaternionf quaternion) {
+		Quaternionf q = quaternion.mul(new Quaternionf(x, y, z, 0F)).mulI(quaternion.conj());
+		return new Vec3i(q.i().intValue(), q.j().intValue(), q.k().intValue());
 	}
 
 	@Override
-	public Vec3i transform(Quaternion quaternion) {
-		Quaternion quaternion2 = quaternion.copy().mulI(new Quaternion(x, y, z, 0F));
-		Quaternion quaternion3 = quaternion.copy().conjI();
-		quaternion2.mulI(quaternion3);
-		return new Vec3i((int) quaternion2.i(), (int) quaternion2.j(), (int) quaternion2.k());
-	}
-
-	@Override
-	public Quaternion relativeRotationQuat(IVector3<? extends Number> reference) {
+	public Quaternionf relativeRotationQuat(IVector3<? extends Number> reference) {
 		Vec3i v = new Vec3i(reference.x().intValue(), reference.y().intValue(), reference.z().intValue()).cross(this);
 		if (v.length() == 0) {
 			v = new Vec3i(reference.y().intValue(), reference.z().intValue(), reference.x().intValue());
@@ -317,7 +309,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 			v.normalizeI();
 		}
 		float angle = (float) Math.acos(this.dot(reference));
-		return new Quaternion(v, angle);
+		return new Quaternionf(v, angle);
 	}
 
 	@Override

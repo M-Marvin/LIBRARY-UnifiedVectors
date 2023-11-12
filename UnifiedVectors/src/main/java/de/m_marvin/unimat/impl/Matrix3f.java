@@ -18,11 +18,11 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVec
 	protected float m21;
 	protected float m22;
 
-	public Matrix3f(IQuaternion<?> p_8154_) {
-		float f = p_8154_.i();
-		float f1 = p_8154_.j();
-		float f2 = p_8154_.k();
-		float f3 = p_8154_.r();
+	public Matrix3f(IQuaternion<?> quat) {
+		float f = quat.i().floatValue();
+		float f1 = quat.j().floatValue();
+		float f2 = quat.k().floatValue();
+		float f3 = quat.r().floatValue();
 		float f4 = 2.0F * f * f;
 		float f5 = 2.0F * f1 * f1;
 		float f6 = 2.0F * f2 * f2;

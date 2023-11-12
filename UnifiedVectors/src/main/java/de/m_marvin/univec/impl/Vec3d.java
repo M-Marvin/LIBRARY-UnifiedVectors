@@ -1,7 +1,7 @@
 package de.m_marvin.univec.impl;
 
-import de.m_marvin.unimat.api.IQuaternion;
-import de.m_marvin.unimat.impl.Quaternion;
+import de.m_marvin.unimat.impl.Quaterniond;
+import de.m_marvin.unimat.impl.Quaternionf;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
@@ -9,7 +9,7 @@ import de.m_marvin.univec.api.IVector3Math;
 /*
  * Implementation of a 3 dimensional double vector
  */
-public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Number>, Quaternion> {
+public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Number>, Quaterniond> {
 
 	public double x;
 	public double y;
@@ -294,22 +294,15 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	public String toString() {
 		return "Vec3d[" + this.x + "," + this.y + "," + this.z + "]";
 	}
-
+	
 	@Override
-	public IQuaternion<Quaternion> rotationRadians(Double angle) {
-		return new Quaternion(new Vec3i(this), angle.floatValue());
+	public Vec3d transform(Quaterniond quaternion) {
+		Quaterniond q = quaternion.mul(new Quaterniond(x, y, z, 0.0)).mulI(quaternion.conj());
+		return new Vec3d(q.i(), q.j(), q.k());
 	}
 
 	@Override
-	public Vec3d transform(Quaternion quaternion) {
-		Quaternion quaternion2 = quaternion.copy().mulI(new Quaternion((float) x, (float) y, (float) z, 0F));
-		Quaternion quaternion3 = quaternion.copy().conjI();
-		quaternion2.mulI(quaternion3);
-		return new Vec3d((double) quaternion2.i(), (double) quaternion2.j(), (double) quaternion2.k());
-	}
-
-	@Override
-	public Quaternion relativeRotationQuat(IVector3<? extends Number> reference) {		
+	public Quaternionf relativeRotationQuat(IVector3<? extends Number> reference) {		
 		Vec3d v = new Vec3d(reference.x().doubleValue(), reference.y().doubleValue(), reference.z().doubleValue()).cross(this);
 		if (v.length() == 0) {
 			v = new Vec3d(reference.y().doubleValue(), reference.z().doubleValue(), reference.x().doubleValue());
@@ -317,7 +310,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 			v.normalizeI();
 		}
 		float angle = (float) Math.acos(this.dot(reference));
-		return new Quaternion(v, angle);
+		return new Quaternionf(v, angle);
 	}
 
 	@Override

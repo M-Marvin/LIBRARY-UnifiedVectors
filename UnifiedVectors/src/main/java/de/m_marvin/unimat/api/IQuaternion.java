@@ -1,33 +1,24 @@
 package de.m_marvin.unimat.api;
 
-public interface IQuaternion<Q extends IQuaternion<?>> {
+/*
+ * Base interface of all quaternions
+ * Contains basic methods that share all quaternions
+ */
+public interface IQuaternion<N extends Number> {
 
-	public float i();
-	public float j();
-	public float k();
-	public float r();
-
-	public Q setI(float i, float j, float k, float r);
-	default public Q setI(Q quat) { return this.setI(quat.i(), quat.j(), quat.k(), quat.r()); }
-
-	public Q mul(Q quat);
-	default public Q mulI(Q quat) { return this.setI(this.mul(quat)); }
-
-	public Q mul(float f);
-	default public Q mulI(float f) { return this.setI(this.mul(f)); }
+	public N i();
+	public N j();
+	public N k();
+	public N r();
 	
-	public Q div(float f);
-	default public Q divI(float f) { return this.setI(this.div(f)); }
+	public default N getI() { return i(); }
+	public default N getJ() { return j(); }
+	public default N getK() { return k(); }
+	public default N getR() { return r(); }
 	
-	public Q add(Q quat);
-	default public Q addI(Q quat) { return this.setI(this.add(quat)); }
-
-	public Q sub(Q quat);
-	default public Q subI(Q quat) { return this.setI(this.sub(quat)); }
-	
-	public Q conj();
-	default public Q conjI() { return this.setI(this.conj()); }
-	
-	public Q copy();
+	public void setI(N i);
+	public void setJ(N j);
+	public void setK(N k);
+	public void setR(N r);
 	
 }

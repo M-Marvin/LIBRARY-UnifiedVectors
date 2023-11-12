@@ -1,7 +1,6 @@
 package de.m_marvin.univec.impl;
 
-import de.m_marvin.unimat.api.IQuaternion;
-import de.m_marvin.unimat.impl.Quaternion;
+import de.m_marvin.unimat.impl.Quaternionf;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
@@ -9,7 +8,7 @@ import de.m_marvin.univec.api.IVector3Math;
 /*
  * Implementation of a 3 dimensional float vector
  */
-public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Number>, Quaternion> {
+public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Number>, Quaternionf> {
 
 	public float x;
 	public float y;
@@ -296,18 +295,13 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	}
 
 	@Override
-	public IQuaternion<Quaternion> rotationRadians(Float angle) {
-		return new Quaternion(new Vec3i(this), angle);
-	}
-
-	@Override
-	public Vec3f transform(Quaternion quaternion) {
-		Quaternion q = quaternion.mul(new Quaternion(x, y, z, 0.0F)).mul(quaternion.conj());
+	public Vec3f transform(Quaternionf quaternion) {
+		Quaternionf q = quaternion.mul(new Quaternionf(x, y, z, 0.0F)).mul(quaternion.conj());
 		return new Vec3f(q.i(), q.j(), q.k());
 	}
 
 	@Override
-	public Quaternion relativeRotationQuat(IVector3<? extends Number> reference) {
+	public Quaternionf relativeRotationQuat(IVector3<? extends Number> reference) {
 		Vec3f v = new Vec3f(reference.x().floatValue(), reference.y().floatValue(), reference.z().floatValue()).cross(this);
 		if (v.length() == 0) {
 			v = new Vec3f(reference.y().floatValue(), reference.z().floatValue(), reference.x().floatValue());
@@ -315,7 +309,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 			v.normalizeI();
 		}
 		float angle = (float) Math.acos(this.dot(reference));
-		return new Quaternion(v, angle);
+		return new Quaternionf(v, angle);
 	}
 
 	@Override

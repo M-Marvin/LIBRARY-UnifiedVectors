@@ -1,5 +1,7 @@
 package de.m_marvin.univec;
 
+import de.m_marvin.unimat.api.IQuaternionMath.EulerOrder;
+import de.m_marvin.unimat.impl.Quaterniond;
 import de.m_marvin.univec.impl.Vec2d;
 import de.m_marvin.univec.impl.Vec2f;
 import de.m_marvin.univec.impl.Vec2i;
@@ -75,6 +77,14 @@ public class Testing {
 		
 		//Vec2i vd = new Vec2i(23, 23);
 		System.out.println(new Vec2i().dist(new Vec2i()));
+		
+		Vec3d v = new Vec3d(25, 5, 56);
+		Quaterniond quat = new Quaterniond(v, EulerOrder.YXZ, true);
+		
+		Vec3d c2 = quat.euler(EulerOrder.YXZ, true);
+		
+		System.out.println(v + " -> " + c2);
+		
 		
 	}
 	

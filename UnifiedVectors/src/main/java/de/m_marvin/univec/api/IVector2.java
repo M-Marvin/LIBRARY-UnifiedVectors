@@ -1,7 +1,7 @@
 package de.m_marvin.univec.api;
 
 /*
- * Base interface of all vectors (2d and 2d ones)
+ * Base interface of all vectors
  * Contains basic methods that share all vectors
  */
 public interface IVector2<N extends Number> extends IVector {

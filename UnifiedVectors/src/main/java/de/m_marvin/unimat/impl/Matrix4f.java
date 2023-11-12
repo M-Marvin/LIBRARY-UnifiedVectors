@@ -25,11 +25,11 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 	protected float m32;
 	protected float m33;
 
-	public Matrix4f(IQuaternion<?> p_27623_) {
-		float f = p_27623_.i();
-		float f1 = p_27623_.j();
-		float f2 = p_27623_.k();
-		float f3 = p_27623_.r();
+	public Matrix4f(IQuaternion<?> quat) {
+		float f = quat.i().floatValue();
+		float f1 = quat.j().floatValue();
+		float f2 = quat.k().floatValue();
+		float f3 = quat.r().floatValue();
 		float f4 = 2.0F * f * f;
 		float f5 = 2.0F * f1 * f1;
 		float f6 = 2.0F * f2 * f2;
