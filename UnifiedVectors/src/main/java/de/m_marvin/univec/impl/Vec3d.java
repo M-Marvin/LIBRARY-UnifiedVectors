@@ -1,7 +1,6 @@
 package de.m_marvin.univec.impl;
 
 import de.m_marvin.unimat.impl.Quaterniond;
-import de.m_marvin.unimat.impl.Quaternionf;
 import de.m_marvin.univec.VectorParser;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
@@ -302,7 +301,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	}
 
 	@Override
-	public Quaternionf relativeRotationQuat(IVector3<? extends Number> reference) {		
+	public Quaterniond relativeRotationQuat(IVector3<? extends Number> reference) {		
 		Vec3d v = new Vec3d(reference.x().doubleValue(), reference.y().doubleValue(), reference.z().doubleValue()).cross(this);
 		if (v.length() == 0) {
 			v = new Vec3d(reference.y().doubleValue(), reference.z().doubleValue(), reference.x().doubleValue());
@@ -310,7 +309,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 			v.normalizeI();
 		}
 		float angle = (float) Math.acos(this.dot(reference));
-		return new Quaternionf(v, angle);
+		return new Quaterniond(v, angle);
 	}
 
 	@Override
