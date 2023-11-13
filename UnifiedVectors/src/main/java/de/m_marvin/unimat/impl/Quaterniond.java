@@ -15,7 +15,7 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 	public double k;
 	public double r;
 
-	public Quaterniond(double i, double j, double k, double r) {
+	public Quaterniond(double r, double i, double j, double k) {
 		this.i = i;
 		this.j = j;
 		this.k = k;
@@ -48,45 +48,6 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 		this.r = w;
 	}
 	
-	@Override
-	public Vec3d euler(EulerOrder order, boolean degree) {
-		Vec3d euler = toEulerXYZ(degree);
-		switch (order) {
-		case YXZ: return new Vec3d(euler.y, euler.x, euler.z);
-		case ZXY: return new Vec3d(euler.z, euler.y, euler.y);
-		case ZYX: return new Vec3d(euler.z, euler.y, euler.x);
-		default:
-		case XYZ: return euler;
-		}
-	}
-	
-	protected void fromEulerXYZ(double x, double y, double z, boolean degree) {
-		double cx = Math.cos((degree ? Math.toRadians(x) : x) * 0.5F);
-		double sx = Math.sin((degree ? Math.toRadians(x) : x) * 0.5F);
-		double cy = Math.cos((degree ? Math.toRadians(y) : y) * 0.5F);
-		double sy = Math.sin((degree ? Math.toRadians(y) : y) * 0.5F);
-		double cz = Math.cos((degree ? Math.toRadians(z) : z) * 0.5F);
-		double sz = Math.sin((degree ? Math.toRadians(z) : z) * 0.5F);
-		
-		double cycz = cy * cz;
-		double sysz = sy * sz;
-		double sycz = sy * cz;
-		double cysz = cy * sz;
-		this.r = cx*cycz - sx*sysz;
-		this.i = sx*cycz + cx*sysz;
-		this.j = cx*sycz - sx*cysz;
-		this.k = cx*cysz + sx*sycz;
-	}
-	
-	protected Vec3d toEulerXYZ(boolean degree) {
-		Vec3d euler = new Vec3d(
-			Math.atan2(i * r - j * k, 0.5 - i * i - j * j),
-			Math.asin(2.0 * (i * k + j * r)),
-			Math.atan2(k * r - i * j, 0.5 - j * j - k * k)
-		);
-		return degree ? new Vec3d(Math.toDegrees(euler.x()), Math.toDegrees(euler.y()), Math.toDegrees(euler.z())) : euler;
-	}
-
 	@Override
 	public Double i() {
 		return i;
@@ -142,7 +103,7 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 	}
 
 	@Override
-	public Quaterniond setI(Double i, Double j, Double k, Double r) {
+	public Quaterniond setI(Double r, Double i, Double j, Double k) {
 		this.i = i;
 		this.j = j;
 		this.k = k;
@@ -151,50 +112,97 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 	}
 
 	@Override
-	public Quaterniond mul(IQuaternion<? extends Number> quat) {
-		double f = this.i();
-		double f1 = this.j();
-		double f2 = this.k();
-		double f3 = this.r();
-		double f4 = quat.i().doubleValue();
-		double f5 = quat.j().doubleValue();
-		double f6 = quat.k().doubleValue();
-		double f7 = quat.r().doubleValue();
-		double i = f3 * f4 + f * f7 + f1 * f6 - f2 * f5;
-		double j = f3 * f5 - f * f6 + f1 * f7 + f2 * f4;
-		double k = f3 * f6 + f * f5 - f1 * f4 + f2 * f7;
-		double r = f3 * f7 - f * f4 - f1 * f5 - f2 * f6;
-		return new Quaterniond(i, j, k, r);
-	}
-
-	@Override
 	public Quaterniond add(IQuaternion<? extends Number> quat) {
-		return new Quaterniond(this.i + quat.i().doubleValue(), this.j + quat.j().doubleValue(), this.k + quat.k().doubleValue(), this.r + quat.r().doubleValue());
+		return new Quaterniond(this.r - quat.r().doubleValue(), this.i + quat.i().doubleValue(), this.j + quat.j().doubleValue(), this.k + quat.k().doubleValue());
 	}
 
 	@Override
 	public Quaterniond sub(IQuaternion<? extends Number> quat) {
-		return new Quaterniond(this.i - quat.i().doubleValue(), this.j - quat.j().doubleValue(), this.k - quat.k().doubleValue(), this.r - quat.r().doubleValue());
+		return new Quaterniond(this.r - quat.r().doubleValue(), this.i - quat.i().doubleValue(), this.j - quat.j().doubleValue(), this.k - quat.k().doubleValue());
 	}
 	
 	@Override
 	public Quaterniond mul(Double f) {
-		return new Quaterniond(i * f, j * f, k, r);
+		return new Quaterniond(r * f, i * f, j * f, k * f);
 	}
 	
 	@Override
 	public Quaterniond div(Double f) {
-		return new Quaterniond(i / f, j / f, k, r);
+		return new Quaterniond(r / f, i / f, j / f, k / f);
+	}
+
+	@Override
+	public Quaterniond mul(IQuaternion<? extends Number> quat) {
+		return new Quaterniond(
+				this.i * quat.i().doubleValue() - this.j * quat.j().doubleValue() - this.k * quat.k().doubleValue() - this.r * quat.r().doubleValue(),
+				this.i * quat.j().doubleValue() + this.j * quat.i().doubleValue() + this.k * quat.r().doubleValue() - this.r * quat.k().doubleValue(),
+				this.i * quat.k().doubleValue() - this.j * quat.r().doubleValue() + this.k * quat.i().doubleValue() + this.r * quat.j().doubleValue(),
+				this.i * quat.r().doubleValue() + this.j * quat.k().doubleValue() - this.k * quat.j().doubleValue() + this.r * quat.i().doubleValue()
+		);
+		
+		
+//		double f = this.i();
+//		double f1 = this.j();
+//		double f2 = this.k();
+//		double f3 = this.r();
+//		double f4 = quat.i().doubleValue();
+//		double f5 = quat.j().doubleValue();
+//		double f6 = quat.k().doubleValue();
+//		double f7 = quat.r().doubleValue();
+//		double i = f3 * f4 + f * f7 + f1 * f6 - f2 * f5;
+//		double j = f3 * f5 - f * f6 + f1 * f7 + f2 * f4;
+//		double k = f3 * f6 + f * f5 - f1 * f4 + f2 * f7;
+//		double r = f3 * f7 - f * f4 - f1 * f5 - f2 * f6;
+//		return new Quaterniond(i, j, k, r);
 	}
 
 	@Override
 	public Quaterniond copy() {
-		return new Quaterniond(i, j, k, r);
+		return new Quaterniond(r, i, j, k);
 	}
 
 	@Override
 	public Quaterniond conj() {
-		return new Quaterniond(-i, -j, -k, r);
+		return new Quaterniond(r, -i, -j, -k);
+	}
+
+	@Override
+	public Vec3d euler(EulerOrder order, boolean degree) {
+		Vec3d euler = toEulerXYZ(degree);
+		switch (order) {
+		case YXZ: return new Vec3d(euler.y, euler.x, euler.z);
+		case ZXY: return new Vec3d(euler.z, euler.y, euler.y);
+		case ZYX: return new Vec3d(euler.z, euler.y, euler.x);
+		default:
+		case XYZ: return euler;
+		}
+	}
+	
+	protected void fromEulerXYZ(double x, double y, double z, boolean degree) {
+		double cx = Math.cos((degree ? Math.toRadians(x) : x) * 0.5F);
+		double sx = Math.sin((degree ? Math.toRadians(x) : x) * 0.5F);
+		double cy = Math.cos((degree ? Math.toRadians(y) : y) * 0.5F);
+		double sy = Math.sin((degree ? Math.toRadians(y) : y) * 0.5F);
+		double cz = Math.cos((degree ? Math.toRadians(z) : z) * 0.5F);
+		double sz = Math.sin((degree ? Math.toRadians(z) : z) * 0.5F);
+		
+		double cycz = cy * cz;
+		double sysz = sy * sz;
+		double sycz = sy * cz;
+		double cysz = cy * sz;
+		this.r = cx*cycz - sx*sysz;
+		this.i = sx*cycz + cx*sysz;
+		this.j = cx*sycz - sx*cysz;
+		this.k = cx*cysz + sx*sycz;
+	}
+	
+	protected Vec3d toEulerXYZ(boolean degree) {
+		Vec3d euler = new Vec3d(
+			Math.atan2(i * r - j * k, 0.5 - i * i - j * j),
+			Math.asin(2.0 * (i * k + j * r)),
+			Math.atan2(k * r - i * j, 0.5 - j * j - k * k)
+		);
+		return degree ? new Vec3d(Math.toDegrees(euler.x()), Math.toDegrees(euler.y()), Math.toDegrees(euler.z())) : euler;
 	}
 
 	@Override
@@ -219,7 +227,7 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 
 	@Override
 	public String toString() {
-		return "Quterniond[" + this.i + ", " + this.j + ", " + this.k + ", " + this.r + "]";
+		return "Quterniond[" + this.r + ", " + this.i + ", " + this.j + ", " + this.k + "]";
 	}
 	
 }
