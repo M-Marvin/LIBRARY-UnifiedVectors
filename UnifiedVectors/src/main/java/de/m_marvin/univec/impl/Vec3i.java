@@ -308,7 +308,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 		} else {
 			v.normalizeI();
 		}
-		float angle = (float) Math.acos(this.dot(reference));
+		float angle = (float) Math.acos(this.dot(reference) / (this.length() * reference.length().floatValue()));
 		return new Quaternionf(v, angle);
 	}
 

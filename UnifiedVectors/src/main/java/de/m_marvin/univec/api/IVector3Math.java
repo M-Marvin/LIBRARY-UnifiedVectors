@@ -1,7 +1,6 @@
 package de.m_marvin.univec.api;
 
 import de.m_marvin.unimat.api.IQuaternion;
-import de.m_marvin.unimat.impl.Quaternionf;
 
 /*
  * Declares all mathematical methods for the 3d vectors
