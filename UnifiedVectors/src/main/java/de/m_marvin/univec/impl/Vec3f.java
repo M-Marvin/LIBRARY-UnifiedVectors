@@ -296,7 +296,7 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 
 	@Override
 	public Vec3f transform(Quaternionf quaternion) {
-		Quaternionf q = quaternion.mul(new Quaternionf(x, y, z, 0.0F)).mul(quaternion.conj());
+		Quaternionf q = quaternion.mul(new Quaternionf(x, y, z, 0.0F)).mul(quaternion.conj());;
 		return new Vec3f(q.i(), q.j(), q.k());
 	}
 

@@ -296,7 +296,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	
 	@Override
 	public Vec3d transform(Quaterniond quaternion) {
-		Quaterniond q = quaternion.mul(new Quaterniond(0.0, x, y, z)).mul(quaternion.conj());
+		Quaterniond q = quaternion.mul(new Quaterniond(x, y, z, 0.0)).mul(quaternion.conj());
 		return new Vec3d(q.i(), q.j(), q.k());
 	}
 

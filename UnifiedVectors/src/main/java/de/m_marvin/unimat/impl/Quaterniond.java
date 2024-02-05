@@ -15,11 +15,11 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 	public double k;
 	public double r;
 
-	public Quaterniond(double r, double i, double j, double k) {
+	public Quaterniond(double i, double j, double k, double r) {
+		this.r = r;
 		this.i = i;
 		this.j = j;
 		this.k = k;
-		this.r = r;
 	}
 	
 	public Quaterniond(IVector3<? extends Number> rotationAxis, double radians) {
@@ -113,57 +113,43 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 
 	@Override
 	public Quaterniond add(IQuaternion<? extends Number> quat) {
-		return new Quaterniond(this.r - quat.r().doubleValue(), this.i + quat.i().doubleValue(), this.j + quat.j().doubleValue(), this.k + quat.k().doubleValue());
+		return new Quaterniond(this.i + quat.i().doubleValue(), this.j + quat.j().doubleValue(), this.k + quat.k().doubleValue(), this.r - quat.r().doubleValue());
 	}
 
 	@Override
 	public Quaterniond sub(IQuaternion<? extends Number> quat) {
-		return new Quaterniond(this.r - quat.r().doubleValue(), this.i - quat.i().doubleValue(), this.j - quat.j().doubleValue(), this.k - quat.k().doubleValue());
+		return new Quaterniond(this.i - quat.i().doubleValue(), this.j - quat.j().doubleValue(), this.k - quat.k().doubleValue(), this.r - quat.r().doubleValue());
 	}
 	
 	@Override
 	public Quaterniond mul(Double f) {
-		return new Quaterniond(r * f, i * f, j * f, k * f);
+		return new Quaterniond(i * f, j * f, k * f, r * f);
 	}
 	
 	@Override
 	public Quaterniond div(Double f) {
-		return new Quaterniond(r / f, i / f, j / f, k / f);
+		return new Quaterniond(i / f, j / f, k / f, r / f);
 	}
 
 	@Override
 	public Quaterniond mul(IQuaternion<? extends Number> quat) {
 		return new Quaterniond(
-				this.i * quat.i().doubleValue() - this.j * quat.j().doubleValue() - this.k * quat.k().doubleValue() - this.r * quat.r().doubleValue(),
-				this.i * quat.j().doubleValue() + this.j * quat.i().doubleValue() + this.k * quat.r().doubleValue() - this.r * quat.k().doubleValue(),
-				this.i * quat.k().doubleValue() - this.j * quat.r().doubleValue() + this.k * quat.i().doubleValue() + this.r * quat.j().doubleValue(),
-				this.i * quat.r().doubleValue() + this.j * quat.k().doubleValue() - this.k * quat.j().doubleValue() + this.r * quat.i().doubleValue()
+				this.r() * quat.i().doubleValue() + this.i() * quat.r().doubleValue() + this.j() * quat.k().doubleValue() - this.k() * quat.j().doubleValue(),
+				this.r() * quat.j().doubleValue() - this.i() * quat.k().doubleValue() + this.j() * quat.r().doubleValue() + this.k() * quat.i().doubleValue(),
+				this.r() * quat.k().doubleValue() + this.i() * quat.j().doubleValue() - this.j() * quat.i().doubleValue() + this.k() * quat.r().doubleValue(),
+				this.r() * quat.r().doubleValue() - this.i() * quat.i().doubleValue() - this.j() * quat.j().doubleValue() - this.k() * quat.k().doubleValue()
 		);
 		
-		
-//		double f = this.i();
-//		double f1 = this.j();
-//		double f2 = this.k();
-//		double f3 = this.r();
-//		double f4 = quat.i().doubleValue();
-//		double f5 = quat.j().doubleValue();
-//		double f6 = quat.k().doubleValue();
-//		double f7 = quat.r().doubleValue();
-//		double i = f3 * f4 + f * f7 + f1 * f6 - f2 * f5;
-//		double j = f3 * f5 - f * f6 + f1 * f7 + f2 * f4;
-//		double k = f3 * f6 + f * f5 - f1 * f4 + f2 * f7;
-//		double r = f3 * f7 - f * f4 - f1 * f5 - f2 * f6;
-//		return new Quaterniond(i, j, k, r);
 	}
 
 	@Override
 	public Quaterniond copy() {
-		return new Quaterniond(r, i, j, k);
+		return new Quaterniond(i, j, k, r);
 	}
 
 	@Override
 	public Quaterniond conj() {
-		return new Quaterniond(r, -i, -j, -k);
+		return new Quaterniond(-i, -j, -k, r);
 	}
 
 	@Override
@@ -227,7 +213,7 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 
 	@Override
 	public String toString() {
-		return "Quterniond[" + this.r + ", " + this.i + ", " + this.j + ", " + this.k + "]";
+		return "Quterniond[" + this.i + ", " + this.j + ", " + this.k + ", " + this.r + "]";
 	}
 	
 }

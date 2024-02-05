@@ -296,7 +296,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 
 	@Override
 	public Vec3i transform(Quaternionf quaternion) {
-		Quaternionf q = quaternion.mul(new Quaternionf(x, y, z, 0F)).mulI(quaternion.conj());
+		Quaternionf q = quaternion.mul(new Quaternionf(x, y, z, 0F)).mul(quaternion.conj());;
 		return new Vec3i(q.i().intValue(), q.j().intValue(), q.k().intValue());
 	}
 
