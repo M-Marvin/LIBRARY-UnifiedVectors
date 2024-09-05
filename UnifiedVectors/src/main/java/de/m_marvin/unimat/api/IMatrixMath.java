@@ -36,6 +36,7 @@ public interface IMatrixMath<M extends IMatrix<?>, V extends IVector, VO extends
 	
 	public float adjugateAndDet();
 	public float determinant();
-	public boolean invert();
+	public boolean invertI();
+	public M tryInvertI();
 	
 }

@@ -482,7 +482,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 	}
 
 	@Override
-	public boolean invert() {
+	public boolean invertI() {
 		float f = this.adjugateAndDet();
 		if (Math.abs(f) > 1.0E-6F) {
 			this.scalarI(f);
@@ -491,7 +491,13 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVec
 			return false;
 		}
 	}
-
+	
+	@Override
+	public Matrix4f tryInvertI() {
+		this.invertI();
+		return this;
+	}
+	
 	@Override
 	public Matrix4f mul(IQuaternion<?> quat) {
 		return mul(new Matrix4f(quat));

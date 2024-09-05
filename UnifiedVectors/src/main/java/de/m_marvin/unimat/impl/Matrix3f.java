@@ -293,7 +293,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVec
 	}
 
 	@Override
-	public boolean invert() {
+	public boolean invertI() {
 		float f = this.adjugateAndDet();
 		if (Math.abs(f) > 1.0E-6F) {
 			this.scalarI(f);
@@ -303,6 +303,12 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVec
 		}
 	}
 
+	@Override
+	public Matrix3f tryInvertI() {
+		this.invertI();
+		return this;
+	}
+	
 	@Override
 	public Matrix3f mul(IQuaternion<?> quat) {
 		return mul(new Matrix3f(quat));
