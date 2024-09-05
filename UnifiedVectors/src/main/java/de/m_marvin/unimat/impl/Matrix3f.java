@@ -6,7 +6,7 @@ import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.impl.Vec3f;
 
-public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVector3<Float>> {
+public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVector3<Float>, Vec3f> {
 	
 	protected float m00;
 	protected float m01;
@@ -345,7 +345,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixMath<Matrix3f, IVec
 	}
 	
 	@Override
-	public IVector3<Float> translate(IVector3<Float> vec) {
+	public Vec3f translate(IVector3<Float> vec) {
 		float f = vec.x();
 		float f1 = vec.y();
 		float f2 = vec.z();

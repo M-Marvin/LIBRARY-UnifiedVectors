@@ -45,10 +45,10 @@ public class VectorParser {
 		return (T) vectorWriter.apply(inputVector, vectorObject);
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked" })
 	private static <T, V extends IVector, N extends Number> BiFunction<IVector, Object, IVector> findVectorReader(T vectorObject, IVector outputVector) {
 		Field[] vectorFields = listFields(vectorObject.getClass());
-		if (outputVector instanceof IVector4 vec4) {
+		if (outputVector instanceof IVector4) {
 			Function<Object, N> fieldXreader = findFieldReader(vectorFields, vectorObject, "x");
 			Function<Object, N> fieldYreader = findFieldReader(vectorFields, vectorObject, "y");
 			Function<Object, N> fieldZreader = findFieldReader(vectorFields, vectorObject, "z");
@@ -64,7 +64,7 @@ public class VectorParser {
 				throw new IllegalArgumentException("The passed output vector is invalid! It has to be of type IVector4");
 			};
 			return vectorReader;
-		} else if (outputVector instanceof IVector3 vec3) {
+		} else if (outputVector instanceof IVector3) {
 			Function<Object, N> fieldXreader = findFieldReader(vectorFields, vectorObject, "x");
 			Function<Object, N> fieldYreader = findFieldReader(vectorFields, vectorObject, "y");
 			Function<Object, N> fieldZreader = findFieldReader(vectorFields, vectorObject, "z");
@@ -78,7 +78,7 @@ public class VectorParser {
 				throw new IllegalArgumentException("The passed output vector is invalid! It has to be of type IVector3");
 			};
 			return vectorReader;
-		} else if (outputVector instanceof IVector2 vec2) {
+		} else if (outputVector instanceof IVector2) {
 			Function<Object, N> fieldXreader = findFieldReader(vectorFields, vectorObject, "x");
 			Function<Object, N> fieldYreader = findFieldReader(vectorFields, vectorObject, "y");
 			BiFunction<IVector, Object, IVector> vectorReader = (vecInst, vecObj) -> {
@@ -94,10 +94,9 @@ public class VectorParser {
 		throw new IllegalArgumentException("Could not find reader for the vector object, is it realy a vector?");
 	}
 
-	@SuppressWarnings({ "rawtypes" })
 	private static <T, V extends IVector, N extends Number> BiFunction<IVector, Object, Object> findVectorWriter(T vectorObject, IVector inputVector) {
 		Field[] vectorFields = listFields(vectorObject.getClass());
-		if (inputVector instanceof IVector4 vec4) {
+		if (inputVector instanceof IVector4) {
 			BiConsumer<Number, Object> fieldXwriter = findFieldWriter(vectorFields, vectorObject, "x");
 			BiConsumer<Number, Object> fieldYwriter = findFieldWriter(vectorFields, vectorObject, "y");
 			BiConsumer<Number, Object> fieldZwriter = findFieldWriter(vectorFields, vectorObject, "z");
@@ -113,7 +112,7 @@ public class VectorParser {
 				throw new IllegalArgumentException("The passed input vector is invalid! It has to be of type IVector4");
 			};
 			return vectorReader;
-		} else if (inputVector instanceof IVector3 vec3) {
+		} else if (inputVector instanceof IVector3) {
 			BiConsumer<Number, Object> fieldXwriter = findFieldWriter(vectorFields, vectorObject, "x");
 			BiConsumer<Number, Object> fieldYwriter = findFieldWriter(vectorFields, vectorObject, "y");
 			BiConsumer<Number, Object> fieldZwriter = findFieldWriter(vectorFields, vectorObject, "z");
@@ -127,7 +126,7 @@ public class VectorParser {
 				throw new IllegalArgumentException("The passed input vector is invalid! It has to be of type IVector3");
 			};
 			return vectorReader;
-		} else if (inputVector instanceof IVector2 vec2) {
+		} else if (inputVector instanceof IVector2) {
 			BiConsumer<Number, Object> fieldXwriter = findFieldWriter(vectorFields, vectorObject, "x");
 			BiConsumer<Number, Object> fieldYwriter = findFieldWriter(vectorFields, vectorObject, "y");
 			BiFunction<IVector, Object, Object> vectorReader = (vecInst, vecObj) -> {

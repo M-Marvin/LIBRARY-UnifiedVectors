@@ -2,7 +2,7 @@ package de.m_marvin.unimat.api;
 
 import de.m_marvin.univec.api.IVector;
 
-public interface IMatrixMath<M extends IMatrix<?>, V extends IVector> {
+public interface IMatrixMath<M extends IMatrix<?>, V extends IVector, VO extends IVector> {
 
 	/* Basic math */
 	
@@ -32,7 +32,7 @@ public interface IMatrixMath<M extends IMatrix<?>, V extends IVector> {
 	public M transpose();
 	default public M transposeI() { return this.setI((M) this.transpose()); }
 	
-	public V translate(V vec);
+	public VO translate(V vec);
 	
 	public float adjugateAndDet();
 	public float determinant();
