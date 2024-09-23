@@ -15,6 +15,8 @@ tasks.named('jar') {
 }
 
 java {
+	sourceCompatibility = "1.17"
+	targetCompatibility = "1.17"
     withSourcesJar()
 }
 
