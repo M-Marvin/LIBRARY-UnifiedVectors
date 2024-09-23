@@ -3,7 +3,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 group = 'com.github.M-Marvin'
-version = '1.4'
+version = '1.5'
 
 // Add additional content to the manifest
 tasks.named('jar') {
@@ -21,6 +21,8 @@ java {
 publishing {
     publications {
         maven(MavenPublication) {
+            groupId = 'de.m_marvin.univec'
+        
 			from components.java
         }
     }

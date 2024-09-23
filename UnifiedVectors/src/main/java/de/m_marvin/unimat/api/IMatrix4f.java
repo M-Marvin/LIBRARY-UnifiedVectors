@@ -1,6 +1,6 @@
 package de.m_marvin.unimat.api;
 
-public interface IMatrix4f<M extends IMatrix4f<?>> extends IMatrix<M> {
+public interface IMatrix4f<M extends IMatrix4f<M>> extends IMatrix<M> {
 
 	public float m00();
 	public float m01();
@@ -19,4 +19,12 @@ public interface IMatrix4f<M extends IMatrix4f<?>> extends IMatrix<M> {
 	public float m32();
 	public float m33();
 
+	default int getColumns() {
+		return 4;
+	}
+	
+	default int getRows() {
+		return 4;
+	}
+	
 }

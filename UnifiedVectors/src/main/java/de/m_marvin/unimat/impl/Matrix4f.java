@@ -1,12 +1,12 @@
 package de.m_marvin.unimat.impl;
 
 import de.m_marvin.unimat.api.IMatrix4f;
-import de.m_marvin.unimat.api.IMatrixMath;
+import de.m_marvin.unimat.api.IMatrixVecMath;
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.impl.Vec4f;
 
-public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixMath<Matrix4f, IVector4<Float>, Vec4f> {
+public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, IVector4<Float>, Vec4f> {
 
 	protected float m00;
 	protected float m01;
