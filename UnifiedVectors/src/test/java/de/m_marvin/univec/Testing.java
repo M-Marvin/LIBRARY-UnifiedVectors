@@ -87,7 +87,7 @@ public class Testing {
 		System.out.println(v + " -> " + c2);
 		
 		Vec3f v1 = new Vec3f(0f, 1f, 0f);
-		Vec3d v2 = new Vec3d(0, 1, 1).normalize();
+//		Vec3d v2 = new Vec3d(0, 1, 1).normalize();
 		
 		Quaternionf q = new Quaternionf(new Vec3f(1f, 0f, 0f), (float) Math.toRadians(90));
 		
