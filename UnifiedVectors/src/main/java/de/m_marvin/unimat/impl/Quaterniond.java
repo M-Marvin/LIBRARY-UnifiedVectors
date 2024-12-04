@@ -2,7 +2,7 @@ package de.m_marvin.unimat.impl;
 
 import java.util.Objects;
 
-import de.m_marvin.unimat.api.IMatrix3f;
+import de.m_marvin.unimat.api.IMatrix3;
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.unimat.api.IQuaternionMath;
 import de.m_marvin.univec.api.IVector3;
@@ -39,7 +39,7 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 		}
 	}
 	
-	public Quaterniond(IMatrix3f<?> matrix) {
+	public Quaterniond(IMatrix3<Double> matrix) {
 		double w = (double) (Math.sqrt(1.0 + matrix.getField(0, 0) + matrix.getField(1, 1) + matrix.getField(2, 2)) / 2.0);
 		double w4 = (4F * w);
 		this.i = (matrix.getField(2, 1) - matrix.getField(1, 2)) / w4;

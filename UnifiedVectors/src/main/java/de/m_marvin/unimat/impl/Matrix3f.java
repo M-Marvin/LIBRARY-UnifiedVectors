@@ -1,12 +1,12 @@
 package de.m_marvin.unimat.impl;
 
-import de.m_marvin.unimat.api.IMatrix3f;
+import de.m_marvin.unimat.api.IMatrix3;
 import de.m_marvin.unimat.api.IMatrixVecMath;
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.impl.Vec3f;
 
-public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, IVector3<Float>, Vec3f> {
+public class Matrix3f implements IMatrix3<Float>, IMatrixVecMath<Float, Matrix3f, IVector3<Float>, Vec3f> {
 	
 	protected float m00;
 	protected float m01;
@@ -59,6 +59,11 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 		this.m22 = m22;
 	}
 
+	@Override
+	public Matrix3f copy() {
+		return new Matrix3f(m00, m01, m02, m10, m11, m12, m20, m21, m22);
+	}
+
 	public Matrix3f() {
 		identity();
 	}
@@ -88,7 +93,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 	}
 
 	@Override
-	public float getField(int x, int y) {
+	public Float getField(int x, int y) {
 		switch (x) {
 		case 0: {
 			switch (y) {
@@ -116,7 +121,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 	}
 
 	@Override
-	public void setField(int x, int y, float f) {
+	public void setField(int x, int y, Float f) {
 		switch (x) {
 		case 0: {
 			switch (y) {
@@ -144,47 +149,47 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 	}
 
 	@Override
-	public float m00() {
+	public Float m00() {
 		return this.m00;
 	}
 
 	@Override
-	public float m01() {
+	public Float m01() {
 		return this.m01;
 	}
 
 	@Override
-	public float m02() {
+	public Float m02() {
 		return this.m02;
 	}
 
 	@Override
-	public float m10() {
+	public Float m10() {
 		return this.m10;
 	}
 
 	@Override
-	public float m11() {
+	public Float m11() {
 		return this.m11;
 	}
 
 	@Override
-	public float m12() {
+	public Float m12() {
 		return this.m12;
 	}
 
 	@Override
-	public float m20() {
+	public Float m20() {
 		return this.m20;
 	}
 
 	@Override
-	public float m21() {
+	public Float m21() {
 		return this.m21;
 	}
 
 	@Override
-	public float m22() {
+	public Float m22() {
 		return this.m22;
 	}
 
@@ -200,11 +205,6 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 		this.m21 = mat.m21();
 		this.m22 = mat.m22();
 		return this;
-	}
-
-	@Override
-	public Matrix3f copy() {
-		return new Matrix3f(m00, m01, m02, m10, m11, m12, m20, m21, m22);
 	}
 
 	@Override
@@ -247,7 +247,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 	}
 
 	@Override
-	public Matrix3f scalar(float f) {
+	public Matrix3f scalar(Float f) {
 		return new Matrix3f(m00 * f, m01 * f, m02 * f, m10 * f, m11 * f, m12 * f, m20 * f, m21 * f, m22 * f);
 	}
 
@@ -261,7 +261,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 	}
 
 	@Override
-	public float adjugateAndDet() {
+	public Float adjugateAndDet() {
 		float f = this.m11 * this.m22 - this.m12 * this.m21;
 		float f1 = -(this.m10 * this.m22 - this.m12 * this.m20);
 		float f2 = this.m10 * this.m21 - this.m11 * this.m20;
@@ -285,7 +285,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 	}
 
 	@Override
-	public float determinant() {
+	public Float determinant() {
 		float f = this.m11 * this.m22 - this.m12 * this.m21;
 		float f1 = -(this.m10 * this.m22 - this.m12 * this.m20);
 		float f2 = this.m10 * this.m21 - this.m11 * this.m20;
@@ -310,7 +310,7 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 	}
 	
 	@Override
-	public Matrix3f mul(IQuaternion<?> quat) {
+	public Matrix3f mul(IQuaternion<Float> quat) {
 		return mul(new Matrix3f(quat));
 	}
 
@@ -363,6 +363,28 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 	}
 
 	@Override
+	public Float[] toArr() {
+		return new Float[] {
+				m00, m10, m20,
+				m01, m11, m21,
+				m02, m12, m22
+		};
+	}
+
+	@Override
+	public void loadArr(Float[] arr) {
+		if (arr.length != 9) throw new IllegalArgumentException("Matrix float arr has to be of length 9!");
+		this.m00 = arr[0];
+		this.m10 = arr[1];
+		this.m20 = arr[2];
+		this.m01 = arr[3];
+		this.m11 = arr[4];
+		this.m21 = arr[5];
+		this.m02 = arr[6];
+		this.m12 = arr[7];
+		this.m22 = arr[8];
+	}
+
 	public float[] toFloatArr() {
 		return new float[] {
 				m00, m10, m20,
@@ -371,7 +393,6 @@ public class Matrix3f implements IMatrix3f<Matrix3f>, IMatrixVecMath<Matrix3f, I
 		};
 	}
 
-	@Override
 	public void loadFloatArr(float[] arr) {
 		if (arr.length != 9) throw new IllegalArgumentException("Matrix float arr has to be of length 9!");
 		this.m00 = arr[0];

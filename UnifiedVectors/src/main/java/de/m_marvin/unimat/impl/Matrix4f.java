@@ -1,12 +1,12 @@
 package de.m_marvin.unimat.impl;
 
-import de.m_marvin.unimat.api.IMatrix4f;
+import de.m_marvin.unimat.api.IMatrix4;
 import de.m_marvin.unimat.api.IMatrixVecMath;
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.impl.Vec4f;
 
-public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, IVector4<Float>, Vec4f> {
+public class Matrix4f implements IMatrix4<Float>, IMatrixVecMath<Float, Matrix4f, IVector4<Float>, Vec4f> {
 
 	protected float m00;
 	protected float m01;
@@ -164,7 +164,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 	}
 	
 	@Override
-	public float getField(int x, int y) {
+	public Float getField(int x, int y) {
 		switch (x) {
 		case 0: {
 			switch (y) {
@@ -203,7 +203,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 	}
 
 	@Override
-	public void setField(int x, int y, float f) {
+	public void setField(int x, int y, Float f) {
 		switch (x) {
 		case 0: {
 			switch (y) {
@@ -242,82 +242,82 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 	}
 
 	@Override
-	public float m00() {
+	public Float m00() {
 		return this.m00;
 	}
 
 	@Override
-	public float m01() {
+	public Float m01() {
 		return this.m01;
 	}
 
 	@Override
-	public float m02() {
+	public Float m02() {
 		return this.m02;
 	}
 
 	@Override
-	public float m03() {
+	public Float m03() {
 		return this.m03;
 	}
 
 	@Override
-	public float m10() {
+	public Float m10() {
 		return this.m10;
 	}
 
 	@Override
-	public float m11() {
+	public Float m11() {
 		return this.m11;
 	}
 
 	@Override
-	public float m12() {
+	public Float m12() {
 		return this.m12;
 	}
 
 	@Override
-	public float m13() {
+	public Float m13() {
 		return this.m13;
 	}
 
 	@Override
-	public float m20() {
+	public Float m20() {
 		return this.m20;
 	}
 
 	@Override
-	public float m21() {
+	public Float m21() {
 		return this.m21;
 	}
 
 	@Override
-	public float m22() {
+	public Float m22() {
 		return this.m22;
 	}
 
 	@Override
-	public float m23() {
+	public Float m23() {
 		return this.m23;
 	}
 
 	@Override
-	public float m30() {
+	public Float m30() {
 		return this.m30;
 	}
 
 	@Override
-	public float m31() {
+	public Float m31() {
 		return this.m31;
 	}
 
 	@Override
-	public float m32() {
+	public Float m32() {
 		return this.m32;
 	}
 
 	@Override
-	public float m33() {
+	public Float m33() {
 		return this.m33;
 	}
 
@@ -401,12 +401,12 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 	}
 
 	@Override
-	public Matrix4f scalar(float f) {
+	public Matrix4f scalar(Float f) {
 		return new Matrix4f(m00 * f, m01 * f, m02 * f, m03 * f, m10 * f, m11 * f, m12 * f, m13 * f, m20 * f, m21 * f, m22 * f, m23 * f, m30 * f, m31 * f, m32 * f, m33 * f);
 	}
 
 	@Override
-	public float adjugateAndDet() {
+	public Float adjugateAndDet() {
 		float f = this.m00 * this.m11 - this.m01 * this.m10;
 		float f1 = this.m00 * this.m12 - this.m02 * this.m10;
 		float f2 = this.m00 * this.m13 - this.m03 * this.m10;
@@ -455,7 +455,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 	}
 
 	@Override
-	public float determinant() {
+	public Float determinant() {
 		float f = this.m00 * this.m11 - this.m01 * this.m10;
 		float f1 = this.m00 * this.m12 - this.m02 * this.m10;
 		float f2 = this.m00 * this.m13 - this.m03 * this.m10;
@@ -499,7 +499,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 	}
 	
 	@Override
-	public Matrix4f mul(IQuaternion<?> quat) {
+	public Matrix4f mul(IQuaternion<Float> quat) {
 		return mul(new Matrix4f(quat));
 	}
 
@@ -556,10 +556,10 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 
 	@Override
 	public Vec4f translate(IVector4<Float> vec) {
-		float f = (float) vec.x();
-		float f1 = (float) vec.y();
-		float f2 = (float) vec.z();
-		float f3 = (float) vec.w();
+		float f = vec.x();
+		float f1 = vec.y();
+		float f2 = vec.z();
+		float f3 = vec.w();
 		return new Vec4f(
 				m00 * f + m01 * f1 + m02 * f2 + m03 * f3,
 				m10 * f + m11 * f1 + m12 * f2 + m13 * f3,
@@ -569,8 +569,8 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 	}
 
 	@Override
-	public float[] toFloatArr() {
-		return new float[] {
+	public Float[] toArr() {
+		return new Float[] {
 				m00, m10, m20, m30,
 				m01, m11, m21, m31,
 				m02, m12, m22, m32,
@@ -579,7 +579,7 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 	}
 
 	@Override
-	public void loadFloatArr(float[] arr) {
+	public void loadArr(Float[] arr) {
 		if (arr.length != 16) throw new IllegalArgumentException("Matrix float arr has to be of length 16!");
 		this.m00 = arr[0];
 		this.m10 = arr[1];
@@ -599,4 +599,33 @@ public class Matrix4f implements IMatrix4f<Matrix4f>, IMatrixVecMath<Matrix4f, I
 		this.m33 = arr[15];
 	}
 
+	public float[] toFloatArr() {
+		return new float[] {
+				m00, m10, m20, m30,
+				m01, m11, m21, m31,
+				m02, m12, m22, m32,
+				m03, m13, m23, m33
+		};
+	}
+
+	public void loadFloatArr(float[] arr) {
+		if (arr.length != 16) throw new IllegalArgumentException("Matrix double arr has to be of length 16!");
+		this.m00 = arr[0];
+		this.m10 = arr[1];
+		this.m20 = arr[2];
+		this.m30 = arr[3];
+		this.m01 = arr[4];
+		this.m11 = arr[5];
+		this.m21 = arr[6];
+		this.m31 = arr[7];
+		this.m02 = arr[8];
+		this.m12 = arr[9];
+		this.m22 = arr[10];
+		this.m32 = arr[11];
+		this.m03 = arr[12];
+		this.m13 = arr[13];
+		this.m23 = arr[14];
+		this.m33 = arr[15];
+	}
+	
 }

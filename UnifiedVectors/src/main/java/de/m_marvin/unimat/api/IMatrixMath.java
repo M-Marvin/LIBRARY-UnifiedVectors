@@ -1,6 +1,6 @@
 package de.m_marvin.unimat.api;
 
-public interface IMatrixMath<M extends IMatrix<M>> {
+public interface IMatrixMath<N extends Number, M extends IMatrix<N>> {
 
 	/* Basic math */
 	
@@ -21,8 +21,8 @@ public interface IMatrixMath<M extends IMatrix<M>> {
 	
 	public M identity();
 	
-	public float adjugateAndDet();
-	public float determinant();
+	public N adjugateAndDet();
+	public N determinant();
 	public boolean invertI();
 	public M tryInvertI();
 	
