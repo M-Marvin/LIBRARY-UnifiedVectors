@@ -8,15 +8,15 @@ import de.m_marvin.univec.impl.Vec3f;
 
 public class Matrix3f implements IMatrix3<Float>, IMatrixVecMath<Float, Matrix3f, IVector3<Float>, Vec3f> {
 	
-	protected float m00;
-	protected float m01;
-	protected float m02;
-	protected float m10;
-	protected float m11;
-	protected float m12;
-	protected float m20;
-	protected float m21;
-	protected float m22;
+	public float m00;
+	public float m01;
+	public float m02;
+	public float m10;
+	public float m11;
+	public float m12;
+	public float m20;
+	public float m21;
+	public float m22;
 
 	public Matrix3f(IQuaternion<?> quat) {
 		float f = quat.i().floatValue();
@@ -66,30 +66,6 @@ public class Matrix3f implements IMatrix3<Float>, IMatrixVecMath<Float, Matrix3f
 
 	public Matrix3f() {
 		identity();
-	}
-
-	public static Matrix3f createScaleMatrix(float sx, float sy, float sz) {
-		return new Matrix3f(
-				sx, 0, 0,
-				0, sy, 0,
-				0, 0, sz
-				);
-	}
-	
-	public static Matrix3f createScaleMatrix(float sx, float sy) {
-		return new Matrix3f(
-				sx, 0, 0,
-				0, sy, 0,
-				0, 0, 1
-				);
-	}
-	
-	public static Matrix3f createTranslationMatrix(float x, float y) {
-		return new Matrix3f(
-				1, 0, x,
-				0, 1, y,
-				0, 0, 1
-				);
 	}
 
 	@Override

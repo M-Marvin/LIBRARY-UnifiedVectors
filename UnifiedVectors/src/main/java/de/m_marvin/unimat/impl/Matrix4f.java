@@ -8,22 +8,22 @@ import de.m_marvin.univec.impl.Vec4f;
 
 public class Matrix4f implements IMatrix4<Float>, IMatrixVecMath<Float, Matrix4f, IVector4<Float>, Vec4f> {
 
-	protected float m00;
-	protected float m01;
-	protected float m02;
-	protected float m03;
-	protected float m10;
-	protected float m11;
-	protected float m12;
-	protected float m13;
-	protected float m20;
-	protected float m21;
-	protected float m22;
-	protected float m23;
-	protected float m30;
-	protected float m31;
-	protected float m32;
-	protected float m33;
+	public float m00;
+	public float m01;
+	public float m02;
+	public float m03;
+	public float m10;
+	public float m11;
+	public float m12;
+	public float m13;
+	public float m20;
+	public float m21;
+	public float m22;
+	public float m23;
+	public float m30;
+	public float m31;
+	public float m32;
+	public float m33;
 
 	public Matrix4f(IQuaternion<?> quat) {
 		float f = quat.i().floatValue();
@@ -77,90 +77,6 @@ public class Matrix4f implements IMatrix4<Float>, IMatrixVecMath<Float, Matrix4f
 
 	public Matrix4f() {
 		identity();
-	}
-	
-	public static Matrix4f perspective(double fovDegrees, float aspect, float near, float far) {
-		float frustumLength = far - near;
-		float yScale = (float) ((1 / Math.tan(Math.toRadians(fovDegrees / 2))) * aspect);
-		float xScale = yScale / aspect;
-		Matrix4f matrix4f = new Matrix4f();
-		matrix4f.m00 = xScale;
-		matrix4f.m11 = yScale;
-		matrix4f.m22 = -((far + near) / frustumLength);
-		matrix4f.m23 = -1;
-		matrix4f.m32 = -((2 * near * far) / frustumLength);
-		matrix4f.m33 = 0;
-		return matrix4f;
-	}
-
-	public static Matrix4f orthographic(float left, float right, float bottom, float top, float near, float far) {
-		Matrix4f matrix4f = new Matrix4f();
-		float f = right - left;
-		float f1 = bottom - top;
-		float f2 = far - near;
-		matrix4f.m00 = 2.0F / f;
-		matrix4f.m11 = 2.0F / f1;
-		matrix4f.m22 = 2.0F / f2;
-		matrix4f.m03 = -(right + left) / f;
-		matrix4f.m13 = -(bottom + top) / f1;
-		matrix4f.m23 = -(far + near) / f2;
-		matrix4f.m33 = 1.0F;
-		return matrix4f;
-	}
-
-	public static Matrix4f scaleMatrix(float sx, float sy, float sz) {
-		return new Matrix4f(
-				sx, 0, 0, 0,
-				0, sy, 0, 0,
-				0, 0, sz, 0,
-				0, 0, 0, 1
-				);
-	}
-
-	public static Matrix4f translateMatrix(float x, float y, float z) {
-		return new Matrix4f(
-				1, 0, 0, x,
-				0, 1, 0, y,
-				0, 0, 1, z,
-				0, 0, 0, 1
-				);
-	}
-
-	public static Matrix4f rotationMatrixX(float radians) {
-		float crad = (float) Math.cos(radians);
-		float srad = (float) Math.sin(radians);
-		return new Matrix4f(
-				1, 0, 0, 0,
-				0, crad, srad, 0,
-				0, -srad, crad, 0,
-				0, 0, 0, 1
-				);
-	}
-
-	public static Matrix4f rotationMatrixY(float radians) {
-		float crad = (float) Math.cos(radians);
-		float srad = (float) Math.sin(radians);
-		return new Matrix4f(
-				crad, 0, -srad, 0,
-				0, 1, 0, 0,
-				srad, 0, crad, 0,
-				0, 0, 0, 1
-				);
-	}
-
-	public static Matrix4f rotationMatrixZ(float radians) {
-		float crad = (float) Math.cos(radians);
-		float srad = (float) Math.sin(radians);
-		return new Matrix4f(
-				crad, -srad, 0, 0,
-				srad, crad, 0, 0,
-				0, 0, 1, 0,
-				0, 0, 0, 1
-				);
-	}
-	
-	public static Matrix4f rotationMatrix(float rx, float ry, float rz) {
-		return rotationMatrixZ(rz).mul(rotationMatrixY(ry)).mul(rotationMatrixX(rx));
 	}
 	
 	@Override

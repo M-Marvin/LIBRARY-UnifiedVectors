@@ -2,6 +2,7 @@ package de.m_marvin.univec.impl;
 
 import de.m_marvin.unimat.impl.Quaternionf;
 import de.m_marvin.univec.VectorParser;
+import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
 
@@ -13,6 +14,12 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	public int x;
 	public int y;
 	public int z;
+
+	public Vec3i(IVector2<? extends Number> vec2, int z) {
+		this.x = vec2.x().intValue();
+		this.y = vec2.y().intValue();
+		this.z = z;
+	}
 	
 	public Vec3i(int x, int y, int z) {
 		this.x = x;
@@ -233,17 +240,18 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	
 	@Override
 	public Integer length() {
-		return (int) Math.sqrt(this.lengthSqrt());
+		return (int) Math.sqrt(this.lengthSqr());
 	}
 
 	@Override
-	public Integer lengthSqrt() {
+	public Integer lengthSqr() {
 		return this.x * this.x + this.y * this.y + this.z * this.z;
 	}
 	
 	@Override
 	public Vec3i normalize() {
 		int f = this.length();
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
 		return this.div(f);
 	}
 	

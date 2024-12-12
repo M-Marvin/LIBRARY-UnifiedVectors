@@ -1,6 +1,8 @@
 package de.m_marvin.univec.impl;
 
 import de.m_marvin.univec.VectorParser;
+import de.m_marvin.univec.api.IVector2;
+import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.api.IVector4Math;
 
@@ -10,6 +12,20 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	public int y;
 	public int z;
 	public int w;
+
+	public Vec4i(IVector2<? extends Number> vec2, int z, int w) {
+		this.x = vec2.x().intValue();
+		this.y = vec2.y().intValue();
+		this.z = z;
+		this.w = w;
+	}
+
+	public Vec4i(IVector3<? extends Number> vec3, int w) {
+		this.x = vec3.x().intValue();
+		this.y = vec3.y().intValue();
+		this.z = vec3.z().intValue();
+		this.w = w;
+	}
 	
 	public Vec4i(int x, int y, int z, int w) {
 		this.x = x;
@@ -231,17 +247,18 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	
 	@Override
 	public Integer length() {
-		return (int) Math.sqrt(this.lengthSqrt());
+		return (int) Math.sqrt(this.lengthSqr());
 	}
 
 	@Override
-	public Integer lengthSqrt() {
+	public Integer lengthSqr() {
 		return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
 	}
 	
 	@Override
 	public Vec4i normalize() {
 		int f = this.length();
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
 		return this.div(f);
 	}
 	

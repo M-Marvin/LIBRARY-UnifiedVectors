@@ -208,17 +208,18 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	
 	@Override
 	public Integer length() {
-		return (int) Math.sqrt(this.lengthSqrt());
+		return (int) Math.sqrt(this.lengthSqr());
 	}
 
 	@Override
-	public Integer lengthSqrt() {
+	public Integer lengthSqr() {
 		return this.x * this.x + this.y * this.y;
 	}
 	
 	@Override
 	public Vec2i normalize() {
 		Integer f = this.length();
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
 		return this.div(f);
 	}
 	

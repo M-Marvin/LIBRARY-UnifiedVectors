@@ -208,17 +208,18 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	
 	@Override
 	public Double length() {
-		return (Double) Math.sqrt(this.lengthSqrt());
+		return (Double) Math.sqrt(this.lengthSqr());
 	}
 
 	@Override
-	public Double lengthSqrt() {
+	public Double lengthSqr() {
 		return this.x * this.x + this.y * this.y;
 	}
 	
 	@Override
 	public Vec2d normalize() {
 		double f = this.length();
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
 		return this.div(f);
 	}
 	

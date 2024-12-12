@@ -8,22 +8,22 @@ import de.m_marvin.univec.impl.Vec4d;
 
 public class Matrix4d implements IMatrix4<Double>, IMatrixVecMath<Double, Matrix4d, IVector4<Double>, Vec4d> {
 
-	protected double m00;
-	protected double m01;
-	protected double m02;
-	protected double m03;
-	protected double m10;
-	protected double m11;
-	protected double m12;
-	protected double m13;
-	protected double m20;
-	protected double m21;
-	protected double m22;
-	protected double m23;
-	protected double m30;
-	protected double m31;
-	protected double m32;
-	protected double m33;
+	public double m00;
+	public double m01;
+	public double m02;
+	public double m03;
+	public double m10;
+	public double m11;
+	public double m12;
+	public double m13;
+	public double m20;
+	public double m21;
+	public double m22;
+	public double m23;
+	public double m30;
+	public double m31;
+	public double m32;
+	public double m33;
 
 	public Matrix4d(IQuaternion<?> quat) {
 		double f = quat.i().doubleValue();
@@ -77,90 +77,6 @@ public class Matrix4d implements IMatrix4<Double>, IMatrixVecMath<Double, Matrix
 
 	public Matrix4d() {
 		identity();
-	}
-	
-	public static Matrix4d perspective(double fovDegrees, double aspect, double near, double far) {
-		double frustumLength = far - near;
-		double yScale = (double) ((1 / Math.tan(Math.toRadians(fovDegrees / 2))) * aspect);
-		double xScale = yScale / aspect;
-		Matrix4d matrix4f = new Matrix4d();
-		matrix4f.m00 = xScale;
-		matrix4f.m11 = yScale;
-		matrix4f.m22 = -((far + near) / frustumLength);
-		matrix4f.m23 = -1;
-		matrix4f.m32 = -((2 * near * far) / frustumLength);
-		matrix4f.m33 = 0;
-		return matrix4f;
-	}
-
-	public static Matrix4d orthographic(double left, double right, double bottom, double top, double near, double far) {
-		Matrix4d matrix4f = new Matrix4d();
-		double f = right - left;
-		double f1 = bottom - top;
-		double f2 = far - near;
-		matrix4f.m00 = 2.0F / f;
-		matrix4f.m11 = 2.0F / f1;
-		matrix4f.m22 = 2.0F / f2;
-		matrix4f.m03 = -(right + left) / f;
-		matrix4f.m13 = -(bottom + top) / f1;
-		matrix4f.m23 = -(far + near) / f2;
-		matrix4f.m33 = 1.0F;
-		return matrix4f;
-	}
-
-	public static Matrix4d scaleMatrix(double sx, double sy, double sz) {
-		return new Matrix4d(
-				sx, 0, 0, 0,
-				0, sy, 0, 0,
-				0, 0, sz, 0,
-				0, 0, 0, 1
-				);
-	}
-
-	public static Matrix4d translateMatrix(double x, double y, double z) {
-		return new Matrix4d(
-				1, 0, 0, x,
-				0, 1, 0, y,
-				0, 0, 1, z,
-				0, 0, 0, 1
-				);
-	}
-
-	public static Matrix4d rotationMatrixX(double radians) {
-		double crad = (double) Math.cos(radians);
-		double srad = (double) Math.sin(radians);
-		return new Matrix4d(
-				1, 0, 0, 0,
-				0, crad, srad, 0,
-				0, -srad, crad, 0,
-				0, 0, 0, 1
-				);
-	}
-
-	public static Matrix4d rotationMatrixY(double radians) {
-		double crad = (double) Math.cos(radians);
-		double srad = (double) Math.sin(radians);
-		return new Matrix4d(
-				crad, 0, -srad, 0,
-				0, 1, 0, 0,
-				srad, 0, crad, 0,
-				0, 0, 0, 1
-				);
-	}
-
-	public static Matrix4d rotationMatrixZ(double radians) {
-		double crad = (double) Math.cos(radians);
-		double srad = (double) Math.sin(radians);
-		return new Matrix4d(
-				crad, -srad, 0, 0,
-				srad, crad, 0, 0,
-				0, 0, 1, 0,
-				0, 0, 0, 1
-				);
-	}
-	
-	public static Matrix4d rotationMatrix(double rx, double ry, double rz) {
-		return rotationMatrixZ(rz).mul(rotationMatrixY(ry)).mul(rotationMatrixX(rx));
 	}
 	
 	@Override

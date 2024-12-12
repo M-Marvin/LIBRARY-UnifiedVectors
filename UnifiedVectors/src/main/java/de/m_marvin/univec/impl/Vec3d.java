@@ -2,6 +2,7 @@ package de.m_marvin.univec.impl;
 
 import de.m_marvin.unimat.impl.Quaterniond;
 import de.m_marvin.univec.VectorParser;
+import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector3Math;
 
@@ -13,6 +14,12 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	public double x;
 	public double y;
 	public double z;
+	
+	public Vec3d(IVector2<? extends Number> vec2, double z) {
+		this.x = vec2.x().doubleValue();
+		this.y = vec2.y().doubleValue();
+		this.z = z;
+	}
 	
 	public Vec3d(double x, double y, double z) {
 		this.x = x;
@@ -233,17 +240,18 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	
 	@Override
 	public Double length() {
-		return (Double) Math.sqrt(this.lengthSqrt());
+		return (Double) Math.sqrt(this.lengthSqr());
 	}
 
 	@Override
-	public Double lengthSqrt() {
+	public Double lengthSqr() {
 		return this.x * this.x + this.y * this.y + this.z * this.z;
 	}
 	
 	@Override
 	public Vec3d normalize() {
 		double f = this.length();
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
 		return this.div(f);
 	}
 	

@@ -16,6 +16,6 @@ public interface IVector2<N extends Number> extends IVector {
 	public void setY(N y);
 	
 	public N length();
-	public N lengthSqrt();
+	public N lengthSqr();
 	
 }

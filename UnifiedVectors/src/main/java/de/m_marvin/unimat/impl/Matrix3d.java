@@ -8,15 +8,15 @@ import de.m_marvin.univec.impl.Vec3d;
 
 public class Matrix3d implements IMatrix3<Double>, IMatrixVecMath<Double, Matrix3d, IVector3<Double>, Vec3d> {
 	
-	protected double m00;
-	protected double m01;
-	protected double m02;
-	protected double m10;
-	protected double m11;
-	protected double m12;
-	protected double m20;
-	protected double m21;
-	protected double m22;
+	public double m00;
+	public double m01;
+	public double m02;
+	public double m10;
+	public double m11;
+	public double m12;
+	public double m20;
+	public double m21;
+	public double m22;
 
 	public Matrix3d(IQuaternion<?> quat) {
 		double f = quat.i().doubleValue();
@@ -61,30 +61,6 @@ public class Matrix3d implements IMatrix3<Double>, IMatrixVecMath<Double, Matrix
 
 	public Matrix3d() {
 		identity();
-	}
-
-	public static Matrix3d createScaleMatrix(double sx, double sy, double sz) {
-		return new Matrix3d(
-				sx, 0, 0,
-				0, sy, 0,
-				0, 0, sz
-				);
-	}
-	
-	public static Matrix3d createScaleMatrix(double sx, double sy) {
-		return new Matrix3d(
-				sx, 0, 0,
-				0, sy, 0,
-				0, 0, 1
-				);
-	}
-	
-	public static Matrix3d createTranslationMatrix(double x, double y) {
-		return new Matrix3d(
-				1, 0, x,
-				0, 1, y,
-				0, 0, 1
-				);
 	}
 
 	@Override

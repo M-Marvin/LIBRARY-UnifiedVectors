@@ -208,17 +208,18 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	
 	@Override
 	public Float length() {
-		return (float) Math.sqrt(this.lengthSqrt());
+		return (float) Math.sqrt(this.lengthSqr());
 	}
 
 	@Override
-	public Float lengthSqrt() {
+	public Float lengthSqr() {
 		return this.x * this.x + this.y * this.y;
 	}
 	
 	@Override
 	public Vec2f normalize() {
 		float f = this.length();
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
 		return this.div(f);
 	}
 	
