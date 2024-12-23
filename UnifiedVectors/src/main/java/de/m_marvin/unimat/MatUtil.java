@@ -106,6 +106,10 @@ public class MatUtil {
 		return rotationMatrixZD(rz).mul(rotationMatrixYD(ry)).mul(rotationMatrixXD(rx));
 	}
 
+	public static Matrix4d rotationMatrixD(IVector3<Double> rotation) {
+		return rotationMatrixD(rotation.x(), rotation.y(), rotation.z());
+	}
+
 	public static Matrix4f perspectiveF(float fovDegrees, float aspect, float near, float far) {
 		float frustumLength = far - near;
 		float yScale = (float) ((1 / Math.tan(Math.toRadians(fovDegrees / 2))) * aspect);
@@ -197,6 +201,10 @@ public class MatUtil {
 	
 	public static Matrix4f rotationMatrixF(float rx, float ry, float rz) {
 		return rotationMatrixZF(rz).mul(rotationMatrixYF(ry)).mul(rotationMatrixXF(rx));
+	}
+
+	public static Matrix4f rotationMatrixF(IVector3<Float> rotation) {
+		return rotationMatrixF(rotation.x(), rotation.y(), rotation.z());
 	}
 
 	public static Matrix3d createScaleMatrixD(double sx, double sy, double sz) {

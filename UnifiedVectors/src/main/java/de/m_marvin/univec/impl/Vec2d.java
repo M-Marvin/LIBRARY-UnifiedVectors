@@ -219,7 +219,7 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	@Override
 	public Vec2d normalize() {
 		double f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
 		return this.div(f);
 	}
 	

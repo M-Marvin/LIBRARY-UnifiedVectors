@@ -251,7 +251,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	@Override
 	public Vec3d normalize() {
 		double f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
 		return this.div(f);
 	}
 	
@@ -327,6 +327,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 
 	@Override
 	public Vec3d anyOrthogonal() {
+		// FIXME random orthogonal vector
 		return new Vec3d(-(z / x), 0, 1).normalize();
 	}
 	

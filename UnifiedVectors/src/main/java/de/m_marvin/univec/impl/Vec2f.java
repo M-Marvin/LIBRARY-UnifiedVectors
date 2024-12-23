@@ -219,7 +219,7 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	@Override
 	public Vec2f normalize() {
 		float f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
 		return this.div(f);
 	}
 	

@@ -258,7 +258,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	@Override
 	public Vec4i normalize() {
 		int f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize pointer of length 0!");
+		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
 		return this.div(f);
 	}
 	

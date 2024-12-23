@@ -1,10 +1,10 @@
-%% Autor: M_Marvin
-%%
-%% calculate shortest line between two other arbitrary lines in 3D space
-%% represented by the equations L1(s) = P1 + s * V1 and L2(s) = P2 + s * V2
-%% returns two points at the position of the two lines intersecting with the shortest, prependicular line
-%%
-%% [PI, VI] = linejoint(P1, P2, V1, V2)
+% Autor: M_Marvin
+%
+% calculate shortest line between two other arbitrary lines in 3D space
+% represented by the equations L1(s) = P1 + s * V1 and L2(s) = P2 + s * V2
+% returns two points at the position of the two lines intersecting with the shortest, prependicular line
+%
+% [PI, VI] = linejoint(P1, P2, V1, V2)
 function [PI1, VI] = linejoint(P1, P2, V1, V2)
     [a, b] = linejointF(P1, P2, V1, V2);
     
