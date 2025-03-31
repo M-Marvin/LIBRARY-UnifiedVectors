@@ -1,10 +1,13 @@
 package de.m_marvin.unimat;
 
+import de.m_marvin.unimat.api.IMatrix4;
 import de.m_marvin.unimat.impl.Matrix3d;
 import de.m_marvin.unimat.impl.Matrix3f;
 import de.m_marvin.unimat.impl.Matrix4d;
 import de.m_marvin.unimat.impl.Matrix4f;
 import de.m_marvin.univec.api.IVector3;
+import de.m_marvin.univec.impl.Vec3d;
+import de.m_marvin.univec.impl.Vec3f;
 
 /**
  * Contains different utility functions that might be useful
@@ -255,4 +258,108 @@ public class MatUtil {
 				);
 	}
 
+	public static Matrix3f rotationMatrix3XF(float radians) {
+		float crad = (float) Math.cos(radians);
+		float srad = (float) Math.sin(radians);
+		return new Matrix3f(
+				1, 0, 0,
+				0, crad, srad,
+				0, -srad, crad
+				);
+	}
+
+	public static Matrix3f rotationMatrix3YF(float radians) {
+		float crad = (float) Math.cos(radians);
+		float srad = (float) Math.sin(radians);
+		return new Matrix3f(
+				crad, 0, -srad,
+				0, 1, 0,
+				srad, 0, crad
+				);
+	}
+
+	public static Matrix3f rotationMatrix3ZF(float radians) {
+		float crad = (float) Math.cos(radians);
+		float srad = (float) Math.sin(radians);
+		return new Matrix3f(
+				crad, -srad, 0,
+				srad, crad, 0,
+				0, 0, 1
+				);
+	}
+	
+	public static Matrix3f rotationMatrix3F(float rx, float ry, float rz) {
+		return rotationMatrix3ZF(rz).mul(rotationMatrix3YF(ry)).mul(rotationMatrix3XF(rx));
+	}
+
+	public static Matrix3f rotationMatrix3F(IVector3<Float> rotation) {
+		return rotationMatrix3F(rotation.x(), rotation.y(), rotation.z());
+	}
+	
+	public static Matrix3d rotationMatrix3XD(double radians) {
+		double crad = (double) Math.cos(radians);
+		double srad = (double) Math.sin(radians);
+		return new Matrix3d(
+				1, 0, 0,
+				0, crad, srad,
+				0, -srad, crad
+				);
+	}
+
+	public static Matrix3d rotationMatrix3YD(double radians) {
+		double crad = (double) Math.cos(radians);
+		double srad = (double) Math.sin(radians);
+		return new Matrix3d(
+				crad, 0, -srad,
+				0, 1, 0,
+				srad, 0, crad
+				);
+	}
+
+	public static Matrix3d rotationMatrix3ZD(double radians) {
+		double crad = (double) Math.cos(radians);
+		double srad = (double) Math.sin(radians);
+		return new Matrix3d(
+				crad, -srad, 0,
+				srad, crad, 0,
+				0, 0, 1
+				);
+	}
+	
+	public static Matrix3d rotationMatrix3D(double rx, double ry, double rz) {
+		return rotationMatrix3ZD(rz).mul(rotationMatrix3YD(ry)).mul(rotationMatrix3XD(rx));
+	}
+
+	public static Matrix3d rotationMatrix3D(IVector3<Double> rotation) {
+		return rotationMatrix3D(rotation.x(), rotation.y(), rotation.z());
+	}
+
+	public static void decomposeD(Vec3d translation, Vec3d scale, Matrix3d rotation, Matrix4d matrix) {
+		translation.setI(matrix.m30, matrix.m31, matrix.m32);
+		scale.x = new Vec3d(matrix.m00, matrix.m01, matrix.m02).length();
+		scale.y = new Vec3d(matrix.m10, matrix.m11, matrix.m12).length();
+		scale.z = new Vec3d(matrix.m20, matrix.m21, matrix.m22).length();
+		rotation.m00 = matrix.m00 / scale.x; rotation.m01 = matrix.m01 / scale.x; rotation.m02 = matrix.m02 / scale.x;
+		rotation.m10 = matrix.m10 / scale.y; rotation.m11 = matrix.m11 / scale.y; rotation.m12 = matrix.m12 / scale.y;
+		rotation.m20 = matrix.m20 / scale.z; rotation.m21 = matrix.m21 / scale.z; rotation.m22 = matrix.m22 / scale.z;
+	}
+
+	public static void extractTranslationD(Vec3d translation, Matrix4d matrix) {
+		translation.setI(matrix.m30, matrix.m31, matrix.m32);
+	}
+
+	public static void decomposeF(Vec3f translation, Vec3f scale, Matrix3f rotation, Matrix4f matrix) {
+		translation.setI(matrix.m30, matrix.m31, matrix.m32);
+		scale.x = new Vec3f(matrix.m00, matrix.m01, matrix.m02).length();
+		scale.y = new Vec3f(matrix.m10, matrix.m11, matrix.m12).length();
+		scale.z = new Vec3f(matrix.m20, matrix.m21, matrix.m22).length();
+		rotation.m00 = matrix.m00 / scale.x; rotation.m01 = matrix.m01 / scale.x; rotation.m02 = matrix.m02 / scale.x;
+		rotation.m10 = matrix.m10 / scale.y; rotation.m11 = matrix.m11 / scale.y; rotation.m12 = matrix.m12 / scale.y;
+		rotation.m20 = matrix.m20 / scale.z; rotation.m21 = matrix.m21 / scale.z; rotation.m22 = matrix.m22 / scale.z;
+	}
+	
+	public static void extractTranslationF(Vec3f translation, Matrix4f matrix) {
+		translation.setI(matrix.m30, matrix.m31, matrix.m32);
+	}
+	
 }

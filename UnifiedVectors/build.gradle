@@ -2,7 +2,7 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-version = '1.6.1'
+version = '1.6.2'
 
 // Add additional content to the manifest
 tasks.named('jar') {
