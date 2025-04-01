@@ -1,6 +1,5 @@
 package de.m_marvin.unimat;
 
-import de.m_marvin.unimat.api.IMatrix4;
 import de.m_marvin.unimat.impl.Matrix3d;
 import de.m_marvin.unimat.impl.Matrix3f;
 import de.m_marvin.unimat.impl.Matrix4d;
@@ -335,7 +334,7 @@ public class MatUtil {
 	}
 
 	public static void decomposeD(Vec3d translation, Vec3d scale, Matrix3d rotation, Matrix4d matrix) {
-		translation.setI(matrix.m30, matrix.m31, matrix.m32);
+		translation.setI(matrix.m03, matrix.m13, matrix.m23);
 		scale.x = new Vec3d(matrix.m00, matrix.m01, matrix.m02).length();
 		scale.y = new Vec3d(matrix.m10, matrix.m11, matrix.m12).length();
 		scale.z = new Vec3d(matrix.m20, matrix.m21, matrix.m22).length();
@@ -344,12 +343,12 @@ public class MatUtil {
 		rotation.m20 = matrix.m20 / scale.z; rotation.m21 = matrix.m21 / scale.z; rotation.m22 = matrix.m22 / scale.z;
 	}
 
-	public static void extractTranslationD(Vec3d translation, Matrix4d matrix) {
-		translation.setI(matrix.m30, matrix.m31, matrix.m32);
+	public static Vec3d extractTranslationD(Matrix4d matrix) {
+		return new Vec3d(matrix.m03, matrix.m13, matrix.m23);
 	}
 
 	public static void decomposeF(Vec3f translation, Vec3f scale, Matrix3f rotation, Matrix4f matrix) {
-		translation.setI(matrix.m30, matrix.m31, matrix.m32);
+		translation.setI(matrix.m03, matrix.m13, matrix.m23);
 		scale.x = new Vec3f(matrix.m00, matrix.m01, matrix.m02).length();
 		scale.y = new Vec3f(matrix.m10, matrix.m11, matrix.m12).length();
 		scale.z = new Vec3f(matrix.m20, matrix.m21, matrix.m22).length();
@@ -358,8 +357,8 @@ public class MatUtil {
 		rotation.m20 = matrix.m20 / scale.z; rotation.m21 = matrix.m21 / scale.z; rotation.m22 = matrix.m22 / scale.z;
 	}
 	
-	public static void extractTranslationF(Vec3f translation, Matrix4f matrix) {
-		translation.setI(matrix.m30, matrix.m31, matrix.m32);
+	public static Vec3f extractTranslationF(Matrix4f matrix) {
+		return new Vec3f(matrix.m03, matrix.m13, matrix.m23);
 	}
 	
 }

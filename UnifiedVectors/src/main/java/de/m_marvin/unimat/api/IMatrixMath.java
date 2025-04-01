@@ -16,7 +16,13 @@ public interface IMatrixMath<N extends Number, M extends IMatrix<N>> {
 
 	public M mul(M mat);
 	default public M mulI(M mat) { return this.setI((M) this.mul(mat)); }
+	
+	public M scalarMul(N n);
+	default public M scalarMulI(N n) { return this.setI((M) this.scalarMul(n)); }
 
+	public M scalarDiv(N n);
+	default public M scalarDivI(N n) { return this.setI((M) this.scalarDiv(n)); }
+	
 	/* Matrix math */
 	
 	public M identity();

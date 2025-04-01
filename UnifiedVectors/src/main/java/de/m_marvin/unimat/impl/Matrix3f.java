@@ -209,6 +209,24 @@ public class Matrix3f implements IMatrix3<Float>, IMatrixVecMath<Float, Matrix3f
 	}
 
 	@Override
+	public Matrix3f scalarMul(Float n) {
+		return new Matrix3f(
+				this.m00 * n, this.m01 * n, this.m02 * n,
+				this.m10 * n, this.m11 * n, this.m12 * n,
+				this.m20 * n, this.m21 * n, this.m22 * n
+				);
+	}
+	
+	@Override
+	public Matrix3f scalarDiv(Float n) {
+		return new Matrix3f(
+				this.m00 / n, this.m01 / n, this.m02 / n,
+				this.m10 / n, this.m11 / n, this.m12 / n,
+				this.m20 / n, this.m21 / n, this.m22 / n
+				);
+	}
+	
+	@Override
 	public Matrix3f identity() {
 		this.m00 = 1;
 		this.m01 = 0;

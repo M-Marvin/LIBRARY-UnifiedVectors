@@ -296,6 +296,26 @@ public class Matrix4d implements IMatrix4<Double>, IMatrixVecMath<Double, Matrix
 	}
 
 	@Override
+	public Matrix4d scalarMul(Double n) {
+		return new Matrix4d(
+				this.m00 * n, this.m01 * n, this.m02 * n, this.m03 * n,
+				this.m10 * n, this.m11 * n, this.m12 * n, this.m03 * n,
+				this.m20 * n, this.m21 * n, this.m22 * n, this.m03 * n,
+				this.m30 * n, this.m31 * n, this.m32 * n, this.m33 * n
+				);
+	}
+	
+	@Override
+	public Matrix4d scalarDiv(Double n) {
+		return new Matrix4d(
+				this.m00 / n, this.m01 / n, this.m02 / n, this.m03 / n,
+				this.m10 / n, this.m11 / n, this.m12 / n, this.m13 / n,
+				this.m20 / n, this.m21 / n, this.m22 / n, this.m23 / n,
+				this.m30 / n, this.m31 / n, this.m32 / n, this.m33 / n
+				);
+	}
+	
+	@Override
 	public Matrix4d identity() {
 		this.m00 = 1;
 		this.m01 = 0;

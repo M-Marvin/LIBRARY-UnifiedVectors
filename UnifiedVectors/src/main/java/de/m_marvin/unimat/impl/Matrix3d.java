@@ -209,6 +209,24 @@ public class Matrix3d implements IMatrix3<Double>, IMatrixVecMath<Double, Matrix
 	}
 
 	@Override
+	public Matrix3d scalarMul(Double n) {
+		return new Matrix3d(
+				this.m00 * n, this.m01 * n, this.m02 * n,
+				this.m10 * n, this.m11 * n, this.m12 * n,
+				this.m20 * n, this.m21 * n, this.m22 * n
+				);
+	}
+	
+	@Override
+	public Matrix3d scalarDiv(Double n) {
+		return new Matrix3d(
+				this.m00 / n, this.m01 / n, this.m02 / n,
+				this.m10 / n, this.m11 / n, this.m12 / n,
+				this.m20 / n, this.m21 / n, this.m22 / n
+				);
+	}
+	
+	@Override
 	public Matrix3d identity() {
 		this.m00 = 1;
 		this.m01 = 0;
