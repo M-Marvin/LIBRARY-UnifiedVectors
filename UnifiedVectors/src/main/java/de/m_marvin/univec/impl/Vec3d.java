@@ -9,7 +9,7 @@ import de.m_marvin.univec.api.IVector3Math;
 /*
  * Implementation of a 3 dimensional double vector
  */
-public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Number>, Quaterniond> {
+public class Vec3d implements IVector3Math<Double, Vec3d, Vec3i, Quaterniond> {
 
 	public double x;
 	public double y;
@@ -38,7 +38,12 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		this.y = vec.y().doubleValue();
 		this.z = vec.z().doubleValue();
 	}
-	
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Double.class;
+	}
+
 	public static Vec3d fromVec(Object vectorObject) {
 		return new Vec3d(0, 0, 0).readFrom(vectorObject);
 	}
@@ -213,6 +218,47 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	}
 
 	@Override
+	public Double sum() {
+		return this.x + this.y + this.z;
+	}
+	
+	@Override
+	public Vec3i sign() {
+		return new Vec3i(
+				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
+				this.y > 0 ? 1 : this.y < 0 ? -1 : 0,
+				this.z > 0 ? 1 : this.z < 0 ? -1 : 0
+		);
+	}
+
+	@Override
+	public Vec3i floor() {
+		return new Vec3i(
+				(int) Math.floor(this.x),
+				(int) Math.floor(this.y),
+				(int) Math.floor(this.z)
+		);
+	}
+
+	@Override
+	public Vec3i ceil() {
+		return new Vec3i(
+				(int) Math.ceil(this.x),
+				(int) Math.ceil(this.y),
+				(int) Math.ceil(this.z)
+		);
+	}
+
+	@Override
+	public Vec3i round() {
+		return new Vec3i(
+				(int) Math.round(this.x),
+				(int) Math.round(this.y),
+				(int) Math.round(this.z)
+		);
+	}
+	
+	@Override
 	public boolean isFinite() {
 		return Double.isFinite(x) && Double.isFinite(y) && Double.isFinite(z);
 	}
@@ -251,7 +297,14 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	@Override
 	public Vec3d normalize() {
 		double f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
+		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
+		return this.div(f);
+	}
+
+	@Override
+	public Vec3d tryNormalize() {
+		double f = this.length();
+		if (f == 0) return new Vec3d(0, 0, 0);
 		return this.div(f);
 	}
 	
@@ -296,12 +349,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 		result = result * 32 + Double.hashCode(this.z);
 		return result;
 	}
-	
-	@Override
-	public String toString() {
-		return "Vec3d[" + this.x + "," + this.y + "," + this.z + "]";
-	}
-	
+
 	@Override
 	public Vec3d transform(Quaterniond quaternion) {
 		Quaterniond q = quaternion.mul(new Quaterniond(x, y, z, 0.0)).mul(quaternion.conj());
@@ -321,20 +369,19 @@ public class Vec3d implements IVector3Math<Double, Vec3d, IVector3<? extends Num
 	}
 
 	@Override
-	public Class<? extends Number> getTypeClass() {
-		return Double.class;
-	}
-
-	@Override
 	public Vec3d anyOrthogonal() {
-		// FIXME random orthogonal vector
-		return new Vec3d(-(z / x), 0, 1).normalize();
+		return new Vec3d(-z, x, y).cross(this).normalize();
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Vec3d[] orthogonals(IVector3<? extends Number> vec2) {
 		return new Vec3d[] {this.cross(vec2), new Vec3d(((IVector3Math) vec2).cross(this))};
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("[%f  %f  %f]", this.x, this.y, this.z);
 	}
 	
 }

@@ -2,7 +2,6 @@ package de.m_marvin.unimat.impl;
 
 import java.util.Objects;
 
-import de.m_marvin.unimat.api.IMatrix3;
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.unimat.api.IQuaternionMath;
 import de.m_marvin.univec.api.IVector3;
@@ -39,13 +38,15 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 		}
 	}
 	
-	public Quaterniond(IMatrix3<Double> matrix) {
-		double w = (double) (Math.sqrt(1.0 + matrix.getField(0, 0) + matrix.getField(1, 1) + matrix.getField(2, 2)) / 2.0);
+	public static Quaterniond fromRotationMatrix(Matrix3d mat) {
+		double w = (double) (Math.sqrt(1.0 + mat.m(0, 0) + mat.m(1, 1) + mat.m(2, 2)) / 2.0);
 		double w4 = (4F * w);
-		this.i = (matrix.getField(2, 1) - matrix.getField(1, 2)) / w4;
-		this.j = (matrix.getField(0, 2) - matrix.getField(2, 0)) / w4;
-		this.k = (matrix.getField(1, 0) - matrix.getField(0, 1)) / w4;
-		this.r = w;
+		return new Quaterniond(
+			(mat.m(2, 1) - mat.m(1, 2)) / w4,
+			(mat.m(0, 2) - mat.m(2, 0)) / w4,
+			(mat.m(1, 0) - mat.m(0, 1)) / w4,
+			w
+		);
 	}
 	
 	@Override
@@ -205,15 +206,15 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 		if (getClass() != obj.getClass())
 			return false;
 		Quaterniond other = (Quaterniond) obj;
-		return Double.doubleToLongBits(i) == Double.doubleToLongBits(other.i)
-				&& Double.doubleToLongBits(j) == Double.doubleToLongBits(other.j)
-				&& Double.doubleToLongBits(k) == Double.doubleToLongBits(other.k)
-				&& Double.doubleToLongBits(r) == Double.doubleToLongBits(other.r);
+		return 	Double.doubleToLongBits(i) == Double.doubleToLongBits(other.i) &&
+				Double.doubleToLongBits(j) == Double.doubleToLongBits(other.j) &&
+				Double.doubleToLongBits(k) == Double.doubleToLongBits(other.k) &&
+				Double.doubleToLongBits(r) == Double.doubleToLongBits(other.r);
 	}
 
 	@Override
 	public String toString() {
-		return "Quterniond[" + this.i + ", " + this.j + ", " + this.k + ", " + this.r + "]";
+		return String.format("[%f  %f  %f  %f]", this.i, this.j, this.k, this.r);
 	}
 	
 }

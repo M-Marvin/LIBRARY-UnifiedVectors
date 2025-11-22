@@ -6,7 +6,7 @@ import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.api.IVector4Math;
 
-public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Number>> {
+public class Vec4i implements IVector4Math<Integer, Vec4i, Vec4i> {
 	
 	public int x;
 	public int y;
@@ -48,6 +48,11 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 		this.w = vec.w().intValue();
 	}
 
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Integer.class;
+	}
+	
 	public static Vec4i fromVec(Object vectorObject) {
 		return new Vec4i(0, 0, 0, 0).readFrom(vectorObject);
 	}
@@ -236,6 +241,36 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	}
 
 	@Override
+	public Integer sum() {
+		return this.x + this.y + this.z + this.w;
+	}
+	
+	@Override
+	public Vec4i sign() {
+		return new Vec4i(
+				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
+				this.y > 0 ? 1 : this.y < 0 ? -1 : 0,
+				this.z > 0 ? 1 : this.z < 0 ? -1 : 0,
+				this.w > 0 ? 1 : this.w < 0 ? -1 : 0
+		);
+	}
+
+	@Override
+	public Vec4i floor() {
+		return copy();
+	}
+
+	@Override
+	public Vec4i ceil() {
+		return copy();
+	}
+
+	@Override
+	public Vec4i round() {
+		return copy();
+	}
+	
+	@Override
 	public boolean isFinite() {
 		return true;
 	}
@@ -258,7 +293,14 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	@Override
 	public Vec4i normalize() {
 		int f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
+		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
+		return this.div(f);
+	}
+	
+	@Override
+	public Vec4i tryNormalize() {
+		int f = this.length();
+		if (f == 0) return new Vec4i(0, 0, 0, 0);
 		return this.div(f);
 	}
 	
@@ -305,12 +347,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, IVector4<? extends Nu
 	
 	@Override
 	public String toString() {
-		return "Vec4f[" + this.x + "," + this.y + "," + this.z + "," + this.w + "]";
-	}
-
-	@Override
-	public Class<? extends Number> getTypeClass() {
-		return Integer.class;
+		return String.format("[%f  %f  %f  %f]", this.x, this.y, this.z, this.w);
 	}
 	
 }

@@ -2,7 +2,6 @@ package de.m_marvin.unimat.impl;
 
 import java.util.Objects;
 
-import de.m_marvin.unimat.api.IMatrix3;
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.unimat.api.IQuaternionMath;
 import de.m_marvin.univec.api.IVector3;
@@ -39,13 +38,15 @@ public class Quaternionf implements IQuaternionMath<Float, Quaternionf, IQuatern
 		}
 	}
 	
-	public Quaternionf(IMatrix3<Float> matrix) {
-		float w = (float) (Math.sqrt(1.0 + matrix.getField(0, 0) + matrix.getField(1, 1) + matrix.getField(2, 2)) / 2.0);
+	public static Quaternionf fromRotationMatrix(Matrix3f mat) {
+		float w = (float) (Math.sqrt(1.0 + mat.m(0, 0) + mat.m(1, 1) + mat.m(2, 2)) / 2.0);
 		float w4 = (4F * w);
-		this.i = (matrix.getField(2, 1) - matrix.getField(1, 2)) / w4;
-		this.j = (matrix.getField(0, 2) - matrix.getField(2, 0)) / w4;
-		this.k = (matrix.getField(1, 0) - matrix.getField(0, 1)) / w4;
-		this.r = w;
+		return new Quaternionf(
+			(mat.m(2, 1) - mat.m(1, 2)) / w4,
+			(mat.m(0, 2) - mat.m(2, 0)) / w4,
+			(mat.m(1, 0) - mat.m(0, 1)) / w4,
+			w
+		);
 	}
 	
 	@Override
@@ -219,7 +220,7 @@ public class Quaternionf implements IQuaternionMath<Float, Quaternionf, IQuatern
 
 	@Override
 	public String toString() {
-		return "Quterniond[" + this.i + ", " + this.j + ", " + this.k + ", " + this.r + "]";
+		return String.format("[%f  %f  %f  %f]", this.i, this.j, this.k, this.r);
 	}
 	
 }

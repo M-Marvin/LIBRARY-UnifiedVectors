@@ -7,7 +7,7 @@ import de.m_marvin.univec.api.IVector2Math;
 /*
  * Implementation of a 2 dimensional float vector
  */
-public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Number>> {
+public class Vec2f implements IVector2Math<Float, Vec2f, Vec2i> {
 	
 	public float x;
 	public float y;
@@ -25,6 +25,11 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	public Vec2f(IVector2<? extends Number> vec) {
 		this.x = vec.x().floatValue();
 		this.y = vec.y().floatValue();
+	}
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Float.class;
 	}
 
 	public static Vec2f fromVec(Object vectorObject) {
@@ -187,6 +192,43 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	}
 
 	@Override
+	public Float sum() {
+		return this.x + this.y;
+	}
+	
+	@Override
+	public Vec2i sign() {
+		return new Vec2i(
+				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
+				this.y > 0 ? 1 : this.y < 0 ? -1 : 0
+		);
+	}
+
+	@Override
+	public Vec2i floor() {
+		return new Vec2i(
+				(int) Math.floor(this.x),
+				(int) Math.floor(this.y)
+		);
+	}
+
+	@Override
+	public Vec2i ceil() {
+		return new Vec2i(
+				(int) Math.ceil(this.x),
+				(int) Math.ceil(this.y)
+		);
+	}
+
+	@Override
+	public Vec2i round() {
+		return new Vec2i(
+				(int) Math.round(this.x),
+				(int) Math.round(this.y)
+		);
+	}
+	
+	@Override
 	public boolean isFinite() {
 		return Float.isFinite(x) && Float.isFinite(y);
 	}
@@ -219,7 +261,14 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 	@Override
 	public Vec2f normalize() {
 		float f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
+		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
+		return this.div(f);
+	}
+
+	@Override
+	public Vec2f tryNormalize() {
+		float f = this.length();
+		if (f == 0) return new Vec2f(0, 0);
 		return this.div(f);
 	}
 	
@@ -260,16 +309,6 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 		result = result * 31 + Float.hashCode(this.y);
 		return result;
 	}
-	
-	@Override
-	public String toString() {
-		return "Vec2f[" + this.x + "," + this.y + "]";
-	}
-
-	@Override
-	public Class<? extends Number> getTypeClass() {
-		return Float.class;
-	}
 
 	@Override
 	public Vec2f anyOrthogonal() {
@@ -281,4 +320,9 @@ public class Vec2f implements IVector2Math<Float, Vec2f, IVector2<? extends Numb
 		return new Vec2f[] {new Vec2f(-y, x), new Vec2f(y, -x)};
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("[%f  %f]", this.x, this.y);
+	}
+
 }

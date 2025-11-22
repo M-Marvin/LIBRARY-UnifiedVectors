@@ -6,7 +6,7 @@ import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.api.IVector4Math;
 
-public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Number>> {
+public class Vec4f implements IVector4Math<Float, Vec4f, Vec4i> {
 	
 	public float x;
 	public float y;
@@ -48,6 +48,11 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 		this.w = vec.w().floatValue();
 	}
 
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Float.class;
+	}
+	
 	public static Vec4f fromVec(Object vectorObject) {
 		return new Vec4f(0, 0, 0, 0).readFrom(vectorObject);
 	}
@@ -236,6 +241,51 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	}
 
 	@Override
+	public Float sum() {
+		return this.x + this.y + this.z + this.w;
+	}
+	
+	@Override
+	public Vec4i sign() {
+		return new Vec4i(
+				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
+				this.y > 0 ? 1 : this.y < 0 ? -1 : 0,
+				this.z > 0 ? 1 : this.z < 0 ? -1 : 0,
+				this.w > 0 ? 1 : this.w < 0 ? -1 : 0
+		);
+	}
+
+	@Override
+	public Vec4i floor() {
+		return new Vec4i(
+				(int) Math.floor(this.x),
+				(int) Math.floor(this.y),
+				(int) Math.floor(this.z),
+				(int) Math.floor(this.w)
+		);
+	}
+
+	@Override
+	public Vec4i ceil() {
+		return new Vec4i(
+				(int) Math.ceil(this.x),
+				(int) Math.ceil(this.y),
+				(int) Math.ceil(this.z),
+				(int) Math.ceil(this.w)
+		);
+	}
+
+	@Override
+	public Vec4i round() {
+		return new Vec4i(
+				(int) Math.round(this.x),
+				(int) Math.round(this.y),
+				(int) Math.round(this.z),
+				(int) Math.round(this.w)
+		);
+	}
+	
+	@Override
 	public boolean isFinite() {
 		return Float.isFinite(x) && Float.isFinite(y) && Float.isFinite(z) && Float.isFinite(w);
 	}
@@ -258,7 +308,14 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	@Override
 	public Vec4f normalize() {
 		float f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
+		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
+		return this.div(f);
+	}
+
+	@Override
+	public Vec4f tryNormalize() {
+		float f = this.length();
+		if (f == 0) return new Vec4f(0, 0, 0, 0);
 		return this.div(f);
 	}
 	
@@ -305,12 +362,7 @@ public class Vec4f implements IVector4Math<Float, Vec4f, IVector4<? extends Numb
 	
 	@Override
 	public String toString() {
-		return "Vec4f[" + this.x + "," + this.y + "," + this.z + "," + this.w + "]";
-	}
-
-	@Override
-	public Class<? extends Number> getTypeClass() {
-		return Float.class;
+		return String.format("[%f  %f  %f  %f]", this.x, this.y, this.z, this.w);
 	}
 	
 }

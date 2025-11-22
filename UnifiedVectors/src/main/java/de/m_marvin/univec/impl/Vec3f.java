@@ -9,7 +9,7 @@ import de.m_marvin.univec.api.IVector3Math;
 /*
  * Implementation of a 3 dimensional float vector
  */
-public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Number>, Quaternionf> {
+public class Vec3f implements IVector3Math<Float, Vec3f, Vec3i, Quaternionf> {
 
 	public float x;
 	public float y;
@@ -38,7 +38,12 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		this.y = vec.y().floatValue();
 		this.z = vec.z().floatValue();
 	}
-	
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Float.class;
+	}
+
 	public static Vec3f fromVec(Object vectorObject) {
 		return new Vec3f(0, 0, 0).readFrom(vectorObject);
 	}
@@ -213,6 +218,47 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	}
 
 	@Override
+	public Float sum() {
+		return this.x + this.y + this.z;
+	}
+	
+	@Override
+	public Vec3i sign() {
+		return new Vec3i(
+				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
+				this.y > 0 ? 1 : this.y < 0 ? -1 : 0,
+				this.z > 0 ? 1 : this.z < 0 ? -1 : 0
+		);
+	}
+
+	@Override
+	public Vec3i floor() {
+		return new Vec3i(
+				(int) Math.floor(this.x),
+				(int) Math.floor(this.y),
+				(int) Math.floor(this.z)
+		);
+	}
+
+	@Override
+	public Vec3i ceil() {
+		return new Vec3i(
+				(int) Math.ceil(this.x),
+				(int) Math.ceil(this.y),
+				(int) Math.ceil(this.z)
+		);
+	}
+
+	@Override
+	public Vec3i round() {
+		return new Vec3i(
+				(int) Math.round(this.x),
+				(int) Math.round(this.y),
+				(int) Math.round(this.z)
+		);
+	}
+	
+	@Override
 	public boolean isFinite() {
 		return Float.isFinite(x) && Float.isFinite(y) && Float.isFinite(z);
 	}
@@ -251,7 +297,14 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	@Override
 	public Vec3f normalize() {
 		float f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
+		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
+		return this.div(f);
+	}
+
+	@Override
+	public Vec3f tryNormalize() {
+		float f = this.length();
+		if (f == 0) return new Vec3f(0, 0, 0);
 		return this.div(f);
 	}
 	
@@ -296,10 +349,16 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 		result = result * 32 + Float.hashCode(this.z);
 		return result;
 	}
-	
+
 	@Override
-	public String toString() {
-		return "Vec3f[" + this.x + "," + this.y + "," + this.z + "]";
+	public Vec3f anyOrthogonal() {
+		return new Vec3f(-z, x, y).cross(this).normalize();
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Vec3f[] orthogonals(IVector3<? extends Number> vec2) {
+		return new Vec3f[] {this.cross(vec2), new Vec3f(((IVector3Math) vec2).cross(this))};
 	}
 
 	@Override
@@ -321,19 +380,8 @@ public class Vec3f implements IVector3Math<Float, Vec3f, IVector3<? extends Numb
 	}
 
 	@Override
-	public Class<? extends Number> getTypeClass() {
-		return Float.class;
+	public String toString() {
+		return String.format("[%f  %f  %f]", this.x, this.y, this.z);
 	}
 
-	@Override
-	public Vec3f anyOrthogonal() {
-		return new Vec3f(-(z / x), 0, 1).normalize();
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public Vec3f[] orthogonals(IVector3<? extends Number> vec2) {
-		return new Vec3f[] {this.cross(vec2), new Vec3f(((IVector3Math) vec2).cross(this))};
-	}
-	
 }

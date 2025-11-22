@@ -5,6 +5,9 @@ package de.m_marvin.univec.api;
  * Contains basic methods that share all vectors
  */
 public interface IVector2<N extends Number> extends IVector {
+
+	public N length();
+	public N lengthSqr();
 	
 	public N x();
 	default N getX() {return x();}
@@ -14,8 +17,5 @@ public interface IVector2<N extends Number> extends IVector {
 	
 	public void setX(N x);
 	public void setY(N y);
-	
-	public N length();
-	public N lengthSqr();
 	
 }

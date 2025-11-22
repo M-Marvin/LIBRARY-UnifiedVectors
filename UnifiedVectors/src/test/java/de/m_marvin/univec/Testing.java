@@ -1,6 +1,8 @@
 package de.m_marvin.univec;
 
 import de.m_marvin.unimat.api.IQuaternionMath.EulerOrder;
+import de.m_marvin.unimat.impl.Matrix4d;
+import de.m_marvin.unimat.impl.MatrixNd;
 import de.m_marvin.unimat.impl.Quaterniond;
 import de.m_marvin.unimat.impl.Quaternionf;
 import de.m_marvin.univec.impl.Vec2d;
@@ -14,9 +16,24 @@ public class Testing {
 	
 	public static void main(String... args) {
 		
-		//VectorParser.setObfuscationResolver((clazz, field) -> Optional.of("dfsdf"));
-		
 		System.out.println("Testing ...");
+		
+		MatrixNd m = new MatrixNd(new Double[][] {
+			new Double[] { 2.0,  3.0,  3.0,  1.0 },
+			new Double[] { 0.0,  4.0,  3.0, -3.0 },
+			new Double[] { 2.0, -1.0, -1.0, -3.0 },
+			new Double[] { 0.0, -4.0, -3.0,  2.0 },
+		});
+		
+		System.out.println("Determinant: " + m.determinant());
+		System.out.println("Ajungate:\n" + m.adjungate());
+		System.out.println("Invers:\n" + m.invert());
+		
+		Matrix4d m4 = m.get4x4();
+		
+		Matrix4d mt = m4.mul(m4);
+		
+		System.out.println(mt);
 		
 		TestVec test = new ITest(2, 3, 5);
 		

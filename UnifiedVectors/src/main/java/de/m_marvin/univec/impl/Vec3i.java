@@ -9,7 +9,7 @@ import de.m_marvin.univec.api.IVector3Math;
 /*
  * Implementation of a 3 dimensional integer vector
  */
-public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Number>, Quaternionf> {
+public class Vec3i implements IVector3Math<Integer, Vec3i, Vec3i, Quaternionf> {
 
 	public int x;
 	public int y;
@@ -37,6 +37,11 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 		this.x = vec.x().intValue();
 		this.y = vec.y().intValue();
 		this.z = vec.z().intValue();
+	}
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Integer.class;
 	}
 
 	public static Vec3i fromVec(Object vectorObject) {
@@ -213,6 +218,35 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	}
 
 	@Override
+	public Integer sum() {
+		return this.x + this.y + this.z;
+	}
+	
+	@Override
+	public Vec3i sign() {
+		return new Vec3i(
+				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
+				this.y > 0 ? 1 : this.y < 0 ? -1 : 0,
+				this.z > 0 ? 1 : this.z < 0 ? -1 : 0
+		);
+	}
+
+	@Override
+	public Vec3i floor() {
+		return copy();
+	}
+
+	@Override
+	public Vec3i ceil() {
+		return copy();
+	}
+
+	@Override
+	public Vec3i round() {
+		return copy();
+	}
+	
+	@Override
 	public boolean isFinite() {
 		return true;
 	}
@@ -251,7 +285,14 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	@Override
 	public Vec3i normalize() {
 		int f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
+		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
+		return this.div(f);
+	}
+
+	@Override
+	public Vec3i tryNormalize() {
+		int f = this.length();
+		if (f == 0) return new Vec3i(0, 0, 0);
 		return this.div(f);
 	}
 	
@@ -296,11 +337,6 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 		result = result * 32 + Integer.hashCode(this.z);
 		return result;
 	}
-	
-	@Override
-	public String toString() {
-		return "Vec3i[" + this.x + "," + this.y + "," + this.z + "]";
-	}
 
 	@Override
 	public Vec3i transform(Quaternionf quaternion) {
@@ -321,19 +357,19 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, IVector3<? extends Nu
 	}
 
 	@Override
-	public Class<? extends Number> getTypeClass() {
-		return Integer.class;
-	}
-
-	@Override
 	public Vec3i anyOrthogonal() {
-		return new Vec3i(-(z / x), 0, 1).normalize();
+		return new Vec3i(-z, x, y).cross(this).normalize();
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Vec3i[] orthogonals(IVector3<? extends Number> vec2) {
 		return new Vec3i[] {this.cross(vec2), new Vec3i(((IVector3Math) vec2).cross(this))};
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("[%f  %f  %f]", this.x, this.y, this.z);
 	}
 	
 }

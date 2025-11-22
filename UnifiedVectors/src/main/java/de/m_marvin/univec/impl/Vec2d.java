@@ -7,7 +7,7 @@ import de.m_marvin.univec.api.IVector2Math;
 /*
  * Implementation of a 3 dimensional double vector
  */
-public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Number>> {
+public class Vec2d implements IVector2Math<Double, Vec2d, Vec2i> {
 	
 	public double x;
 	public double y;
@@ -27,6 +27,11 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 		this.y = vec.y().doubleValue();
 	}
 
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Double.class;
+	}
+	
 	public static Vec2d fromVec(Object vectorObject) {
 		return new Vec2d(0, 0).readFrom(vectorObject);
 	}
@@ -187,6 +192,43 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	}
 
 	@Override
+	public Double sum() {
+		return this.x + this.y;
+	}
+	
+	@Override
+	public Vec2i sign() {
+		return new Vec2i(
+				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
+				this.y > 0 ? 1 : this.y < 0 ? -1 : 0
+		);
+	}
+
+	@Override
+	public Vec2i floor() {
+		return new Vec2i(
+				(int) Math.floor(this.x),
+				(int) Math.floor(this.y)
+		);
+	}
+
+	@Override
+	public Vec2i ceil() {
+		return new Vec2i(
+				(int) Math.ceil(this.x),
+				(int) Math.ceil(this.y)
+		);
+	}
+
+	@Override
+	public Vec2i round() {
+		return new Vec2i(
+				(int) Math.round(this.x),
+				(int) Math.round(this.y)
+		);
+	}
+	
+	@Override
 	public boolean isFinite() {
 		return Double.isFinite(x) && Double.isFinite(y);
 	}
@@ -219,7 +261,14 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	@Override
 	public Vec2d normalize() {
 		double f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
+		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
+		return this.div(f);
+	}
+	
+	@Override
+	public Vec2d tryNormalize() {
+		double f = this.length();
+		if (f == 0) return new Vec2d(0, 0);
 		return this.div(f);
 	}
 	
@@ -260,17 +309,7 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 		result = result * 31 + Double.hashCode(this.y);
 		return result;
 	}
-	
-	@Override
-	public String toString() {
-		return "Vec2d[" + this.x + "," + this.y + "]";
-	}
 
-	@Override
-	public Class<? extends Number> getTypeClass() {
-		return Double.class;
-	}
-	
 	@Override
 	public Vec2d anyOrthogonal() {
 		return new Vec2d(-y, x);
@@ -279,6 +318,11 @@ public class Vec2d implements IVector2Math<Double, Vec2d, IVector2<? extends Num
 	@Override
 	public Vec2d[] orthogonals() {
 		return new Vec2d[] {new Vec2d(-y, x), new Vec2d(y, -x)};
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("[%f  %f]", this.x, this.y);
 	}
 	
 }

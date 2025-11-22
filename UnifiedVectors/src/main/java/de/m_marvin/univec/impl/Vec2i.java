@@ -7,7 +7,7 @@ import de.m_marvin.univec.api.IVector2Math;
 /*
  * Implementation of a 2 dimensional integer vector
  */
-public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Number>> {
+public class Vec2i implements IVector2Math<Integer, Vec2i, Vec2i> {
 	
 	public int x;
 	public int y;
@@ -25,6 +25,11 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	public Vec2i(IVector2<? extends Number> vec) {
 		this.x = vec.x().intValue();
 		this.y = vec.y().intValue();
+	}
+
+	@Override
+	public Class<? extends Number> getTypeClass() {
+		return Integer.class;
 	}
 
 	public static Vec2i fromVec(Object vectorObject) {
@@ -187,6 +192,34 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	}
 
 	@Override
+	public Integer sum() {
+		return this.x + this.y;
+	}
+	
+	@Override
+	public Vec2i sign() {
+		return new Vec2i(
+				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
+				this.y > 0 ? 1 : this.y < 0 ? -1 : 0
+		);
+	}
+
+	@Override
+	public Vec2i floor() {
+		return copy();
+	}
+
+	@Override
+	public Vec2i ceil() {
+		return copy();
+	}
+
+	@Override
+	public Vec2i round() {
+		return copy();
+	}
+	
+	@Override
 	public boolean isFinite() {
 		return true;
 	}
@@ -218,8 +251,15 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 	
 	@Override
 	public Vec2i normalize() {
-		Integer f = this.length();
-		if (f == 0) throw new ArithmeticException("Division trough zero, cant normalize vector of length 0!");
+		int f = this.length();
+		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
+		return this.div(f);
+	}
+
+	@Override
+	public Vec2i tryNormalize() {
+		int f = this.length();
+		if (f == 0) return new Vec2i(0, 0);
 		return this.div(f);
 	}
 	
@@ -260,16 +300,6 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 		result = result * 31 + Integer.hashCode(this.y);
 		return result;
 	}
-	
-	@Override
-	public String toString() {
-		return "Vec2i[" + this.x + "," + this.y + "]";
-	}
-
-	@Override
-	public Class<? extends Number> getTypeClass() {
-		return Integer.class;
-	}
 
 	@Override
 	public Vec2i anyOrthogonal() {
@@ -281,4 +311,9 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, IVector2<? extends Nu
 		return new Vec2i[] {new Vec2i(-y, x), new Vec2i(y, -x)};
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("[%f  %f]", this.x, this.y);
+	}
+
 }
