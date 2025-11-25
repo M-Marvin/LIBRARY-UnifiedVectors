@@ -10,6 +10,10 @@ public class MatrixNf extends BaseFloatMatrix<MatrixNf> {
 	public MatrixNf(int w, int h) {
 		super(w, h);
 	}
+	
+	public MatrixNf(int s) {
+		this(s, s);
+	}
 
 	public MatrixNf(MatrixNd mat) {
 		this(mat.width(), mat.height());

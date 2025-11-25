@@ -51,6 +51,11 @@ public interface IMatrixMath<N extends Number, MO extends IMatrix<N>, VO2 extend
 		return setI( mul(mat));
 	}
 	
+	public void addM(int x, int y, N n);
+	public void subM(int x, int y, N n);
+	public void mulM(int x, int y, N n);
+	public void divM(int x, int y, N n);
+	
 	public MO add(IMatrix<? extends Number> mat);
 	public default MO addI(IMatrix<? extends Number> mat) { return setI( add(mat)); }
 	

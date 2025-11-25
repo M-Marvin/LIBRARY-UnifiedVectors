@@ -10,6 +10,10 @@ public class MatrixNd extends BaseDoubleMatrix<MatrixNd> {
 	public MatrixNd(int w, int h) {
 		super(w, h);
 	}
+	
+	public MatrixNd(int s) {
+		this(s, s);
+	}
 
 	public MatrixNd(MatrixNf mat) {
 		this(mat.width(), mat.height());

@@ -311,18 +311,58 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 	}
 
 	@Override
+	public void addM(int x, int y, Double n) {
+		if (x < 0 || x >= width())
+			throw new IndexOutOfBoundsException("matrix element index out of bounds: x " + x);
+		if (y < 0 || y >= height())
+			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
+		
+		this.m[y][x] += n;
+	}
+	
+	@Override
+	public void subM(int x, int y, Double n) {
+		if (x < 0 || x >= width())
+			throw new IndexOutOfBoundsException("matrix element index out of bounds: x " + x);
+		if (y < 0 || y >= height())
+			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
+		
+		this.m[y][x] -= n;
+	}
+	
+	@Override
+	public void mulM(int x, int y, Double n) {
+		if (x < 0 || x >= width())
+			throw new IndexOutOfBoundsException("matrix element index out of bounds: x " + x);
+		if (y < 0 || y >= height())
+			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
+		
+		this.m[y][x] *= n;
+	}
+	
+	@Override
+	public void divM(int x, int y, Double n) {
+		if (x < 0 || x >= width())
+			throw new IndexOutOfBoundsException("matrix element index out of bounds: x " + x);
+		if (y < 0 || y >= height())
+			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
+		
+		this.m[y][x] /= n;
+	}
+
+	@Override
 	public M mul(IMatrix<? extends Number> mat) {
 		if (this.width() != mat.height())
 			throw new MatrixMathException("incompatible matrix dimensions for multiplication", this, mat);
 		
-		M result = newMatrix(this.height(), mat.width());
+		M result = newMatrix(mat.width(), this.height());
 		for (int y = 0; y < result.height(); y++)
 			for (int x = 0; x < result.width(); x++)
 				for (int j = 0; j < this.width(); j++)
-					result.m[y][x] += this.m(x, j) * mat.m(j, y).doubleValue();
+					result.m[y][x] += this.m(j, y) * mat.m(x, j).doubleValue();
 		return result;
 	}
-
+	
 	@Override
 	public M add(IMatrix<? extends Number> mat) {
 		if (this.width() != mat.width() || this.height() != mat.height())
@@ -468,9 +508,12 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 				det += f * (isCol ? this.developAndDet(index, i) : this.developAndDet(i, index));
 			}	
 			return det;
-		} else {
+		} else if (width() == 2) {
 			return m(0, 0) * m(1, 1) - m(0, 1) * m(1, 0);
+		} else if (width() == 1) {
+			return m(0, 0);
 		}
+		return 0.0;
 	}
 
 	@Override
