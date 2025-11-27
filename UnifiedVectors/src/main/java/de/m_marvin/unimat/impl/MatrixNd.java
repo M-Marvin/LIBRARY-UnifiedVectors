@@ -7,26 +7,34 @@ import de.m_marvin.univec.api.IVector4;
 
 public class MatrixNd extends BaseDoubleMatrix<MatrixNd> {
 
-	public MatrixNd(int w, int h) {
-		super(w, h);
+	public MatrixNd(int w, int h, boolean sparse) {
+		super(w, h, sparse);
 	}
 	
+	public MatrixNd(int w, int h) {
+		this(w, h, false);
+	}
+	
+	public MatrixNd(int s, boolean sparse) {
+		this(s, s, sparse);
+	}
+
 	public MatrixNd(int s) {
-		this(s, s);
+		this(s, false);
 	}
 
 	public MatrixNd(MatrixNf mat) {
-		this(mat.width(), mat.height());
+		this(mat.width(), mat.height(), mat.isSparse());
 		setI(mat);
 	}
 	
-	public MatrixNd(Double[][] m) {
+	public MatrixNd(double[][] m) {
 		super(m);
 	}
 	
 	@Override
-	protected MatrixNd newMatrix(int width, int height) {
-		return new MatrixNd(width, height);
+	protected MatrixNd newMatrix(int width, int height, boolean sparse) {
+		return new MatrixNd(width, height, sparse);
 	}
 
 	public Matrix4d get4x4() {
@@ -60,27 +68,27 @@ public class MatrixNd extends BaseDoubleMatrix<MatrixNd> {
 	}
 	
 	public static MatrixNd columnVector(IVector2<Number> vector) {
-		return new MatrixNd(1, 2).setColVecI(vector);
+		return new MatrixNd(1, 2, false).setColVecI(vector);
 	}
 
 	public static MatrixNd columnVector(IVector3<Number> vector) {
-		return new MatrixNd(1, 3).setColVecI(vector);
+		return new MatrixNd(1, 3, false).setColVecI(vector);
 	}
 	
 	public static MatrixNd columnVector(IVector4<Number> vector) {
-		return new MatrixNd(1, 4).setColVecI(vector);
+		return new MatrixNd(1, 4, false).setColVecI(vector);
 	}
 	
 	public static MatrixNd rowVector(IVector2<Number> vector) {
-		return new MatrixNd(2, 1).setRowVecI(vector);
+		return new MatrixNd(2, 1, false).setRowVecI(vector);
 	}
 
 	public static MatrixNd rowVector(IVector3<Number> vector) {
-		return new MatrixNd(3, 1).setRowVecI(vector);
+		return new MatrixNd(3, 1, false).setRowVecI(vector);
 	}
 	
 	public static MatrixNd rowVector(IVector4<Number> vector) {
-		return new MatrixNd(4, 1).setRowVecI(vector);
+		return new MatrixNd(4, 1, false).setRowVecI(vector);
 	}
 	
 }

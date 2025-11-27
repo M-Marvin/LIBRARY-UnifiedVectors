@@ -16,5 +16,6 @@ public interface IMatrix<N extends Number> {
 	public void set(int x, int y, N m);
 
 	public boolean isSquare();
+	public boolean isSparse();
 	
 }

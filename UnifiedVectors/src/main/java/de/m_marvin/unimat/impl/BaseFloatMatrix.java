@@ -1,5 +1,11 @@
 package de.m_marvin.unimat.impl;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import de.m_marvin.unimat.MatrixMathException;
 import de.m_marvin.unimat.api.IMatrix;
 import de.m_marvin.unimat.api.IMatrixMath;
@@ -7,36 +13,50 @@ import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.impl.Vec2f;
+import de.m_marvin.univec.impl.Vec2i;
 import de.m_marvin.univec.impl.Vec3f;
 import de.m_marvin.univec.impl.Vec4f;
 
 public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements IMatrix<Float>, IMatrixMath<Float, M, Vec2f, Vec3f, Vec4f> {
 	
-	public final Float[][] m;
+	private final float[][] m;
+	private final Map<Vec2i, Float> v;
+	private final int w;
+	private final int h;
 	
-	public BaseFloatMatrix(int w, int h) {
-		this.m = new Float[h][w];
-		for (int y = 0; y < h; y++) {
-			this.m[y] = new Float[w];
-			for (int x = 0; x < w; x++)
-				this.m[y][x] = 0.0F;
+	public BaseFloatMatrix(int w, int h, boolean sparse) {
+		if (!sparse) {
+			this.m = new float[h][w];
+			for (int y = 0; y < h; y++) {
+				this.m[y] = new float[w];
+				for (int x = 0; x < w; x++)
+					this.m[y][x] = 0.0F;
+			}
+			this.v = null;
+		} else {
+			this.m = null;
+			this.v = new HashMap<>();
 		}
+		this.w = w;
+		this.h = h;
 	}
 	
-	public BaseFloatMatrix(Float[][] m) {
+	public BaseFloatMatrix(float[][] m) {
 		if (m.length == 0)
 			throw new MatrixMathException("matrix can not be empty");
-		int w = m[0].length;
+		this.w = m[0].length;
+		this.h = m.length;
 		if (w == 0)
 			throw new MatrixMathException("matrix can not be empty");
-		for (Object[] l : m)
+		for (float[] l : m)
 			if (w != l.length)
 				throw new MatrixMathException("matrix values do not foram an rectangular array");
 		
 		this.m = m;
+		this.v = null;
 	}
 	
-	protected abstract M newMatrix(int width, int height);
+	protected abstract M newMatrix(int width, int height, boolean sparse);
 	
 	@Override
 	public Class<? extends Number> getTypeClass() {
@@ -45,17 +65,62 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 
 	@Override
 	public int width() {
-		return this.m[0].length;
+		return this.w;
 	}
 
 	@Override
 	public int height() {
-		return this.m.length;
+		return this.h;
 	}
 
 	@Override
 	public boolean isSquare() {
 		return width() == height();
+	}
+	
+	@Override
+	public boolean isSparse() {
+		return this.m == null;
+	}
+	
+	public float[] getArray() {
+		if (isSparse()) {
+			float[] arr = new float[this.w * this.h];
+			for (int y = 0; y < this.h; y++) {
+				for (int x = 0; x < this.w; x++) {
+					arr[y * this.w + x] = m(x, y);
+				}
+			}
+			return arr;
+		} else {
+			float[] arr = new float[this.w * this.h];
+			for (int y = 0; y < this.h; y++) {
+				System.arraycopy(this.m[y], 0, arr, y * this.w, this.w);
+			}
+			return arr;
+		}
+	}
+	
+	public float[][] get2DArray() {
+		if (isSparse()) {
+			float[][] arr = new float[this.h][this.w];
+			for (int y = 0; y < this.h; y++) {
+				for (int x = 0; x < this.w; x++) {
+					arr[y][x] = m(x, y);
+				}
+			}
+			return arr;
+		} else {
+			return this.m;
+		}
+	}
+	
+	public Map<Vec2i, Float> getNonZeroes() {
+		if (isSparse()) {
+			return Collections.unmodifiableMap(this.v);
+		} else {
+			return IntStream.range(0, this.h).boxed().flatMap(y -> IntStream.range(0, this.w).mapToObj(x -> new Vec2i(x, y))).filter(p -> m(p.x, p.y) != 0.0).collect(Collectors.toMap(p -> p, p -> m(p.x, p.y)));
+		}
 	}
 	
 	@Override
@@ -65,7 +130,11 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		if (y < 0 || y >= height())
 			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
 		
-		return this.m[y][x];
+		if (isSparse()) {
+			return this.v.getOrDefault(new Vec2i(x, y), 0.0F);
+		} else {
+			return this.m[y][x];
+		}
 	}
 
 	@Override
@@ -75,7 +144,14 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		if (y < 0 || y >= height())
 			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
 		
-		this.m[y][x] = m;
+		if (isSparse()) {
+			if (m == 0.0)
+				this.v.remove(new Vec2i(x, y));
+			else
+				this.v.put(new Vec2i(x, y), m);
+		} else {
+			this.m[y][x] = m;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -86,12 +162,18 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		
 		for (int x = 0; x < width(); x++)
 			for (int y = 0; y < height(); y++)
-				this.m[y][x] = mat.m(x, y).floatValue();
+				this.set(x, y, mat.m(x, y).floatValue());
 		return (M) this;
 	}
 
 	public M copy() {
-		return newMatrix(width(), height()).setI(this);
+		M m = newMatrix(width(), height(), isSparse());
+		if (isSparse()) {
+			this.getNonZeroes().entrySet().forEach(e -> m.set(e.getKey().x, e.getKey().y, e.getValue()));
+		} else {
+			m.setI(this);
+		}
+		return m;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -317,7 +399,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		if (y < 0 || y >= height())
 			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
 		
-		this.m[y][x] += n;
+		this.set(x, y, m(x, y) + n);
 	}
 	
 	@Override
@@ -326,8 +408,8 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 			throw new IndexOutOfBoundsException("matrix element index out of bounds: x " + x);
 		if (y < 0 || y >= height())
 			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
-		
-		this.m[y][x] -= n;
+
+		this.set(x, y, m(x, y) - n);
 	}
 	
 	@Override
@@ -336,8 +418,8 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 			throw new IndexOutOfBoundsException("matrix element index out of bounds: x " + x);
 		if (y < 0 || y >= height())
 			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
-		
-		this.m[y][x] *= n;
+
+		this.set(x, y, m(x, y) * n);
 	}
 	
 	@Override
@@ -346,29 +428,29 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 			throw new IndexOutOfBoundsException("matrix element index out of bounds: x " + x);
 		if (y < 0 || y >= height())
 			throw new IndexOutOfBoundsException("matrix element index out of bounds: y " + y);
-		
-		this.m[y][x] /= n;
+
+		this.set(x, y, m(x, y) / n);
 	}
 
 	@Override
 	public M mul(IMatrix<? extends Number> mat) {
 		if (this.width() != mat.height())
 			throw new MatrixMathException("incompatible matrix dimensions for multiplication", this, mat);
-
-		M result = newMatrix(mat.width(), this.height());
+		
+		M result = newMatrix(mat.width(), height(), isSparse() || mat.isSparse());
 		for (int y = 0; y < result.height(); y++)
 			for (int x = 0; x < result.width(); x++)
 				for (int j = 0; j < this.width(); j++)
-					result.m[y][x] += this.m(j, y) * mat.m(x, j).floatValue();
+					result.addM(x, y, this.m(j, y) * mat.m(x, j).floatValue());
 		return result;
 	}
-
+	
 	@Override
 	public M add(IMatrix<? extends Number> mat) {
-		if (this.width() != mat.width() || this.height() != mat.height())
+		if (this.width() != mat.width() || height() != mat.height())
 			throw new MatrixMathException("incompatible matrix dimensions for addition", this, mat);
 		
-		M m = newMatrix(width(), height());
+		M m = newMatrix(width(), height(), isSparse() && mat.isSparse());
 		for (int x = 0; x < width(); x++)
 			for (int y = 0; y < height(); y++)
 				m.set(x, y, this.m(x, y) + mat.m(x, y).floatValue());
@@ -377,10 +459,10 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 
 	@Override
 	public M sub(IMatrix<? extends Number> mat) {
-		if (this.width() != mat.width() || this.height() != mat.height())
+		if (this.width() != mat.width() || height() != mat.height())
 			throw new MatrixMathException("incompatible matrix dimensions for subtraction", this, mat);
 		
-		M m = newMatrix(width(), height());
+		M m = newMatrix(width(), height(), isSparse() && mat.isSparse());
 		for (int x = 0; x < width(); x++)
 			for (int y = 0; y < height(); y++)
 				m.set(x, y, this.m(x, y) - mat.m(x, y).floatValue());
@@ -389,10 +471,10 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 
 	@Override
 	public M scalarDiv(IMatrix<? extends Number> mat) {
-		if (this.width() != mat.width() || this.height() != mat.height())
+		if (this.width() != mat.width() || height() != mat.height())
 			throw new MatrixMathException("incompatible matrix dimensions for scalar division", this, mat);
 		
-		M m = newMatrix(width(), height());
+		M m = newMatrix(width(), height(), isSparse());
 		for (int x = 0; x < width(); x++)
 			for (int y = 0; y < height(); y++)
 				m.set(x, y, this.m(x, y) / mat.m(x, y).floatValue());
@@ -401,7 +483,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 
 	@Override
 	public M scalarDiv(Float n) {
-		M m = newMatrix(width(), height());
+		M m = newMatrix(width(), height(), isSparse());
 		for (int x = 0; x < width(); x++)
 			for (int y = 0; y < height(); y++)
 				m.set(x, y, this.m(x, y) / n);
@@ -410,10 +492,10 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 
 	@Override
 	public M scalarMul(IMatrix<? extends Number> mat) {
-		if (this.width() != mat.width() || this.height() != mat.height())
+		if (this.width() != mat.width() || height() != mat.height())
 			throw new MatrixMathException("incompatible matrix dimensions for scalar multiplication", this, mat);
 		
-		M m = newMatrix(width(), height());
+		M m = newMatrix(width(), height(), isSparse() || mat.isSparse());
 		for (int x = 0; x < width(); x++)
 			for (int y = 0; y < height(); y++)
 				m.set(x, y, this.m(x, y) * mat.m(x, y).floatValue());
@@ -422,7 +504,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 
 	@Override
 	public M scalarMul(Float n) {
-		M m = newMatrix(width(), height());
+		M m = newMatrix(width(), height(), isSparse());
 		for (int x = 0; x < width(); x++)
 			for (int y = 0; y < height(); y++)
 				m.set(x, y, this.m(x, y) * n);
@@ -439,7 +521,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 
 	@Override
 	public M transpose() {
-		M m = newMatrix(height(), width());
+		M m = newMatrix(height(), width(), isSparse());
 		for (int x = 0; x < width(); x++)
 			for (int y = 0; y < height(); y++)
 				m.set(y, x, this.m(x, y));
@@ -451,7 +533,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		if (!isSquare())
 			throw new MatrixMathException("adjungate not defined for non square matrix", this);
 		
-		M m = newMatrix(width(), height());
+		M m = newMatrix(width(), height(), false);
 		for (int x = 0; x < width(); x++)
 			for (int y = 0; y < height(); y++)
 				m.set(x, y, this.developAndDet(y, x));
@@ -503,7 +585,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 			float det = 0.0F;
 			for (int i = 0; i < height(); i++) {
 				float f = isCol ? this.m(index, i) : this.m(i, index);
-				if (f == 0.0F)
+				if (f == 0.0)
 					continue;
 				det += f * (isCol ? this.developAndDet(index, i) : this.developAndDet(i, index));
 			}	
@@ -521,7 +603,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		if (!isSquare())
 			throw new MatrixMathException("not defined for non square matrix", this);
 		
-		M md = newMatrix(width() - 1, height() - 1);
+		M md = newMatrix(width() - 1, height() - 1, false);
 		for (int ix = 0; ix < width() - 1; ix++)
 			for (int iy = 0; iy < width() - 1; iy++)
 				md.set(ix, iy, m(ix >= x ? ix + 1 : ix, iy >= y ? iy + 1 : iy));
@@ -535,13 +617,13 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		
 		return develop(x, y).determinant() * ((x + y) % 2 == 0 ? 1 : -1);
 	}
-
+	
 	@Override
 	public String toString() {
 		int[] tw = new int[width()];
 		for (int x = 0; x < width(); x++) {
 			for (int y = 0; y < height(); y++) {
-				double f = m(x, y);
+				float f = m(x, y);
 				int w = String.format("%s%f", f > 0.0 ? "+" : "", f).length();
 				if (tw[x] < w)
 					tw[x] = w;
@@ -551,7 +633,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		for (int y = 0; y < height(); y++) {
 			sb.append('[');
 			for (int x = 0; x < width(); x++) {
-				double f = m(x, y);
+				float f = m(x, y);
 				String fs = String.format("%s%f", f > 0.0 ? "+" : "", f);
 				int w = tw[x] - fs.length();
 				sb.append(fs);

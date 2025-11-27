@@ -21,6 +21,10 @@ public class MatrixMathException extends RuntimeException {
 	public MatrixMathException(String message, IMatrix<? extends Number> m1, IMatrix<? extends Number> m2) {
 		this("%s: %dx%d | %dx%d", message, m1.width(), m1.height(), m2.width(), m2.height());
 	}
+
+	public MatrixMathException(String message, IMatrix<? extends Number> m1, IMatrix<? extends Number> m2, IMatrix<? extends Number> m3) {
+		this("%s: %dx%d | %dx%d | %dx%d", message, m1.width(), m1.height(), m2.width(), m2.height(), m3.width(), m3.height());
+	}
 	
 	public MatrixMathException(String message, IMatrix<? extends Number> m1, Object... args) {
 		this(String.format(message, args), m1);
@@ -28,6 +32,10 @@ public class MatrixMathException extends RuntimeException {
 
 	public MatrixMathException(String message, IMatrix<? extends Number> m1, IMatrix<? extends Number> m2, Object... args) {
 		this(String.format(message, args), m1, m2);
+	}
+
+	public MatrixMathException(String message, IMatrix<? extends Number> m1, IMatrix<? extends Number> m2, IMatrix<? extends Number> m3, Object... args) {
+		this(String.format(message, args), m1, m2, m3);
 	}
 	
 }

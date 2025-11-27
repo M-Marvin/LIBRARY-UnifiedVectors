@@ -10,7 +10,7 @@ import de.m_marvin.univec.impl.Vec3f;
 public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 	
 	public Matrix4f() {
-		super(4, 4);
+		super(4, 4, false);
 	}
 
 	public Matrix4f(Matrix4d mat) {
@@ -24,22 +24,23 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 			float m02, float m12, float m22, float m32,
 			float m03, float m13, float m23, float m33
 	) {
-		super(new Float[][] {
-			new Float[] { m00, m10, m20, m30 },
-			new Float[] { m01, m11, m21, m31 },
-			new Float[] { m02, m12, m22, m32 },
-			new Float[] { m03, m13, m23, m33 }
+		super(new float[][] {
+			new float[] { m00, m10, m20, m30 },
+			new float[] { m01, m11, m21, m31 },
+			new float[] { m02, m12, m22, m32 },
+			new float[] { m03, m13, m23, m33 }
 		});
 	}
 
 	@Override
-	protected Matrix4f newMatrix(int width, int height) {
+	protected Matrix4f newMatrix(int width, int height, boolean sparse) {
+		assert sparse == false : "matrix can not be sparse";
 		assert width == 4 && height == 4 : "matrix dimensions have to be 4x4";
 		return new Matrix4f();
 	}
 	
 	public MatrixNf getGeneric() {
-		return new MatrixNf(this.m);
+		return new MatrixNf(get2DArray());
 	}
 
 	public static Matrix4f translate(IVector3<? extends Number> vec) {

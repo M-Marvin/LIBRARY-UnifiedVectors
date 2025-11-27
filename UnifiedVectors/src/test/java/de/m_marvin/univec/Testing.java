@@ -18,11 +18,11 @@ public class Testing {
 		
 		System.out.println("Testing ...");
 		
-		MatrixNd m = new MatrixNd(new Double[][] {
-			new Double[] { 2.0,  3.0,  3.0,  1.0 },
-			new Double[] { 0.0,  4.0,  3.0, -3.0 },
-			new Double[] { 2.0, -1.0, -1.0, -3.0 },
-			new Double[] { 0.0, -4.0, -3.0,  2.0 },
+		MatrixNd m = new MatrixNd(new double[][] {
+			new double[] { 2.0,  3.0,  3.0,  1.0 },
+			new double[] { 0.0,  0.0,  3.0, -3.0 },
+			new double[] { 2.0, -1.0, -1.0, -3.0 },
+			new double[] { 0.0, -4.0, -3.0,  2.0 },
 		});
 		
 		System.out.println("Determinant: " + m.determinant());

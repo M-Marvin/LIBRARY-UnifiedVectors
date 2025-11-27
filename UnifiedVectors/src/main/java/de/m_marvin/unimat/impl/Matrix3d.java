@@ -6,7 +6,7 @@ import de.m_marvin.univec.impl.Vec3d;
 public class Matrix3d extends BaseDoubleMatrix<Matrix3d> {
 	
 	public Matrix3d() {
-		super(3, 3);
+		super(3, 3, false);
 	}
 	
 	public Matrix3d(Matrix3f mat) {
@@ -19,21 +19,22 @@ public class Matrix3d extends BaseDoubleMatrix<Matrix3d> {
 			double m01, double m11, double m21,
 			double m02, double m12, double m22
 	) {
-		super(new Double[][] {
-			new Double[] { m00, m10, m20 },
-			new Double[] { m01, m11, m21 },
-			new Double[] { m02, m12, m22 }
+		super(new double[][] {
+			new double[] { m00, m10, m20 },
+			new double[] { m01, m11, m21 },
+			new double[] { m02, m12, m22 }
 		});
 	}
 
 	@Override
-	protected Matrix3d newMatrix(int width, int height) {
+	protected Matrix3d newMatrix(int width, int height, boolean sparse) {
+		assert sparse == false : "matrix can not be sparse";
 		assert width == 3 && height == 3 : "matrix dimensions have to be 3x3";
 		return new Matrix3d();
 	}
 	
 	public MatrixNd getGeneric() {
-		return new MatrixNd(this.m);
+		return new MatrixNd(get2DArray());
 	}
 	
 	public static Matrix3d scale(Vec3d vec) {

@@ -6,7 +6,7 @@ import de.m_marvin.univec.impl.Vec3f;
 public class Matrix3f extends BaseFloatMatrix<Matrix3f> {
 	
 	public Matrix3f() {
-		super(3, 3);
+		super(3, 3, false);
 	}
 
 	public Matrix3f(Matrix3d mat) {
@@ -19,21 +19,22 @@ public class Matrix3f extends BaseFloatMatrix<Matrix3f> {
 			float m01, float m11, float m21,
 			float m02, float m12, float m22
 	) {
-		super(new Float[][] {
-			new Float[] { m00, m10, m20 },
-			new Float[] { m01, m11, m21 },
-			new Float[] { m02, m12, m22 }
+		super(new float[][] {
+			new float[] { m00, m10, m20 },
+			new float[] { m01, m11, m21 },
+			new float[] { m02, m12, m22 }
 		});
 	}
 
 	@Override
-	protected Matrix3f newMatrix(int width, int height) {
+	protected Matrix3f newMatrix(int width, int height, boolean sparse) {
+		assert sparse == false : "matrix can not be sparse";
 		assert width == 3 && height == 3 : "matrix dimensions have to be 3x3";
 		return new Matrix3f();
 	}
 	
 	public MatrixNf getGeneric() {
-		return new MatrixNf(this.m);
+		return new MatrixNf(get2DArray());
 	}
 	
 	public static Matrix3f scale(Vec3f vec) {

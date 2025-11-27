@@ -10,7 +10,7 @@ import de.m_marvin.univec.impl.Vec3d;
 public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 	
 	public Matrix4d() {
-		super(4, 4);
+		super(4, 4, false);
 	}
 
 	public Matrix4d(Matrix4f mat) {
@@ -24,24 +24,25 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 			double m02, double m12, double m22, double m32,
 			double m03, double m13, double m23, double m33
 	) {
-		super(new Double[][] {
-			new Double[] { m00, m10, m20, m30 },
-			new Double[] { m01, m11, m21, m31 },
-			new Double[] { m02, m12, m22, m32 },
-			new Double[] { m03, m13, m23, m33 }
+		super(new double[][] {
+			new double[] { m00, m10, m20, m30 },
+			new double[] { m01, m11, m21, m31 },
+			new double[] { m02, m12, m22, m32 },
+			new double[] { m03, m13, m23, m33 }
 		});
 	}
 
 	@Override
-	protected Matrix4d newMatrix(int width, int height) {
+	protected Matrix4d newMatrix(int width, int height, boolean sparse) {
+		assert sparse == false : "matrix can not be sparse";
 		assert width == 4 && height == 4 : "matrix dimensions have to be 4x4";
 		return new Matrix4d();
 	}
 	
 	public MatrixNd getGeneric() {
-		return new MatrixNd(this.m);
+		return new MatrixNd(get2DArray());
 	}
-
+	
 	public static Matrix4d translate(IVector3<? extends Number> vec) {
 		double vx = vec.x().doubleValue();
 		double vy = vec.y().doubleValue();
