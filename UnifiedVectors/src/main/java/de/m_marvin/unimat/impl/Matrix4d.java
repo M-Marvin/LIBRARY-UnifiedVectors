@@ -32,6 +32,70 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 		});
 	}
 
+	public double m00() {
+		return m(0, 0);
+	}
+
+	public double m10() {
+		return m(1, 0);
+	}
+
+	public double m20() {
+		return m(2, 0);
+	}
+
+	public double m30() {
+		return m(3, 0);
+	}
+	
+	public double m01() {
+		return m(0, 1);
+	}
+
+	public double m11() {
+		return m(1, 1);
+	}
+
+	public double m31() {
+		return m(3, 1);
+	}
+
+	public double m21() {
+		return m(2, 1);
+	}
+	
+	public double m02() {
+		return m(0, 2);
+	}
+
+	public double m12() {
+		return m(1, 2);
+	}
+
+	public double m22() {
+		return m(2, 2);
+	}
+
+	public double m32() {
+		return m(3, 2);
+	}
+
+	public double m03() {
+		return m(0, 3);
+	}
+
+	public double m13() {
+		return m(1, 3);
+	}
+
+	public double m23() {
+		return m(2, 3);
+	}
+
+	public double m33() {
+		return m(3, 3);
+	}
+
 	@Override
 	protected Matrix4d newMatrix(int width, int height, boolean sparse) {
 		assert sparse == false : "matrix can not be sparse";

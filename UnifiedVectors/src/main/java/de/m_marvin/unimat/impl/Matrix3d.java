@@ -1,6 +1,7 @@
 package de.m_marvin.unimat.impl;
 
 import de.m_marvin.unimat.api.IQuaternion;
+import de.m_marvin.univec.impl.Vec2d;
 import de.m_marvin.univec.impl.Vec3d;
 
 public class Matrix3d extends BaseDoubleMatrix<Matrix3d> {
@@ -24,6 +25,42 @@ public class Matrix3d extends BaseDoubleMatrix<Matrix3d> {
 			new double[] { m01, m11, m21 },
 			new double[] { m02, m12, m22 }
 		});
+	}
+	
+	public double m00() {
+		return m(0, 0);
+	}
+
+	public double m10() {
+		return m(1, 0);
+	}
+
+	public double m20() {
+		return m(2, 0);
+	}
+	
+	public double m01() {
+		return m(0, 1);
+	}
+
+	public double m11() {
+		return m(1, 1);
+	}
+
+	public double m21() {
+		return m(2, 1);
+	}
+	
+	public double m02() {
+		return m(0, 2);
+	}
+
+	public double m12() {
+		return m(1, 2);
+	}
+
+	public double m22() {
+		return m(2, 2);
 	}
 
 	@Override
@@ -93,6 +130,22 @@ public class Matrix3d extends BaseDoubleMatrix<Matrix3d> {
 				1.0F - qj2 - qk2,		2.0F * (qij + qkr),		2.0F * (qki - qjr),
 				2.0F * (qij - qkr),		1.0F - qk2 - qi2,		2.0F * (qjk + qir),
 				2.0F * (qki + qjr),		2.0F * (qjk - qir),		1.0F - qi2 - qj2
+		);
+	}
+
+	public static Matrix3d translation(Vec2d vec) {
+		return new Matrix3d(
+				1,		0,		vec.x,
+				0,		1, 		vec.y,
+				0,		0,		1
+		);
+	}
+	
+	public static Matrix3d scale(Vec2d vec) {
+		return new Matrix3d(
+				vec.x,	0,		0,
+				0,		vec.y, 	0,
+				0,		0,		1
 		);
 	}
 	

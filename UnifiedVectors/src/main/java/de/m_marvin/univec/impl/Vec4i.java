@@ -347,7 +347,7 @@ public class Vec4i implements IVector4Math<Integer, Vec4i, Vec4i> {
 	
 	@Override
 	public String toString() {
-		return String.format("[%f  %f  %f  %f]", this.x, this.y, this.z, this.w);
+		return String.format("[%d  %d  %d  %d]", this.x, this.y, this.z, this.w);
 	}
 	
 }

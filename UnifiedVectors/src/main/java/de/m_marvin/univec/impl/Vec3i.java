@@ -369,7 +369,7 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, Vec3i, Quaternionf> {
 	
 	@Override
 	public String toString() {
-		return String.format("[%f  %f  %f]", this.x, this.y, this.z);
+		return String.format("[%d  %d  %d]", this.x, this.y, this.z);
 	}
 	
 }

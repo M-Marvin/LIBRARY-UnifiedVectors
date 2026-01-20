@@ -313,7 +313,7 @@ public class Vec2i implements IVector2Math<Integer, Vec2i, Vec2i> {
 	
 	@Override
 	public String toString() {
-		return String.format("[%f  %f]", this.x, this.y);
+		return String.format("[%d  %d]", this.x, this.y);
 	}
 
 }

@@ -32,6 +32,70 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 		});
 	}
 
+	public float m00() {
+		return m(0, 0);
+	}
+
+	public float m10() {
+		return m(1, 0);
+	}
+
+	public float m20() {
+		return m(2, 0);
+	}
+
+	public float m30() {
+		return m(3, 0);
+	}
+	
+	public float m01() {
+		return m(0, 1);
+	}
+
+	public float m11() {
+		return m(1, 1);
+	}
+
+	public float m31() {
+		return m(3, 1);
+	}
+
+	public float m21() {
+		return m(2, 1);
+	}
+	
+	public float m02() {
+		return m(0, 2);
+	}
+
+	public float m12() {
+		return m(1, 2);
+	}
+
+	public float m22() {
+		return m(2, 2);
+	}
+
+	public float m32() {
+		return m(3, 2);
+	}
+
+	public float m03() {
+		return m(0, 3);
+	}
+
+	public float m13() {
+		return m(1, 3);
+	}
+
+	public float m23() {
+		return m(2, 3);
+	}
+
+	public float m33() {
+		return m(3, 3);
+	}
+
 	@Override
 	protected Matrix4f newMatrix(int width, int height, boolean sparse) {
 		assert sparse == false : "matrix can not be sparse";
