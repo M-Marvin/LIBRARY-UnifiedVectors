@@ -584,12 +584,11 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 		return 0.0;
 	}
 
-	@Override
-	public M develop(int x, int y) {
+	public MatrixNd develop(int x, int y) {
 		if (!isSquare())
 			throw new MatrixMathException("not defined for non square matrix", this);
 		
-		M md = newMatrix(width() - 1, height() - 1, false);
+		MatrixNd md = new MatrixNd(width() - 1, height() - 1);
 		for (int ix = 0; ix < width() - 1; ix++)
 			for (int iy = 0; iy < width() - 1; iy++)
 				md.set(ix, iy, m(ix >= x ? ix + 1 : ix, iy >= y ? iy + 1 : iy));

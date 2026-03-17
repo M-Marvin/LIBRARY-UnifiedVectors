@@ -597,13 +597,12 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		}
 		return 0.0F;
 	}
-
-	@Override
-	public M develop(int x, int y) {
+	
+	public MatrixNf develop(int x, int y) {
 		if (!isSquare())
 			throw new MatrixMathException("not defined for non square matrix", this);
 		
-		M md = newMatrix(width() - 1, height() - 1, false);
+		MatrixNf md = new MatrixNf(width() - 1, height() - 1);
 		for (int ix = 0; ix < width() - 1; ix++)
 			for (int iy = 0; iy < width() - 1; iy++)
 				md.set(ix, iy, m(ix >= x ? ix + 1 : ix, iy >= y ? iy + 1 : iy));

@@ -136,8 +136,8 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 		float sin = (float) Math.sin(angle);
 		return new Matrix4f(
 				1,		0,		0,		0,
-				0,		cos,	sin,	0,
-				0,		-sin,	cos,	0,
+				0,		cos,	-sin,	0,
+				0,		sin,	cos,	0,
 				0,		0,		0,		1
 		);
 	}
@@ -146,9 +146,9 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 		float cos = (float) Math.cos(angle);
 		float sin = (float) Math.sin(angle);
 		return new Matrix4f(
-				cos,	0,		-sin,	0,
+				cos,	0,		sin,	0,
 				0,		1,		0,		0,
-				sin,	0,		cos,	0,
+				-sin,	0,		cos,	0,
 				0,		0,		0,		1
 		);
 	}
@@ -179,9 +179,9 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 		float qjr = qj * qr;
 		float qkr = qk * qr;
 		return new Matrix4f(
-				1.0F - qj2 - qk2,		2.0F * (qij + qkr),		2.0F * (qki - qjr),		0,
-				2.0F * (qij - qkr),		1.0F - qk2 - qi2,		2.0F * (qjk + qir),		0,
-				2.0F * (qki + qjr),		2.0F * (qjk - qir),		1.0F - qi2 - qj2,		0,
+				1.0F - qj2 - qk2,		2.0F * (qij - qkr),		2.0F * (qki + qjr),		0,
+				2.0F * (qij + qkr),		1.0F - qk2 - qi2,		2.0F * (qjk - qir),		0,
+				2.0F * (qki - qjr),		2.0F * (qjk + qir),		1.0F - qi2 - qj2,		0,
 				0,						0,						0,						1.0F
 		);
 		
@@ -192,53 +192,52 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 		float yScale = (float) ((1 / Math.tan(fov / 2)) * aspect);
 		float xScale = yScale / aspect;
 		return new Matrix4f(
-				xScale,	0,		0,									0,
-				0,		yScale,	0,									0,
-				0,		0,		-((far + near) / frustumLength),	-((2 * near * far) / frustumLength),
-				0,		0,		-1,									0
+				xScale,	0,		0,										0,
+				0,		yScale,	0,										0,
+				0,		0,		-((far + near) / frustumLength),		-1,
+				0,		0,		-((2 * near * far) / frustumLength),	0
 		);
 	}
 	
 	public static Matrix4f orthographic(float left, float right, float bottom, float top, float near, float far) {
 		float width = right - left;
-		float height = bottom - top;
+		float height = top - bottom;
 		float depth = far - near;
 		return new Matrix4f(
-				2.0F / width,				0,							0,						0,
-				0,							2.0F / height,				0,						0,
-				0,							0,							2.0F / depth,			0,
-				-(right + left) / width,	-(bottom + top) / height,	-(far + near) / depth,	1
+				2.0F / width,	0,				0,				-(right + left) / width,
+				0,				2.0F / height,	0,				-(top + bottom) / height,
+				0,				0,				2.0F / depth,	-(far + near) / depth,
+				0,				0,				0,				1
 		);
 	}
 
 	public static void decompose(Vec3f translation, Vec3f scale, IMatrix<Float> rotation, IMatrix<Float> matrix) {
 		Objects.requireNonNull(matrix, "matrix vector can not be null");
-		if (rotation.width() != 3 || rotation.height() != 3)
+		if (rotation != null && (rotation.width() != 3 || rotation.height() != 3))
 			throw new IllegalArgumentException("rotation matrix must be 3x3");
-		if (matrix.width() != 3 || matrix.height() != 3)
-			throw new IllegalArgumentException("rotation matrix must be 4x4");
+		if (matrix.width() != 4 || matrix.height() != 4)
+			throw new IllegalArgumentException("input matrix must be 4x4");
 		
 		if (translation != null)
-			translation.setI(matrix.m(0, 3).floatValue(), matrix.m(1, 3).floatValue(), matrix.m(2, 3).floatValue());
+			translation.setI(matrix.m(3, 0).floatValue(), matrix.m(3, 1).floatValue(), matrix.m(3, 2).floatValue());
 		
 		if (scale != null || rotation != null) {
 			if (scale == null)
 				scale = new Vec3f();
-			scale.setX(new Vec3f(matrix.m(0, 0).floatValue(), matrix.m(0, 1).floatValue(), matrix.m(0, 2).floatValue()).length());
-			scale.setX(new Vec3f(matrix.m(1, 0).floatValue(), matrix.m(1, 1).floatValue(), matrix.m(1, 2).floatValue()).length());
-			scale.setX(new Vec3f(matrix.m(2, 0).floatValue(), matrix.m(2, 1).floatValue(), matrix.m(2, 2).floatValue()).length());
-			
+			scale.setX(new Vec3f(matrix.m(0, 0).floatValue(), matrix.m(1, 0).floatValue(), matrix.m(2, 0).floatValue()).length());
+			scale.setY(new Vec3f(matrix.m(0, 1).floatValue(), matrix.m(1, 1).floatValue(), matrix.m(2, 1).floatValue()).length());
+			scale.setZ(new Vec3f(matrix.m(0, 2).floatValue(), matrix.m(1, 2).floatValue(), matrix.m(2, 2).floatValue()).length());
 		}
 		
 		if (rotation != null) {
+			rotation.set(0, 1, matrix.m(0, 1).floatValue() / scale.y());
 			rotation.set(0, 0, matrix.m(0, 0).floatValue() / scale.x());
-			rotation.set(1, 0, matrix.m(1, 0).floatValue() / scale.y());
-			rotation.set(2, 0, matrix.m(2, 0).floatValue() / scale.z());
-			rotation.set(0, 1, matrix.m(0, 1).floatValue() / scale.x());
+			rotation.set(0, 2, matrix.m(0, 2).floatValue() / scale.z());
+			rotation.set(1, 0, matrix.m(1, 0).floatValue() / scale.x());
 			rotation.set(1, 1, matrix.m(1, 1).floatValue() / scale.y());
-			rotation.set(2, 1, matrix.m(2, 1).floatValue() / scale.z());
-			rotation.set(0, 2, matrix.m(0, 2).floatValue() / scale.x());
-			rotation.set(1, 2, matrix.m(1, 2).floatValue() / scale.y());
+			rotation.set(1, 2, matrix.m(1, 2).floatValue() / scale.z());
+			rotation.set(2, 0, matrix.m(2, 0).floatValue() / scale.x());
+			rotation.set(2, 1, matrix.m(2, 1).floatValue() / scale.y());
 			rotation.set(2, 2, matrix.m(2, 2).floatValue() / scale.z());
 		}
 	}

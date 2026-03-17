@@ -136,8 +136,8 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 		double sin = Math.sin(angle);
 		return new Matrix4d(
 				1,		0,		0,		0,
-				0,		cos,	sin,	0,
-				0,		-sin,	cos,	0,
+				0,		cos,	-sin,	0,
+				0,		sin,	cos,	0,
 				0,		0,		0,		1
 		);
 	}
@@ -146,9 +146,9 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
 		return new Matrix4d(
-				cos,	0,		-sin,	0,
+				cos,	0,		sin,	0,
 				0,		1,		0,		0,
-				sin,	0,		cos,	0,
+				-sin,	0,		cos,	0,
 				0,		0,		0,		1
 		);
 	}
@@ -179,9 +179,9 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 		double qjr = qj * qr;
 		double qkr = qk * qr;
 		return new Matrix4d(
-				1.0F - qj2 - qk2,		2.0F * (qij + qkr),		2.0F * (qki - qjr),		0,
-				2.0F * (qij - qkr),		1.0F - qk2 - qi2,		2.0F * (qjk + qir),		0,
-				2.0F * (qki + qjr),		2.0F * (qjk - qir),		1.0F - qi2 - qj2,		0,
+				1.0F - qj2 - qk2,		2.0F * (qij - qkr),		2.0F * (qki + qjr),		0,
+				2.0F * (qij + qkr),		1.0F - qk2 - qi2,		2.0F * (qjk - qir),		0,
+				2.0F * (qki - qjr),		2.0F * (qjk + qir),		1.0F - qi2 - qj2,		0,
 				0,						0,						0,						1.0F
 		);
 		
@@ -189,56 +189,54 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 	
 	public static Matrix4d perspective(double fov, double aspect, double near, double far) {
 		double frustumLength = far - near;
-		double yScale = (double) ((1 / Math.tan(fov / 2)) * aspect);
+		double yScale = (float) ((1 / Math.tan(fov / 2)) * aspect);
 		double xScale = yScale / aspect;
 		return new Matrix4d(
-				xScale,	0,		0,									0,
-				0,		yScale,	0,									0,
-				0,		0,		-((far + near) / frustumLength),	-((2 * near * far) / frustumLength),
-				0,		0,		-1,									0
+				xScale,	0,		0,										0,
+				0,		yScale,	0,										0,
+				0,		0,		-((far + near) / frustumLength),		-1,
+				0,		0,		-((2 * near * far) / frustumLength),	0
 		);
 	}
 	
 	public static Matrix4d orthographic(double left, double right, double bottom, double top, double near, double far) {
 		double width = right - left;
-		double height = bottom - top;
+		double height = top - bottom;
 		double depth = far - near;
 		return new Matrix4d(
-				2.0 / width,				0,							0,						0,
-				0,							2.0 / height,				0,						0,
-				0,							0,							2.0 / depth,			0,
-				-(right + left) / width,	-(bottom + top) / height,	-(far + near) / depth,	1
+				2.0F / width,	0,				0,				-(right + left) / width,
+				0,				2.0F / height,	0,				-(top + bottom) / height,
+				0,				0,				2.0F / depth,	-(far + near) / depth,
+				0,				0,				0,				1
 		);
 	}
-
 	public static void decompose(Vec3d translation, Vec3d scale, IMatrix<Double> rotation, IMatrix<Double> matrix) {
 		Objects.requireNonNull(matrix, "matrix vector can not be null");
-		if (rotation.width() != 3 || rotation.height() != 3)
+		if (rotation != null && (rotation.width() != 3 || rotation.height() != 3))
 			throw new IllegalArgumentException("rotation matrix must be 3x3");
-		if (matrix.width() != 3 || matrix.height() != 3)
-			throw new IllegalArgumentException("rotation matrix must be 4x4");
+		if (matrix.width() != 4 || matrix.height() != 4)
+			throw new IllegalArgumentException("input matrix must be 4x4");
 		
 		if (translation != null)
-			translation.setI(matrix.m(0, 3).doubleValue(), matrix.m(1, 3).doubleValue(), matrix.m(2, 3).doubleValue());
+			translation.setI(matrix.m(3, 0).doubleValue(), matrix.m(3, 1).doubleValue(), matrix.m(3, 2).doubleValue());
 		
 		if (scale != null || rotation != null) {
 			if (scale == null)
 				scale = new Vec3d();
-			scale.setX(new Vec3d(matrix.m(0, 0).doubleValue(), matrix.m(0, 1).doubleValue(), matrix.m(0, 2).doubleValue()).length());
-			scale.setX(new Vec3d(matrix.m(1, 0).doubleValue(), matrix.m(1, 1).doubleValue(), matrix.m(1, 2).doubleValue()).length());
-			scale.setX(new Vec3d(matrix.m(2, 0).doubleValue(), matrix.m(2, 1).doubleValue(), matrix.m(2, 2).doubleValue()).length());
-			
+			scale.setX(new Vec3d(matrix.m(0, 0).doubleValue(), matrix.m(1, 0).doubleValue(), matrix.m(2, 0).doubleValue()).length());
+			scale.setY(new Vec3d(matrix.m(0, 1).doubleValue(), matrix.m(1, 1).doubleValue(), matrix.m(2, 1).doubleValue()).length());
+			scale.setZ(new Vec3d(matrix.m(0, 2).doubleValue(), matrix.m(1, 2).doubleValue(), matrix.m(2, 2).doubleValue()).length());
 		}
 		
 		if (rotation != null) {
+			rotation.set(0, 1, matrix.m(0, 1).doubleValue() / scale.y());
 			rotation.set(0, 0, matrix.m(0, 0).doubleValue() / scale.x());
-			rotation.set(1, 0, matrix.m(1, 0).doubleValue() / scale.y());
-			rotation.set(2, 0, matrix.m(2, 0).doubleValue() / scale.z());
-			rotation.set(0, 1, matrix.m(0, 1).doubleValue() / scale.x());
+			rotation.set(0, 2, matrix.m(0, 2).doubleValue() / scale.z());
+			rotation.set(1, 0, matrix.m(1, 0).doubleValue() / scale.x());
 			rotation.set(1, 1, matrix.m(1, 1).doubleValue() / scale.y());
-			rotation.set(2, 1, matrix.m(2, 1).doubleValue() / scale.z());
-			rotation.set(0, 2, matrix.m(0, 2).doubleValue() / scale.x());
-			rotation.set(1, 2, matrix.m(1, 2).doubleValue() / scale.y());
+			rotation.set(1, 2, matrix.m(1, 2).doubleValue() / scale.z());
+			rotation.set(2, 0, matrix.m(2, 0).doubleValue() / scale.x());
+			rotation.set(2, 1, matrix.m(2, 1).doubleValue() / scale.y());
 			rotation.set(2, 2, matrix.m(2, 2).doubleValue() / scale.z());
 		}
 	}

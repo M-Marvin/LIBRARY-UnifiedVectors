@@ -91,8 +91,7 @@ public interface IMatrixMath<N extends Number, MO extends IMatrix<N>, VO2 extend
 	public MO identityI();
 
 	public N determinant();
-
-	public MO develop(int x, int y);
+	
 	public N developAndDet(int x, int y);
 	
 }

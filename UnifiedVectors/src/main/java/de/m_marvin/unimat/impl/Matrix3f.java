@@ -87,8 +87,8 @@ public class Matrix3f extends BaseFloatMatrix<Matrix3f> {
 		float sin = (float) Math.sin(angle);
 		return new Matrix3f(
 				1,		0,		0,
-				0,		cos,	sin,
-				0,		-sin,	cos
+				0,		cos,	-sin,
+				0,		sin,	cos
 		);
 	}
 
@@ -96,9 +96,9 @@ public class Matrix3f extends BaseFloatMatrix<Matrix3f> {
 		float cos = (float) Math.cos(angle);
 		float sin = (float) Math.sin(angle);
 		return new Matrix3f(
-				cos,	0,		-sin,
+				cos,	0,		sin,
 				0,		1,		0,
-				sin,	0,		cos
+				-sin,	0,		cos
 		);
 	}
 	
@@ -127,9 +127,9 @@ public class Matrix3f extends BaseFloatMatrix<Matrix3f> {
 		float qjr = qj * qr;
 		float qkr = qk * qr;
 		return new Matrix3f(
-				1.0F - qj2 - qk2,		2.0F * (qij + qkr),		2.0F * (qki - qjr),
-				2.0F * (qij - qkr),		1.0F - qk2 - qi2,		2.0F * (qjk + qir),
-				2.0F * (qki + qjr),		2.0F * (qjk - qir),		1.0F - qi2 - qj2
+				1.0F - qj2 - qk2,		2.0F * (qij - qkr),		2.0F * (qki + qjr),
+				2.0F * (qij + qkr),		1.0F - qk2 - qi2,		2.0F * (qjk - qir),
+				2.0F * (qki - qjr),		2.0F * (qjk + qir),		1.0F - qi2 - qj2
 		);
 	}
 

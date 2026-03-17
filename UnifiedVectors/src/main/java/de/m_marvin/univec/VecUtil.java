@@ -95,8 +95,8 @@ public class VecUtil {
 			d = ip1.dist(ip2);
 		}
 		
-		if (PI1 != null) PI1.setI(ip1);
-		if (PI2 != null) PI2.setI(ip2);
+		if (ip1 != null) PI1.setI(ip1);
+		if (ip2 != null) PI2.setI(ip2);
 		return d;
 	}
 
