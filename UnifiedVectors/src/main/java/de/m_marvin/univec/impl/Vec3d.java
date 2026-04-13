@@ -9,7 +9,7 @@ import de.m_marvin.univec.api.IVector3Math;
 /*
  * Implementation of a 3 dimensional double vector
  */
-public class Vec3d implements IVector3Math<Double, Vec3d, Vec3i, Quaterniond> {
+public class Vec3d implements IVector3Math<Double, Vec3d, Quaterniond> {
 
 	public double x;
 	public double y;
@@ -115,147 +115,203 @@ public class Vec3d implements IVector3Math<Double, Vec3d, Vec3i, Quaterniond> {
 	}
 
 	@Override
+	public Vec3d reset() {
+		this.x = this.y = this.z = 0;
+		return this;
+	}
+	
+	@Override
 	public Vec3d copy() {
 		return new Vec3d(this.x, this.y, this.z);
 	}
 
 	@Override
-	public Vec3d add(IVector3<? extends Number> vec) {
-		return new Vec3d(this.x + vec.x().doubleValue(), this.y + vec.y().doubleValue(), this.z + vec.z().doubleValue());
+	public Vec3d addI(IVector3<? extends Number> vec) {
+		this.x += vec.x().doubleValue();
+		this.y += vec.y().doubleValue();
+		this.z += vec.z().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec3d add(Double x, Double y, Double z) {
-		return new Vec3d(this.x + x, this.y + y, this.z + z);
+	public Vec3d addI(Double x, Double y, Double z) {
+		this.x += x;
+		this.y += y;
+		this.z += z;
+		return this;
 	}
 
 	@Override
-	public Vec3d sub(IVector3<? extends Number> vec) {
-		return new Vec3d(this.x - vec.x().doubleValue(), this.y - vec.y().doubleValue(), this.z - vec.z().doubleValue());
+	public Vec3d subI(IVector3<? extends Number> vec) {
+		this.x -= vec.x().doubleValue();
+		this.y -= vec.y().doubleValue();
+		this.z -= vec.z().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec3d sub(Double x, Double y, Double z) {
-		return new Vec3d(this.x - x, this.y - y, this.z - z);
+	public Vec3d subI(Double x, Double y, Double z) {
+		this.x -= x;
+		this.y -= y;
+		this.z -= z;
+		return this;
 	}
 
 	@Override
-	public Vec3d mul(IVector3<? extends Number> vec) {
-		return new Vec3d(this.x * vec.x().doubleValue(), this.y * vec.y().doubleValue(), this.z * vec.z().doubleValue());
+	public Vec3d mulI(IVector3<? extends Number> vec) {
+		this.x *= vec.x().doubleValue();
+		this.y *= vec.y().doubleValue();
+		this.z *= vec.z().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec3d mul(Double x, Double y, Double z) {
-		return new Vec3d(this.x * x, this.y * y, this.z * z);
+	public Vec3d mulI(Double x, Double y, Double z) {
+		this.x *= x;
+		this.y *= y;
+		this.z *= z;
+		return this;
 	}
 
 	@Override
-	public Vec3d mul(Double n) {
-		return new Vec3d(this.x * n, this.y * n, this.z * n);
+	public Vec3d mulI(Double n) {
+		this.x *= n;
+		this.y *= n;
+		this.z *= n;
+		return this;
 	}
 	
 	@Override
-	public Vec3d div(IVector3<? extends Number> vec) {
-		return new Vec3d(this.x / vec.x().doubleValue(), this.y / vec.y().doubleValue(), this.z / vec.z().doubleValue());
+	public Vec3d divI(IVector3<? extends Number> vec) {
+		this.x /= vec.x().doubleValue();
+		this.y /= vec.y().doubleValue();
+		this.z /= vec.z().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec3d div(Double x, Double y, Double z) {
-		return new Vec3d(this.x / x, this.y / y, this.z / z);
+	public Vec3d divI(Double x, Double y, Double z) {
+		this.x /= x;
+		this.y /= y;
+		this.z /= z;
+		return this;
 	}
 	
 	@Override
-	public Vec3d div(Double n) {
-		return new Vec3d(this.x / n, this.y / n, this.z / n);
+	public Vec3d divI(Double n) {
+		this.x /= n;
+		this.y /= n;
+		this.z /= n;
+		return this;
 	}
 
 	@Override
-	public Vec3d module(Double m) {
-		return new Vec3d(this.x % m, this.y % m, this.z % m);
+	public Vec3d moduleI(Double m) {
+		this.x %= m;
+		this.y %= m;
+		this.z %= m;
+		return this;
 	}
 
 	@Override
-	public Vec3d clamp(IVector3<? extends Number> min, IVector3<? extends Number> max) {
-		return new Vec3d(
-				Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue())),
-				Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue())),
-				Math.max(min.z().doubleValue(), Math.min(this.z, max.z().doubleValue()))
-			);
+	public Vec3d clampI(IVector3<? extends Number> min, IVector3<? extends Number> max) {
+		this.x = Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue()));
+		this.y = Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()));
+		this.z = Math.max(min.z().doubleValue(), Math.min(this.z, max.z().doubleValue()));
+		return this;
 	}
 
 	@Override
-	public Vec3d min(Double value) {
-		return new Vec3d(Math.min(this.x, value), Math.min(this.y, value), Math.min(this.z, value));
+	public Vec3d minI(Double value) {
+		this.x = Math.min(this.x, value);
+		this.y = Math.min(this.y, value);
+		this.z = Math.min(this.z, value);
+		return this;
 	}
 	
 	@Override
-	public Vec3d min(IVector3<? extends Number> vec) {
-		return new Vec3d(Math.min(this.x,  vec.x().doubleValue()), Math.min(this.y,  vec.y().doubleValue()), Math.min(this.z,  vec.z().doubleValue()));
+	public Vec3d minI(IVector3<? extends Number> vec) {
+		this.x = Math.min(this.x,  vec.x().doubleValue());
+		this.y = Math.min(this.y,  vec.y().doubleValue());
+		this.z = Math.min(this.z,  vec.z().doubleValue());
+		return this;
 	}
 	
 	@Override
-	public Vec3d max(Double value) {
-		return new Vec3d(Math.max(this.x, value), Math.max(this.y, value), Math.max(this.z, value));
+	public Vec3d maxI(Double value) {
+		this.x = Math.max(this.x, value);
+		this.y = Math.max(this.y, value);
+		this.z = Math.max(this.z, value);
+		return this;
 	}
 	
 	@Override
-	public Vec3d max(IVector3<? extends Number> vec) {
-		return new Vec3d(Math.max(this.x,  vec.x().doubleValue()), Math.max(this.y,  vec.y().doubleValue()), Math.max(this.z,  vec.z().doubleValue()));
+	public Vec3d maxI(IVector3<? extends Number> vec) {
+		this.x = Math.max(this.x,  vec.x().doubleValue());
+		this.y = Math.max(this.y,  vec.y().doubleValue());
+		this.z = Math.max(this.z,  vec.z().doubleValue());
+		return this;
 	}
 	
 	@Override
-	public Vec3d clamp(Double min, Double max) {
-		return new Vec3d(
-				Math.max((Double) min, Math.min(this.x, (Double) max)),
-				Math.max((Double) min, Math.min(this.y, (Double) max)),
-				Math.max((Double) min, Math.min(this.z, (Double) max))
-			);
+	public Vec3d clampI(Double min, Double max) {
+		this.x = Math.max((Double) min, Math.min(this.x, (Double) max));
+		this.y = Math.max((Double) min, Math.min(this.y, (Double) max));
+		this.z = Math.max((Double) min, Math.min(this.z, (Double) max));
+		return this;
 	}
 
 	@Override
-	public Vec3d abs() {
-		return new Vec3d(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z));
+	public Vec3d absI() {
+		this.x = Math.abs(this.x);
+		this.y = Math.abs(this.y);
+		this.z = Math.abs(this.z);
+		return this;
 	}
 
+	@Override
+	public Vec3d negateI() {
+		this.x = -this.x;
+		this.y = -this.y;
+		this.z = -this.z;
+		return this;
+	}
+	
 	@Override
 	public Double sum() {
 		return this.x + this.y + this.z;
 	}
 	
 	@Override
-	public Vec3i sign() {
-		return new Vec3i(
-				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
-				this.y > 0 ? 1 : this.y < 0 ? -1 : 0,
-				this.z > 0 ? 1 : this.z < 0 ? -1 : 0
-		);
+	public Vec3d signI() {
+		this.x = this.x > 0 ? 1 : this.x < 0 ? -1 : 0;
+		this.y = this.y > 0 ? 1 : this.y < 0 ? -1 : 0;
+		this.z = this.z > 0 ? 1 : this.z < 0 ? -1 : 0;
+		return this;
 	}
 
 	@Override
-	public Vec3i floor() {
-		return new Vec3i(
-				(int) Math.floor(this.x),
-				(int) Math.floor(this.y),
-				(int) Math.floor(this.z)
-		);
+	public Vec3d floorI() {
+		this.x = Math.floor(this.x);
+		this.y = Math.floor(this.y);
+		this.z = Math.floor(this.z);
+		return this;
 	}
 
 	@Override
-	public Vec3i ceil() {
-		return new Vec3i(
-				(int) Math.ceil(this.x),
-				(int) Math.ceil(this.y),
-				(int) Math.ceil(this.z)
-		);
+	public Vec3d ceilI() {
+		this.x = Math.ceil(this.x);
+		this.y = Math.ceil(this.y);
+		this.z = Math.ceil(this.z);
+		return this;
 	}
 
 	@Override
-	public Vec3i round() {
-		return new Vec3i(
-				(int) Math.round(this.x),
-				(int) Math.round(this.y),
-				(int) Math.round(this.z)
-		);
+	public Vec3d roundI() {
+		this.x = Math.round(this.x);
+		this.y = Math.round(this.y);
+		this.z = Math.round(this.z);
+		return this;
 	}
 	
 	@Override
@@ -271,12 +327,13 @@ public class Vec3d implements IVector3Math<Double, Vec3d, Vec3i, Quaterniond> {
 	}
 	
 	@Override
-	public Vec3d cross(IVector3<? extends Number> vec) {
-		return new Vec3d(
-				this.y * vec.z().doubleValue() - this.z * vec.y().doubleValue(),
-				this.z * vec.x().doubleValue() - this.x * vec.z().doubleValue(),
-				this.x * vec.y().doubleValue() - this.y * vec.x().doubleValue()
-			);
+	public Vec3d crossI(IVector3<? extends Number> vec) {
+		double x = this.y * vec.z().doubleValue() - this.z * vec.y().doubleValue();
+		double y = this.z * vec.x().doubleValue() - this.x * vec.z().doubleValue();
+		this.z = this.x * vec.y().doubleValue() - this.y * vec.x().doubleValue();
+		this.y = y;
+		this.x = x;
+		return this;
 	}
 	
 	@Override
@@ -295,17 +352,17 @@ public class Vec3d implements IVector3Math<Double, Vec3d, Vec3i, Quaterniond> {
 	}
 	
 	@Override
-	public Vec3d normalize() {
+	public Vec3d normalizeI() {
 		double f = this.length();
 		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
-		return this.div(f);
+		return this.divI(f);
 	}
 
 	@Override
-	public Vec3d tryNormalize() {
+	public Vec3d tryNormalizeI() {
 		double f = this.length();
-		if (f == 0) return new Vec3d(0, 0, 0);
-		return this.div(f);
+		if (f == 0) return this.setI(0D, 0D, 0D);
+		return this.divI(f);
 	}
 	
 	@Override
@@ -315,7 +372,7 @@ public class Vec3d implements IVector3Math<Double, Vec3d, Vec3i, Quaterniond> {
 				this.x * f + vec.x().doubleValue() * delta,
 				this.y * f + vec.y().doubleValue() * delta,
 				this.z * f + vec.z().doubleValue() * delta
-			);
+		);
 	}
 
 	@Override

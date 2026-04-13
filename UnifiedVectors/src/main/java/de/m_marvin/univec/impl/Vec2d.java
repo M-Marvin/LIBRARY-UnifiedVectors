@@ -7,7 +7,7 @@ import de.m_marvin.univec.api.IVector2Math;
 /*
  * Implementation of a 3 dimensional double vector
  */
-public class Vec2d implements IVector2Math<Double, Vec2d, Vec2i> {
+public class Vec2d implements IVector2Math<Double, Vec2d> {
 	
 	public double x;
 	public double y;
@@ -91,141 +91,180 @@ public class Vec2d implements IVector2Math<Double, Vec2d, Vec2i> {
 	}
 
 	@Override
+	public Vec2d reset() {
+		this.x = this.y = 0;
+		return this;
+	}
+	
+	@Override
 	public Vec2d copy() {
 		return new Vec2d(this.x, this.y);
 	}
 
 	@Override
-	public Vec2d add(IVector2<? extends Number> vec) {
-		return new Vec2d(this.x + vec.x().doubleValue(), this.y + vec.y().doubleValue());
+	public Vec2d addI(IVector2<? extends Number> vec) {
+		this.x += vec.x().doubleValue();
+		this.y += vec.y().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec2d add(Double x, Double y) {
-		return new Vec2d(this.x + x, this.y + y);
+	public Vec2d addI(Double x, Double y) {
+		this.x += x;
+		this.y += y;
+		return this;
 	}
 
 	@Override
-	public Vec2d sub(IVector2<? extends Number> vec) {
-		return new Vec2d(this.x - vec.x().doubleValue(), this.y - vec.y().doubleValue());
+	public Vec2d subI(IVector2<? extends Number> vec) {
+		this.x -= vec.x().doubleValue();
+		this.y -= vec.y().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec2d sub(Double x, Double y) {
-		return new Vec2d(this.x - x, this.y - y);
+	public Vec2d subI(Double x, Double y) {
+		this.x -= x;
+		this.y -= y;
+		return this;
 	}
 
 	@Override
-	public Vec2d mul(IVector2<? extends Number> vec) {
-		return new Vec2d(this.x * vec.x().doubleValue(), this.y * vec.y().doubleValue());
+	public Vec2d mulI(IVector2<? extends Number> vec) {
+		this.x *= vec.x().doubleValue();
+		this.y *= vec.y().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec2d mul(Double x, Double y) {
-		return new Vec2d(this.x * x, this.y * y);
+	public Vec2d mulI(Double x, Double y) {
+		this.x *= x;
+		this.y *= y;
+		return this;
 	}
 
 	@Override
-	public Vec2d mul(Double n) {
-		return new Vec2d(this.x * n, this.y * n);
+	public Vec2d mulI(Double n) {
+		this.x *= n;
+		this.y *= n;
+		return this;
 	}
 	
 	@Override
-	public Vec2d div(IVector2<? extends Number> vec) {
-		return new Vec2d(this.x / vec.x().doubleValue(), this.y / vec.y().doubleValue());
+	public Vec2d divI(IVector2<? extends Number> vec) {
+		this.x /= vec.x().doubleValue();
+		this.y /= vec.y().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec2d div(Double x, Double y) {
-		return new Vec2d(this.x / x, this.y / y);
+	public Vec2d divI(Double x, Double y) {
+		this.x /= x;
+		this.y /= y;
+		return this;
 	}
 	
 	@Override
-	public Vec2d div(Double n) {
-		return new Vec2d(this.x / n, this.y / n);
+	public Vec2d divI(Double n) {
+		this.x /= n;
+		this.y /= n;
+		return this;
 	}
 
 	@Override
-	public Vec2d module(Double m) {
-		return new Vec2d(this.x % m, this.y % m);
+	public Vec2d moduleI(Double m) {
+		this.x %= m;
+		this.y %= m;
+		return this;
 	}
 
 	@Override
-	public Vec2d min(Double value) {
-		return new Vec2d(Math.min(this.x, value), Math.min(this.y, value));
-	}
-	
-	@Override
-	public Vec2d min(IVector2<? extends Number> vec) {
-		return new Vec2d(Math.min(this.x,  vec.x().doubleValue()), Math.min(this.y,  vec.y().doubleValue()));
-	}
-	
-	@Override
-	public Vec2d max(Double value) {
-		return new Vec2d(Math.max(this.x, value), Math.max(this.y, value));
-	}
-	
-	@Override
-	public Vec2d max(IVector2<? extends Number> vec) {
-		return new Vec2d(Math.max(this.x,  vec.x().doubleValue()), Math.max(this.y,  vec.y().doubleValue()));
-	}
-	
-	@Override
-	public Vec2d clamp(IVector2<? extends Number> min, IVector2<? extends Number> max) {
-		return new Vec2d(
-				Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue())),
-				Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()))
-			);
-	}
-	
-	@Override
-	public Vec2d clamp(Double min, Double max) {
-		return new Vec2d(
-				Math.max((Double) min, Math.min(this.x, (Double) max)),
-				Math.max((Double) min, Math.min(this.y, (Double) max))
-			);
+	public Vec2d clampI(IVector2<? extends Number> min, IVector2<? extends Number> max) {
+		this.x = Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue()));
+		this.y = Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()));
+		return this;
 	}
 
 	@Override
-	public Vec2d abs() {
-		return new Vec2d(Math.abs(this.x), Math.abs(this.y));
+	public Vec2d minI(Double value) {
+		this.x = Math.min(this.x, value);
+		this.y = Math.min(this.y, value);
+		return this;
+	}
+	
+	@Override
+	public Vec2d minI(IVector2<? extends Number> vec) {
+		this.x = Math.min(this.x,  vec.x().doubleValue());
+		this.y = Math.min(this.y,  vec.y().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec2d maxI(Double value) {
+		this.x = Math.max(this.x, value);
+		this.y = Math.max(this.y, value);
+		return this;
+	}
+	
+	@Override
+	public Vec2d maxI(IVector2<? extends Number> vec) {
+		this.x = Math.max(this.x,  vec.x().doubleValue());
+		this.y = Math.max(this.y,  vec.y().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec2d clampI(Double min, Double max) {
+		this.x = Math.max((Double) min, Math.min(this.x, (Double) max));
+		this.y = Math.max((Double) min, Math.min(this.y, (Double) max));
+		return this;
 	}
 
+	@Override
+	public Vec2d absI() {
+		this.x = Math.abs(this.x);
+		this.y = Math.abs(this.y);
+		return this;
+	}
+
+	@Override
+	public Vec2d negateI() {
+		this.x = -this.x;
+		this.y = -this.y;
+		return this;
+	}
+	
 	@Override
 	public Double sum() {
 		return this.x + this.y;
 	}
 	
 	@Override
-	public Vec2i sign() {
-		return new Vec2i(
-				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
-				this.y > 0 ? 1 : this.y < 0 ? -1 : 0
-		);
+	public Vec2d signI() {
+		this.x = this.x > 0 ? 1 : this.x < 0 ? -1 : 0;
+		this.y = this.y > 0 ? 1 : this.y < 0 ? -1 : 0;
+		return this;
 	}
 
 	@Override
-	public Vec2i floor() {
-		return new Vec2i(
-				(int) Math.floor(this.x),
-				(int) Math.floor(this.y)
-		);
+	public Vec2d floorI() {
+		this.x = Math.floor(this.x);
+		this.y = Math.floor(this.y);
+		return this;
 	}
 
 	@Override
-	public Vec2i ceil() {
-		return new Vec2i(
-				(int) Math.ceil(this.x),
-				(int) Math.ceil(this.y)
-		);
+	public Vec2d ceilI() {
+		this.x = Math.ceil(this.x);
+		this.y = Math.ceil(this.y);
+		return this;
 	}
 
 	@Override
-	public Vec2i round() {
-		return new Vec2i(
-				(int) Math.round(this.x),
-				(int) Math.round(this.y)
-		);
+	public Vec2d roundI() {
+		this.x = Math.round(this.x);
+		this.y = Math.round(this.y);
+		return this;
 	}
 	
 	@Override
@@ -257,19 +296,19 @@ public class Vec2d implements IVector2Math<Double, Vec2d, Vec2i> {
 	public Double lengthSqr() {
 		return this.x * this.x + this.y * this.y;
 	}
-	
+
 	@Override
-	public Vec2d normalize() {
+	public Vec2d normalizeI() {
 		double f = this.length();
 		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
-		return this.div(f);
+		return this.divI(f);
 	}
-	
+
 	@Override
-	public Vec2d tryNormalize() {
+	public Vec2d tryNormalizeI() {
 		double f = this.length();
-		if (f == 0) return new Vec2d(0, 0);
-		return this.div(f);
+		if (f == 0) return this.setI(0D, 0D);
+		return this.divI(f);
 	}
 	
 	@Override

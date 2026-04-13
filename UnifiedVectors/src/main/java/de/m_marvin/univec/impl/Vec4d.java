@@ -6,7 +6,7 @@ import de.m_marvin.univec.api.IVector3;
 import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.api.IVector4Math;
 
-public class Vec4d implements IVector4Math<Double, Vec4d, Vec4i> {
+public class Vec4d implements IVector4Math<Double, Vec4d> {
 	
 	public double x;
 	public double y;
@@ -136,158 +136,242 @@ public class Vec4d implements IVector4Math<Double, Vec4d, Vec4i> {
 	}
 
 	@Override
+	public Vec4d reset() {
+		this.x = this.y = this.z = this.w = 0;
+		return this;
+	}
+	
+	@Override
 	public Vec4d copy() {
 		return new Vec4d(this.x, this.y, this.z, this.w);
 	}
 
 	@Override
-	public Vec4d add(IVector4<? extends Number> vec) {
-		return new Vec4d(this.x + vec.x().doubleValue(), this.y + vec.y().doubleValue(), this.z + vec.z().doubleValue(), this.w + vec.w().doubleValue());
+	public Vec4d addI(IVector4<? extends Number> vec) {
+		this.x += vec.x().doubleValue();
+		this.y += vec.y().doubleValue();
+		this.z += vec.z().doubleValue();
+		this.w += vec.w().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec4d add(Double x, Double y, Double z, Double w) {
-		return new Vec4d(this.x + x, this.y + y, this.z + z, this.w + w);
+	public Vec4d addI(Double x, Double y, Double z, Double w) {
+		this.x += x;
+		this.y += y;
+		this.z += z;
+		this.w += w;
+		return this;
 	}
 
 	@Override
-	public Vec4d sub(IVector4<? extends Number> vec) {
-		return new Vec4d(this.x - vec.x().doubleValue(), this.y - vec.y().doubleValue(), this.z - vec.z().doubleValue(), this.w - vec.w().doubleValue());
+	public Vec4d subI(IVector4<? extends Number> vec) {
+		this.x -= vec.x().doubleValue();
+		this.y -= vec.y().doubleValue();
+		this.z -= vec.z().doubleValue();
+		this.w -= vec.w().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec4d sub(Double x, Double y, Double z, Double w) {
-		return new Vec4d(this.x - x, this.y - y, this.z - z, this.w - w);
+	public Vec4d subI(Double x, Double y, Double z, Double w) {
+		this.x -= x;
+		this.y -= y;
+		this.z -= z;
+		this.w -= w;
+		return this;
 	}
 
 	@Override
-	public Vec4d mul(IVector4<? extends Number> vec) {
-		return new Vec4d(this.x * vec.x().doubleValue(), this.y * vec.y().doubleValue(), this.z * vec.z().doubleValue(), this.w * vec.w().doubleValue());
+	public Vec4d mulI(IVector4<? extends Number> vec) {
+		this.x *= vec.x().doubleValue();
+		this.y *= vec.y().doubleValue();
+		this.z *= vec.z().doubleValue();
+		this.w *= vec.w().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec4d mul(Double x, Double y, Double z, Double w) {
-		return new Vec4d(this.x * x, this.y * y, this.z * z, this.w * w);
+	public Vec4d mulI(Double x, Double y, Double z, Double w) {
+		this.x *= x;
+		this.y *= y;
+		this.z *= z;
+		this.w *= w;
+		return this;
 	}
 
 	@Override
-	public Vec4d mul(Double n) {
-		return new Vec4d(this.x * n, this.y * n, this.z * n, this.w * n);
+	public Vec4d mulI(Double n) {
+		this.x *= n;
+		this.y *= n;
+		this.z *= n;
+		this.w *= n;
+		return this;
 	}
 	
 	@Override
-	public Vec4d div(IVector4<? extends Number> vec) {
-		return new Vec4d(this.x / vec.x().doubleValue(), this.y / vec.y().doubleValue(), this.z / vec.z().doubleValue(), this.w / vec.w().doubleValue());
+	public Vec4d divI(IVector4<? extends Number> vec) {
+		this.x /= vec.x().doubleValue();
+		this.y /= vec.y().doubleValue();
+		this.z /= vec.z().doubleValue();
+		this.w /= vec.w().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec4d div(Double x, Double y, Double z, Double w) {
-		return new Vec4d(this.x / x, this.y / y, this.z / z, this.w / w);
+	public Vec4d divI(Double x, Double y, Double z, Double w) {
+		this.x /= x;
+		this.y /= y;
+		this.z /= z;
+		this.w /= w;
+		return this;
 	}
 	
 	@Override
-	public Vec4d div(Double n) {
-		return new Vec4d(this.x / n, this.y / n, this.z / n, this.w / n);
+	public Vec4d divI(Double n) {
+		this.x /= n;
+		this.y /= n;
+		this.z /= n;
+		this.w /= n;
+		return this;
 	}
 
 	@Override
-	public Vec4d module(Double m) {
-		return new Vec4d(this.x % m, this.y % m, this.z % m, this.w % m);
+	public Vec4d moduleI(Double m) {
+		this.x %= m;
+		this.y %= m;
+		this.z %= m;
+		this.w %= m;
+		return this;
 	}
 
 	@Override
-	public Vec4d min(Double value) {
-		return new Vec4d(Math.min(this.x, value), Math.min(this.y, value), Math.min(this.z, value), Math.min(this.w, value));
-	}
-	
-	@Override
-	public Vec4d min(IVector4<? extends Number> vec) {
-		return new Vec4d(Math.min(this.x,  vec.x().intValue()), Math.min(this.y,  vec.y().intValue()), Math.min(this.z,  vec.z().intValue()), Math.min(this.w,  vec.w().intValue()));
-	}
-	
-	@Override
-	public Vec4d max(Double value) {
-		return new Vec4d(Math.max(this.x, value), Math.max(this.y, value), Math.max(this.z, value), Math.max(this.w, value));
-	}
-	
-	@Override
-	public Vec4d max(IVector4<? extends Number> vec) {
-		return new Vec4d(Math.max(this.x,  vec.x().intValue()), Math.max(this.y,  vec.y().intValue()), Math.max(this.z,  vec.z().intValue()), Math.max(this.w,  vec.w().intValue()));
-	}
-	
-	@Override
-	public Vec4d clamp(IVector4<? extends Number> min, IVector4<? extends Number> max) {
-		return new Vec4d(
-				Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue())),
-				Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue())),
-				Math.max(min.z().doubleValue(), Math.min(this.z, max.z().doubleValue())),
-				Math.max(min.w().doubleValue(), Math.min(this.w, max.w().doubleValue()))
-			);
-	}
-	
-	@Override
-	public Vec4d clamp(Double min, Double max) {
-		return new Vec4d(
-				Math.max((Double) min, Math.min(this.x, (Double) max)),
-				Math.max((Double) min, Math.min(this.y, (Double) max)),
-				Math.max((Double) min, Math.min(this.z, (Double) max)),
-				Math.max((Double) min, Math.min(this.w, (Double) max))
-			);
+	public Vec4d clampI(IVector4<? extends Number> min, IVector4<? extends Number> max) {
+		this.x = Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue()));
+		this.y = Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()));
+		this.z = Math.max(min.z().doubleValue(), Math.min(this.z, max.z().doubleValue()));
+		this.w = Math.max(min.w().doubleValue(), Math.min(this.w, max.w().doubleValue()));
+		return this;
 	}
 
 	@Override
-	public Vec4d abs() {
-		return new Vec4d(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z), Math.abs(this.w));
+	public Vec4d minI(Double value) {
+		this.x = Math.min(this.x, value);
+		this.y = Math.min(this.y, value);
+		this.z = Math.min(this.z, value);
+		this.w = Math.min(this.w, value);
+		return this;
+	}
+	
+	@Override
+	public Vec4d minI(IVector4<? extends Number> vec) {
+		this.x = Math.min(this.x,  vec.x().doubleValue());
+		this.y = Math.min(this.y,  vec.y().doubleValue());
+		this.z = Math.min(this.z,  vec.z().doubleValue());
+		this.w = Math.min(this.w,  vec.w().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec4d maxI(Double value) {
+		this.x = Math.max(this.x, value);
+		this.y = Math.max(this.y, value);
+		this.z = Math.max(this.z, value);
+		this.w = Math.max(this.w, value);
+		return this;
+	}
+	
+	@Override
+	public Vec4d maxI(IVector4<? extends Number> vec) {
+		this.x = Math.max(this.x,  vec.x().doubleValue());
+		this.y = Math.max(this.y,  vec.y().doubleValue());
+		this.z = Math.max(this.z,  vec.z().doubleValue());
+		this.w = Math.max(this.w,  vec.w().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec4d clampI(Double min, Double max) {
+		this.x = Math.max((Double) min, Math.min(this.x, (Double) max));
+		this.y = Math.max((Double) min, Math.min(this.y, (Double) max));
+		this.z = Math.max((Double) min, Math.min(this.z, (Double) max));
+		this.w = Math.max((Double) min, Math.min(this.w, (Double) max));
+		return this;
 	}
 
+	@Override
+	public Vec4d absI() {
+		this.x = Math.abs(this.x);
+		this.y = Math.abs(this.y);
+		this.z = Math.abs(this.z);
+		this.w = Math.abs(this.w);
+		return this;
+	}
+
+	@Override
+	public Vec4d negateI() {
+		this.x = -this.x;
+		this.y = -this.y;
+		this.z = -this.z;
+		this.w = -this.w;
+		return this;
+	}
+	
 	@Override
 	public Double sum() {
 		return this.x + this.y + this.z + this.w;
 	}
 	
 	@Override
-	public Vec4i sign() {
-		return new Vec4i(
-				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
-				this.y > 0 ? 1 : this.y < 0 ? -1 : 0,
-				this.z > 0 ? 1 : this.z < 0 ? -1 : 0,
-				this.w > 0 ? 1 : this.w < 0 ? -1 : 0
-		);
+	public Vec4d signI() {
+		this.x = this.x > 0 ? 1 : this.x < 0 ? -1 : 0;
+		this.y = this.y > 0 ? 1 : this.y < 0 ? -1 : 0;
+		this.z = this.z > 0 ? 1 : this.z < 0 ? -1 : 0;
+		this.w = this.w > 0 ? 1 : this.w < 0 ? -1 : 0;
+		return this;
 	}
 
 	@Override
-	public Vec4i floor() {
-		return new Vec4i(
-				(int) Math.floor(this.x),
-				(int) Math.floor(this.y),
-				(int) Math.floor(this.z),
-				(int) Math.floor(this.w)
-		);
+	public Vec4d floorI() {
+		this.x = Math.floor(this.x);
+		this.y = Math.floor(this.y);
+		this.z = Math.floor(this.z);
+		this.w = Math.floor(this.w);
+		return this;
 	}
 
 	@Override
-	public Vec4i ceil() {
-		return new Vec4i(
-				(int) Math.ceil(this.x),
-				(int) Math.ceil(this.y),
-				(int) Math.ceil(this.z),
-				(int) Math.ceil(this.w)
-		);
+	public Vec4d ceilI() {
+		this.x = Math.ceil(this.x);
+		this.y = Math.ceil(this.y);
+		this.z = Math.ceil(this.z);
+		this.w = Math.ceil(this.w);
+		return this;
 	}
 
 	@Override
-	public Vec4i round() {
-		return new Vec4i(
-				(int) Math.round(this.x),
-				(int) Math.round(this.y),
-				(int) Math.round(this.z),
-				(int) Math.round(this.w)
-		);
+	public Vec4d roundI() {
+		this.x = Math.round(this.x);
+		this.y = Math.round(this.y);
+		this.z = Math.round(this.z);
+		this.w = Math.round(this.w);
+		return this;
 	}
 	
 	@Override
 	public boolean isFinite() {
 		return Double.isFinite(x) && Double.isFinite(y) && Double.isFinite(z) && Double.isFinite(w);
+	}
+
+	@Override
+	public Vec4d crossI(IVector3<? extends Number> vec) {
+		double x = this.y * vec.z().doubleValue() - this.z * vec.y().doubleValue();
+		double y = this.z * vec.x().doubleValue() - this.x * vec.z().doubleValue();
+		this.z = this.x * vec.y().doubleValue() - this.y * vec.x().doubleValue();
+		this.y = y;
+		this.x = x;
+		this.w = 0;
+		return this;
 	}
 	
 	@Override
@@ -304,19 +388,19 @@ public class Vec4d implements IVector4Math<Double, Vec4d, Vec4i> {
 	public Double lengthSqr() {
 		return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
 	}
-	
+
 	@Override
-	public Vec4d normalize() {
+	public Vec4d normalizeI() {
 		double f = this.length();
 		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
-		return this.div(f);
+		return this.divI(f);
 	}
 
 	@Override
-	public Vec4d tryNormalize() {
+	public Vec4d tryNormalizeI() {
 		double f = this.length();
-		if (f == 0) return new Vec4d(0, 0, 0, 0);
-		return this.div(f);
+		if (f == 0) return this.setI(0D, 0D, 0D, 0D);
+		return this.divI(f);
 	}
 	
 	@Override

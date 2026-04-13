@@ -1,0 +1,39 @@
+import de.m_marvin.metabuild.java.script.JavaBuildScript;
+import de.m_marvin.metabuild.maven.types.Repository;
+import de.m_marvin.metabuild.maven.types.Repository.Credentials;
+
+public class Buildfile extends JavaBuildScript {
+	
+	public String version = "1.7.7-SNAPSHOT";
+	
+	@Override
+	public void init() {
+		
+		projectName = "univec";
+		
+		super.init();
+
+		withSourcesJar();
+		
+	}
+	
+	@Override
+	public void publishing() {
+		
+		super.publishing();
+		
+		publishMavenLocal.coordinates("de.m_marvin.univec:univec:" + version);
+		
+		publishMaven.coordinates("de.m_marvin.univec:univec:" + version);
+		publishMaven.repository(new Repository(
+				"GHP [SerialPortAccess]", 
+				"https://maven.pkg.github.com/m-marvin/library-unifiedvectors",
+				new Credentials(
+						() -> System.getenv("GITHUB_ACTOR"), 
+						() -> System.getenv("GITHUB_TOKEN")
+				)
+		));
+		
+	}
+	
+}

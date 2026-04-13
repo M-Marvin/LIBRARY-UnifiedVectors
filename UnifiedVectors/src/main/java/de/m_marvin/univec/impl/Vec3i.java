@@ -9,7 +9,7 @@ import de.m_marvin.univec.api.IVector3Math;
 /*
  * Implementation of a 3 dimensional integer vector
  */
-public class Vec3i implements IVector3Math<Integer, Vec3i, Vec3i, Quaternionf> {
+public class Vec3i implements IVector3Math<Integer, Vec3i, Quaternionf> {
 
 	public int x;
 	public int y;
@@ -115,135 +115,203 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, Vec3i, Quaternionf> {
 	}
 
 	@Override
+	public Vec3i reset() {
+		this.x = this.y = this.z = 0;
+		return this;
+	}
+	
+	@Override
 	public Vec3i copy() {
 		return new Vec3i(this.x, this.y, this.z);
 	}
 
 	@Override
-	public Vec3i add(IVector3<? extends Number> vec) {
-		return new Vec3i(this.x + vec.x().intValue(), this.y + vec.y().intValue(), this.z + vec.z().intValue());
+	public Vec3i addI(IVector3<? extends Number> vec) {
+		this.x += vec.x().doubleValue();
+		this.y += vec.y().doubleValue();
+		this.z += vec.z().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec3i add(Integer x, Integer y, Integer z) {
-		return new Vec3i(this.x + x, this.y + y, this.z + z);
+	public Vec3i addI(Integer x, Integer y, Integer z) {
+		this.x += x;
+		this.y += y;
+		this.z += z;
+		return this;
 	}
 
 	@Override
-	public Vec3i sub(IVector3<? extends Number> vec) {
-		return new Vec3i(this.x - vec.x().intValue(), this.y - vec.y().intValue(), this.z - vec.z().intValue());
+	public Vec3i subI(IVector3<? extends Number> vec) {
+		this.x -= vec.x().doubleValue();
+		this.y -= vec.y().doubleValue();
+		this.z -= vec.z().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec3i sub(Integer x, Integer y, Integer z) {
-		return new Vec3i(this.x - x, this.y - y, this.z - z);
+	public Vec3i subI(Integer x, Integer y, Integer z) {
+		this.x -= x;
+		this.y -= y;
+		this.z -= z;
+		return this;
 	}
 
 	@Override
-	public Vec3i mul(IVector3<? extends Number> vec) {
-		return new Vec3i(this.x * vec.x().intValue(), this.y * vec.y().intValue(), this.z * vec.z().intValue());
+	public Vec3i mulI(IVector3<? extends Number> vec) {
+		this.x *= vec.x().doubleValue();
+		this.y *= vec.y().doubleValue();
+		this.z *= vec.z().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec3i mul(Integer x, Integer y, Integer z) {
-		return new Vec3i(this.x * x, this.y * y, this.z * z);
+	public Vec3i mulI(Integer x, Integer y, Integer z) {
+		this.x *= x;
+		this.y *= y;
+		this.z *= z;
+		return this;
 	}
 
 	@Override
-	public Vec3i mul(Integer n) {
-		return new Vec3i(this.x * n, this.y * n, this.z * n);
+	public Vec3i mulI(Integer n) {
+		this.x *= n;
+		this.y *= n;
+		this.z *= n;
+		return this;
 	}
 	
 	@Override
-	public Vec3i div(IVector3<? extends Number> vec) {
-		return new Vec3i(this.x / vec.x().intValue(), this.y / vec.y().intValue(), this.z / vec.z().intValue());
+	public Vec3i divI(IVector3<? extends Number> vec) {
+		this.x /= vec.x().doubleValue();
+		this.y /= vec.y().doubleValue();
+		this.z /= vec.z().doubleValue();
+		return this;
 	}
 
 	@Override
-	public Vec3i div(Integer x, Integer y, Integer z) {
-		return new Vec3i(this.x / x, this.y / y, this.z / z);
+	public Vec3i divI(Integer x, Integer y, Integer z) {
+		this.x /= x;
+		this.y /= y;
+		this.z /= z;
+		return this;
 	}
 	
 	@Override
-	public Vec3i div(Integer n) {
-		return new Vec3i(this.x / n, this.y / n, this.z / n);
+	public Vec3i divI(Integer n) {
+		this.x /= n;
+		this.y /= n;
+		this.z /= n;
+		return this;
 	}
 
 	@Override
-	public Vec3i module(Integer m) {
-		return new Vec3i(this.x % m, this.y % m, this.z % m);
+	public Vec3i moduleI(Integer m) {
+		this.x %= m;
+		this.y %= m;
+		this.z %= m;
+		return this;
 	}
 
 	@Override
-	public Vec3i min(Integer value) {
-		return new Vec3i(Math.min(this.x, value), Math.min(this.y, value), Math.min(this.z, value));
-	}
-	
-	@Override
-	public Vec3i min(IVector3<? extends Number> vec) {
-		return new Vec3i(Math.min(this.x,  vec.x().intValue()), Math.min(this.y,  vec.y().intValue()), Math.min(this.z,  vec.z().intValue()));
-	}
-	
-	@Override
-	public Vec3i max(Integer value) {
-		return new Vec3i(Math.max(this.x, value), Math.max(this.y, value), Math.max(this.z, value));
-	}
-	
-	@Override
-	public Vec3i max(IVector3<? extends Number> vec) {
-		return new Vec3i(Math.max(this.x,  vec.x().intValue()), Math.max(this.y,  vec.y().intValue()), Math.max(this.z,  vec.z().intValue()));
-	}
-	
-	@Override
-	public Vec3i clamp(IVector3<? extends Number> min, IVector3<? extends Number> max) {
-		return new Vec3i(
-				Math.max(min.x().intValue(), Math.min(this.x, max.x().intValue())),
-				Math.max(min.y().intValue(), Math.min(this.y, max.y().intValue())),
-				Math.max(min.z().intValue(), Math.min(this.z, max.z().intValue()))
-			);
-	}
-	
-	@Override
-	public Vec3i clamp(Integer min, Integer max) {
-		return new Vec3i(
-				Math.max((Integer) min, Math.min(this.x, (Integer) max)),
-				Math.max((Integer) min, Math.min(this.y, (Integer) max)),
-				Math.max((Integer) min, Math.min(this.z, (Integer) max))
-			);
+	public Vec3i clampI(IVector3<? extends Number> min, IVector3<? extends Number> max) {
+		this.x = (int) Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue()));
+		this.y = (int) Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()));
+		this.z = (int) Math.max(min.z().doubleValue(), Math.min(this.z, max.z().doubleValue()));
+		return this;
 	}
 
 	@Override
-	public Vec3i abs() {
-		return new Vec3i(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z));
+	public Vec3i minI(Integer value) {
+		this.x = Math.min(this.x, value);
+		this.y = Math.min(this.y, value);
+		this.z = Math.min(this.z, value);
+		return this;
+	}
+	
+	@Override
+	public Vec3i minI(IVector3<? extends Number> vec) {
+		this.x = (int) Math.min(this.x,  vec.x().doubleValue());
+		this.y = (int) Math.min(this.y,  vec.y().doubleValue());
+		this.z = (int) Math.min(this.z,  vec.z().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec3i maxI(Integer value) {
+		this.x = Math.max(this.x, value);
+		this.y = Math.max(this.y, value);
+		this.z = Math.max(this.z, value);
+		return this;
+	}
+	
+	@Override
+	public Vec3i maxI(IVector3<? extends Number> vec) {
+		this.x = (int) Math.max(this.x,  vec.x().doubleValue());
+		this.y = (int) Math.max(this.y,  vec.y().doubleValue());
+		this.z = (int) Math.max(this.z,  vec.z().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec3i clampI(Integer min, Integer max) {
+		this.x = Math.max((Integer) min, Math.min(this.x, (Integer) max));
+		this.y = Math.max((Integer) min, Math.min(this.y, (Integer) max));
+		this.z = Math.max((Integer) min, Math.min(this.z, (Integer) max));
+		return this;
 	}
 
+	@Override
+	public Vec3i absI() {
+		this.x = Math.abs(this.x);
+		this.y = Math.abs(this.y);
+		this.z = Math.abs(this.z);
+		return this;
+	}
+
+	@Override
+	public Vec3i negateI() {
+		this.x = -this.x;
+		this.y = -this.y;
+		this.z = -this.z;
+		return this;
+	}
+	
 	@Override
 	public Integer sum() {
 		return this.x + this.y + this.z;
 	}
 	
 	@Override
-	public Vec3i sign() {
-		return new Vec3i(
-				this.x > 0 ? 1 : this.x < 0 ? -1 : 0,
-				this.y > 0 ? 1 : this.y < 0 ? -1 : 0,
-				this.z > 0 ? 1 : this.z < 0 ? -1 : 0
-		);
+	public Vec3i signI() {
+		this.x = this.x > 0 ? 1 : this.x < 0 ? -1 : 0;
+		this.y = this.y > 0 ? 1 : this.y < 0 ? -1 : 0;
+		this.z = this.z > 0 ? 1 : this.z < 0 ? -1 : 0;
+		return this;
 	}
 
 	@Override
-	public Vec3i floor() {
-		return copy();
+	public Vec3i floorI() {
+		this.x = (int) Math.floor(this.x);
+		this.y = (int) Math.floor(this.y);
+		this.z = (int) Math.floor(this.z);
+		return this;
 	}
 
 	@Override
-	public Vec3i ceil() {
-		return copy();
+	public Vec3i ceilI() {
+		this.x = (int) Math.ceil(this.x);
+		this.y = (int) Math.ceil(this.y);
+		this.z = (int) Math.ceil(this.z);
+		return this;
 	}
 
 	@Override
-	public Vec3i round() {
-		return copy();
+	public Vec3i roundI() {
+		this.x = Math.round(this.x);
+		this.y = Math.round(this.y);
+		this.z = Math.round(this.z);
+		return this;
 	}
 	
 	@Override
@@ -257,14 +325,15 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, Vec3i, Quaternionf> {
 		double f2 = this.length() * (Integer) vec.length();
 		return Math.acos(f1 / f2);
 	}
-	
+
 	@Override
-	public Vec3i cross(IVector3<? extends Number> vec) {
-		return new Vec3i(
-				this.y * vec.z().intValue() - this.z * vec.y().intValue(),
-				this.z * vec.x().intValue() - this.x * vec.z().intValue(),
-				this.x * vec.y().intValue() - this.y * vec.x().intValue()
-			);
+	public Vec3i crossI(IVector3<? extends Number> vec) {
+		int x = this.y * vec.z().intValue() - this.z * vec.y().intValue();
+		int y = this.z * vec.x().intValue() - this.x * vec.z().intValue();
+		this.z = this.x * vec.y().intValue() - this.y * vec.x().intValue();
+		this.y = y;
+		this.x = x;
+		return this;
 	}
 	
 	@Override
@@ -281,19 +350,19 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, Vec3i, Quaternionf> {
 	public Integer lengthSqr() {
 		return this.x * this.x + this.y * this.y + this.z * this.z;
 	}
-	
+
 	@Override
-	public Vec3i normalize() {
+	public Vec3i normalizeI() {
 		int f = this.length();
 		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
-		return this.div(f);
+		return this.divI(f);
 	}
 
 	@Override
-	public Vec3i tryNormalize() {
+	public Vec3i tryNormalizeI() {
 		int f = this.length();
-		if (f == 0) return new Vec3i(0, 0, 0);
-		return this.div(f);
+		if (f == 0) return this.setI(0, 0, 0);
+		return this.divI(f);
 	}
 	
 	@Override
