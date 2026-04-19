@@ -212,7 +212,7 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 	}
 
 	public static void decompose(Vec3f translation, Vec3f scale, IMatrix<Float> rotation, IMatrix<Float> matrix) {
-		Objects.requireNonNull(matrix, "matrix vector can not be null");
+		Objects.requireNonNull(matrix, "matrix can not be null");
 		if (rotation != null && (rotation.width() != 3 || rotation.height() != 3))
 			throw new IllegalArgumentException("rotation matrix must be 3x3");
 		if (matrix.width() != 4 || matrix.height() != 4)
@@ -220,31 +220,24 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 		
 		if (translation != null)
 			translation.setI(matrix.m(3, 0).floatValue(), matrix.m(3, 1).floatValue(), matrix.m(3, 2).floatValue());
+
+		Matrix3f.decompose(scale, rotation, matrix);
+	}
+
+	public static void decompose(Vec3f translation, Vec3f scale, Quaternionf rotation, IMatrix<Float> matrix) {
+		Objects.requireNonNull(matrix, "matrix can not be null");
+		if (matrix.width() != 4 || matrix.height() != 4)
+			throw new IllegalArgumentException("input matrix must be 4x4");
 		
-		if (scale != null || rotation != null) {
-			if (scale == null)
-				scale = new Vec3f();
-			scale.setX(new Vec3f(matrix.m(0, 0).floatValue(), matrix.m(1, 0).floatValue(), matrix.m(2, 0).floatValue()).length());
-			scale.setY(new Vec3f(matrix.m(0, 1).floatValue(), matrix.m(1, 1).floatValue(), matrix.m(2, 1).floatValue()).length());
-			scale.setZ(new Vec3f(matrix.m(0, 2).floatValue(), matrix.m(1, 2).floatValue(), matrix.m(2, 2).floatValue()).length());
-		}
+		if (translation != null)
+			translation.setI(matrix.m(3, 0).floatValue(), matrix.m(3, 1).floatValue(), matrix.m(3, 2).floatValue());
 		
-		if (rotation != null) {
-			rotation.set(0, 1, matrix.m(0, 1).floatValue() / scale.y());
-			rotation.set(0, 0, matrix.m(0, 0).floatValue() / scale.x());
-			rotation.set(0, 2, matrix.m(0, 2).floatValue() / scale.z());
-			rotation.set(1, 0, matrix.m(1, 0).floatValue() / scale.x());
-			rotation.set(1, 1, matrix.m(1, 1).floatValue() / scale.y());
-			rotation.set(1, 2, matrix.m(1, 2).floatValue() / scale.z());
-			rotation.set(2, 0, matrix.m(2, 0).floatValue() / scale.x());
-			rotation.set(2, 1, matrix.m(2, 1).floatValue() / scale.y());
-			rotation.set(2, 2, matrix.m(2, 2).floatValue() / scale.z());
-		}
+		Matrix3f.decompose(scale, rotation, matrix);
 	}
 	
 	public static Vec3f extractTranslation(IMatrix<Float> matrix) {
 		Vec3f translation = new Vec3f();
-		decompose(translation, null, null, matrix);
+		decompose(translation, null, (Matrix3f) null, matrix);
 		return translation;
 	}
 

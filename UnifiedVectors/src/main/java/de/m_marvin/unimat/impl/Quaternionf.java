@@ -4,7 +4,9 @@ import java.util.Objects;
 
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.unimat.api.IQuaternionMath;
+import de.m_marvin.univec.api.IVector2;
 import de.m_marvin.univec.api.IVector3;
+import de.m_marvin.univec.api.IVector4;
 import de.m_marvin.univec.impl.Vec3f;
 
 public class Quaternionf implements IQuaternionMath<Float, Quaternionf, IQuaternion<? extends Number>, Vec3f> {
@@ -13,54 +15,220 @@ public class Quaternionf implements IQuaternionMath<Float, Quaternionf, IQuatern
 	public float j;
 	public float k;
 	public float r;
+	
+	public Quaternionf(IVector2<? extends Number> vec2, float z, float w) {
+		this.i = vec2.x().floatValue();
+		this.j = vec2.y().floatValue();
+		this.k = z;
+		this.r = w;
+	}
 
-	public Quaternionf(float i, float j, float k, float r) {
+	public Quaternionf(IVector3<? extends Number> vec3, float w) {
+		this.i = vec3.x().floatValue();
+		this.j = vec3.y().floatValue();
+		this.k = vec3.z().floatValue();
+		this.r = w;
+	}
+	
+	public Quaternionf(float x, float y, float z, float w) {
+		this.i = x;
+		this.j = y;
+		this.k = z;
+		this.r = w;
+	}
+
+	public Quaternionf() {
+		this.i = 0;
+		this.j = 0;
+		this.k = 0;
+		this.r = 0;
+	}
+
+	public Quaternionf(IVector4<? extends Number> vec) {
+		this.i = vec.x().floatValue();
+		this.j = vec.y().floatValue();
+		this.k = vec.z().floatValue();
+		this.r = vec.w().floatValue();
+	}
+
+	@Override
+	public Float i() {
+		return this.i;
+	}
+
+	@Override
+	public Float j() {
+		return this.j;
+	}
+
+	@Override
+	public Float k() {
+		return this.k;
+	}
+
+	@Override
+	public Float r() {
+		return this.r;
+	}
+
+	@Override
+	public void setI(Float i) {
+		this.i = i;
+	}
+
+	@Override
+	public void setJ(Float j) {
+		this.j  = j;
+	}
+
+	@Override
+	public void setK(Float k) {
+		this.k = k;
+	}
+
+	@Override
+	public void setR(Float r) {
+		this.r = r;
+	}
+
+	@Override
+	public Quaternionf mulI(IQuaternion<? extends Number> quat) {
+		float i = this.r() * quat.i().floatValue() + this.i() * quat.r().floatValue() + this.j() * quat.k().floatValue() - this.k() * quat.j().floatValue();
+		float j = this.r() * quat.j().floatValue() - this.i() * quat.k().floatValue() + this.j() * quat.r().floatValue() + this.k() * quat.i().floatValue();
+		float k = this.r() * quat.k().floatValue() + this.i() * quat.j().floatValue() - this.j() * quat.i().floatValue() + this.k() * quat.r().floatValue();
+		this.r = this.r() * quat.r().floatValue() - this.i() * quat.i().floatValue() - this.j() * quat.j().floatValue() - this.k() * quat.k().floatValue();
+		this.i = i;
+		this.j = j;
+		this.k = k;
+		return this;
+	}
+	
+	@Override
+	public Quaternionf mulI(Float f) {
+		this.i *= f;
+		this.j *= f;
+		this.k *= f;
+		this.r *= f;
+		return this;
+	}
+	
+	@Override
+	public Quaternionf divI(Float f) {
+		this.i /= f;
+		this.j /= f;
+		this.k /= f;
+		this.r /= f;
+		return this;
+	}
+	
+	@Override
+	public Quaternionf addI(IQuaternion<? extends Number> quat) {
+		this.i += quat.i().floatValue();
+		this.j += quat.j().floatValue();
+		this.k += quat.k().floatValue();
+		this.r += quat.r().floatValue();
+		return this;
+	}
+	
+	@Override
+	public Quaternionf subI(IQuaternion<? extends Number> quat) {
+		this.i -= quat.i().floatValue();
+		this.j -= quat.j().floatValue();
+		this.k -= quat.k().floatValue();
+		this.r -= quat.r().floatValue();
+		return this;
+	}
+
+	@Override
+	public boolean isFinite() {
+		return Float.isFinite(this.i) && Float.isFinite(this.j) && Float.isFinite(this.k) && Float.isFinite(this.r);
+	}
+
+	@Override
+	public Quaternionf setI(Float i, Float j, Float k, Float r) {
 		this.i = i;
 		this.j = j;
 		this.k = k;
 		this.r = r;
+		return this;
 	}
-	
-	public Quaternionf(IVector3<? extends Number> rotationAxis, float radians) {
-		float f = (float) Math.sin(radians / 2F);
-		this.r = (float) Math.cos(radians / 2F);
-		this.i = f * rotationAxis.x().floatValue();
-		this.j = f * rotationAxis.y().floatValue();
-		this.k = f * rotationAxis.z().floatValue();
+
+	@Override
+	public Quaternionf setI(IQuaternion<? extends Number> quat) {
+		this.i = quat.i().floatValue();
+		this.j = quat.j().floatValue();
+		this.k = quat.k().floatValue();
+		this.r = quat.r().floatValue();
+		return this;
 	}
-	
-	public Quaternionf(IVector3<? extends Number> euler, EulerOrder order, boolean degree) {
-		switch (order) {
-		case XYZ: fromEulerXYZ(euler.x().floatValue(), euler.y().floatValue(), euler.z().floatValue(), degree); break;
-		case YXZ: fromEulerXYZ(euler.y().floatValue(), euler.x().floatValue(), euler.z().floatValue(), degree); break;
-		case ZXY: fromEulerXYZ(euler.z().floatValue(), euler.x().floatValue(), euler.y().floatValue(), degree); break;
-		case ZYX: fromEulerXYZ(euler.z().floatValue(), euler.y().floatValue(), euler.x().floatValue(), degree); break;
-		}
+
+	@Override
+	public Float length() {
+		return (float) Math.sqrt(this.lengthSqr());
 	}
-	
-	public static Quaternionf fromRotationMatrix(Matrix3f mat) {
-		float w = (float) (Math.sqrt(1.0 + mat.m(0, 0) + mat.m(1, 1) + mat.m(2, 2)) / 2.0);
-		float w4 = (4F * w);
-		return new Quaternionf(
-			(mat.m(2, 1) - mat.m(1, 2)) / w4,
-			(mat.m(0, 2) - mat.m(2, 0)) / w4,
-			(mat.m(1, 0) - mat.m(0, 1)) / w4,
-			w
-		);
+
+	@Override
+	public Float lengthSqr() {
+		return this.i * this.i + this.j * this.j + this.k * this.k + this.r * this.r;
+	}
+
+	@Override
+	public Quaternionf normalizeI() {
+		float f = this.length();
+		if (f == 0) throw new ArithmeticException("division trough zero, cant normalize vector of length 0");
+		return this.divI(f);
+	}
+
+	@Override
+	public Quaternionf tryNormalizeI() {
+		float f = this.length();
+		if (f == 0) return this.setI(0F, 0F, 0F, 0F);
+		return this.divI(f);
 	}
 	
 	@Override
-	public Vec3f euler(EulerOrder order, boolean degree) {
-		Vec3f euler = toEulerXYZ(degree);
-		switch (order) {
-		case YXZ: return new Vec3f(euler.y, euler.x, euler.z);
-		case ZXY: return new Vec3f(euler.z, euler.y, euler.y);
-		case ZYX: return new Vec3f(euler.z, euler.y, euler.x);
-		default:
-		case XYZ: return euler;
-		}
+	public Quaternionf copy() {
+		return new Quaternionf(this.i, this.j, this.k, this.r);
 	}
-	
+
+	@Override
+	public Quaternionf conjI() {
+		this.i = -this.i;
+		this.j = -this.j;
+		this.k = -this.k;
+		return this;
+	}
+
+	@Override
+	public Quaternionf setVectorI(IVector3<?> axis, boolean degree) {
+		float angle = axis.length().floatValue();
+		if (degree) angle = (float) Math.toRadians(angle);
+		float f = (float) Math.sin(angle / 2);
+		this.r = (float) Math.cos(angle / 2);
+		this.i = f * axis.x().floatValue() / angle;
+		this.j = f * axis.y().floatValue() / angle;
+		this.k = f * axis.z().floatValue() / angle;
+		return this;
+	}
+
+	@Override
+	public Quaternionf setVectorAngleI(IVector3<?> axis, Float angle, boolean degree) {
+		if (degree) angle = (float) Math.toRadians(angle);
+		float f = (float) Math.sin(angle / 2);
+		this.r = (float) Math.cos(angle / 2);
+		this.i = f * axis.x().floatValue();
+		this.j = f * axis.y().floatValue();
+		this.k = f * axis.z().floatValue();
+		return this;
+	}
+
+	@Override
+	public Vec3f vector(boolean degree) {
+		float angle = (float) Math.acos(this.r) * 2;
+		if (degree) angle = (float) Math.toDegrees(angle);
+		return new Vec3f(this.i, this.j, this.k).tryNormalizeI().mulI(angle);
+	}
+
 	protected void fromEulerXYZ(float x, float y, float z, boolean degree) {
 		float cx = (float) Math.cos((degree ? Math.toRadians(x) : x) * 0.5F);
 		float sx = (float) Math.sin((degree ? Math.toRadians(x) : x) * 0.5F);
@@ -78,124 +246,43 @@ public class Quaternionf implements IQuaternionMath<Float, Quaternionf, IQuatern
 		this.j = cx*sycz - sx*cysz;
 		this.k = cx*cysz + sx*sycz;
 	}
-	
+		
 	protected Vec3f toEulerXYZ(boolean degree) {
 		Vec3f euler = new Vec3f(
-			(float) Math.atan2(i * r - j * k, 0.5 - i * i - j * j),
-			(float) Math.asin(2.0 * (i * k + j * r)),
-			(float) Math.atan2(k * r - i * j, 0.5 - j * j - k * k)
+			(float) Math.atan2(this.i * this.r - this.j * this.k, 0.5 - this.i * this.i - this.j * this.j),
+			(float) Math.asin(2.0 * (this.i * this.k + this.j * this.r)),
+			(float) Math.atan2(this.k * this.r - this.i * this.j, 0.5 - this.j * this.j - this.k * this.k)
 		);
 		return degree ? new Vec3f((float) Math.toDegrees(euler.x()), (float) Math.toDegrees(euler.y()), (float) Math.toDegrees(euler.z())) : euler;
 	}
-
+	
 	@Override
-	public Float i() {
-		return i;
-	}
-
-	@Override
-	public Float j() {
-		return j;
-	}
-
-	@Override
-	public Float k() {
-		return k;
-	}
-
-	@Override
-	public Float r() {
-		return r;
-	}
-
-	@Override
-	public void setI(Float i) {
-		this.i = i;
-	}
-
-	@Override
-	public void setJ(Float j) {
-		this.j = j;
-	}
-
-	@Override
-	public void setK(Float k) {
-		this.k = k;
-	}
-
-	@Override
-	public void setR(Float r) {
-		this.r = r;
-	}
-
-	@Override
-	public boolean isFinite() {
-		return Float.isFinite(i) && Float.isFinite(j) && Float.isFinite(k) && Float.isFinite(r);
-	}
-
-	@Override
-	public Quaternionf setI(IQuaternion<? extends Number> quat) {
-		this.i = quat.i().floatValue();
-		this.j = quat.j().floatValue();
-		this.k = quat.k().floatValue();
-		this.r = quat.r().floatValue();
+	public Quaternionf setEulerI(IVector3<?> euler, EulerOrder order, boolean degree) {
+		switch (order) {
+		case XYZ: fromEulerXYZ(euler.x().floatValue(), euler.y().floatValue(), euler.z().floatValue(), degree); break;
+		case YXZ: fromEulerXYZ(euler.y().floatValue(), euler.x().floatValue(), euler.z().floatValue(), degree); break;
+		case ZXY: fromEulerXYZ(euler.z().floatValue(), euler.x().floatValue(), euler.y().floatValue(), degree); break;
+		case ZYX: fromEulerXYZ(euler.z().floatValue(), euler.y().floatValue(), euler.x().floatValue(), degree); break;
+		}
 		return this;
 	}
 
 	@Override
-	public Quaternionf setI(Float i, Float j, Float k, Float r) {
-		this.i = i;
-		this.j = j;
-		this.k = k;
-		this.r = r;
-		return this;
+	public Vec3f euler(EulerOrder order, boolean degree) {
+		Vec3f euler = toEulerXYZ(degree);
+		switch (order) {
+		case YXZ: return new Vec3f(euler.y, euler.x, euler.z);
+		case ZXY: return new Vec3f(euler.z, euler.y, euler.y);
+		case ZYX: return new Vec3f(euler.z, euler.y, euler.x);
+		default:
+		case XYZ: return euler;
+		}
 	}
 
 	@Override
-	public Quaternionf mul(IQuaternion<? extends Number> quat) {
-		float f = this.i();
-		float f1 = this.j();
-		float f2 = this.k();
-		float f3 = this.r();
-		float f4 = quat.i().floatValue();
-		float f5 = quat.j().floatValue();
-		float f6 = quat.k().floatValue();
-		float f7 = quat.r().floatValue();
-		float i = f3 * f4 + f * f7 + f1 * f6 - f2 * f5;
-		float j = f3 * f5 - f * f6 + f1 * f7 + f2 * f4;
-		float k = f3 * f6 + f * f5 - f1 * f4 + f2 * f7;
-		float r = f3 * f7 - f * f4 - f1 * f5 - f2 * f6;
-		return new Quaternionf(i, j, k, r);
-	}
-
-	@Override
-	public Quaternionf add(IQuaternion<? extends Number> quat) {
-		return new Quaternionf(this.i + quat.i().floatValue(), this.j + quat.j().floatValue(), this.k + quat.k().floatValue(), this.r + quat.r().floatValue());
-	}
-
-	@Override
-	public Quaternionf sub(IQuaternion<? extends Number> quat) {
-		return new Quaternionf(this.i - quat.i().floatValue(), this.j - quat.j().floatValue(), this.k - quat.k().floatValue(), this.r - quat.r().floatValue());
-	}
-	
-	@Override
-	public Quaternionf mul(Float f) {
-		return new Quaternionf(i * f, j * f, k, r);
-	}
-	
-	@Override
-	public Quaternionf div(Float f) {
-		return new Quaternionf(i / f, j / f, k, r);
-	}
-
-	@Override
-	public Quaternionf copy() {
-		return new Quaternionf(i, j, k, r);
-	}
-
-	@Override
-	public Quaternionf conj() {
-		return new Quaternionf(-i, -j, -k, r);
+	public Vec3f transform(Vec3f vector) {
+		Quaternionf qvec = this.mul(new Quaternionf(vector, 0.0F)).mulI(conj());
+		return new Vec3f(qvec.i(), qvec.j(), qvec.k());
 	}
 
 	@Override
@@ -211,11 +298,11 @@ public class Quaternionf implements IQuaternionMath<Float, Quaternionf, IQuatern
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Quaternionf other = (Quaternionf) obj;
-		return Float.floatToIntBits(i) == Float.floatToIntBits(other.i)
-				&& Float.floatToIntBits(j) == Float.floatToIntBits(other.j)
-				&& Float.floatToIntBits(k) == Float.floatToIntBits(other.k)
-				&& Float.floatToIntBits(r) == Float.floatToIntBits(other.r);
+		Quaterniond other = (Quaterniond) obj;
+		return 	Double.doubleToLongBits(i) == Double.doubleToLongBits(other.i) &&
+				Double.doubleToLongBits(j) == Double.doubleToLongBits(other.j) &&
+				Double.doubleToLongBits(k) == Double.doubleToLongBits(other.k) &&
+				Double.doubleToLongBits(r) == Double.doubleToLongBits(other.r);
 	}
 
 	@Override

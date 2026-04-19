@@ -604,6 +604,17 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 	}
 	
 	@Override
+	public Double trace() {
+		if (!isSquare())
+			throw new MatrixMathException("not defined for non square matrix", this);
+		
+		double trace = 0;
+		for (int i = 0; i < this.width(); i++)
+			trace += m(i, i);
+		return trace;
+	}
+	
+	@Override
 	public String toString() {
 		int[] tw = new int[width()];
 		for (int x = 0; x < width(); x++) {

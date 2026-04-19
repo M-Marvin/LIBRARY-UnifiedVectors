@@ -1,6 +1,7 @@
 package de.m_marvin.univec;
 
 import de.m_marvin.unimat.api.IQuaternionMath.EulerOrder;
+import de.m_marvin.unimat.impl.Matrix3d;
 import de.m_marvin.unimat.impl.Matrix4d;
 import de.m_marvin.unimat.impl.MatrixNd;
 import de.m_marvin.unimat.impl.Quaterniond;
@@ -97,7 +98,7 @@ public class Testing {
 		System.out.println(new Vec2i().dist(new Vec2i()));
 		
 		Vec3d v = new Vec3d(25, 5, 56);
-		Quaterniond quat = new Quaterniond(v, EulerOrder.YXZ, true);
+		Quaterniond quat = new Quaterniond().setEulerI(v, EulerOrder.YXZ, true);
 		
 		Vec3d c2 = quat.euler(EulerOrder.YXZ, true);
 		
@@ -106,11 +107,17 @@ public class Testing {
 		Vec3f v1 = new Vec3f(0f, 1f, 0f);
 //		Vec3d v2 = new Vec3d(0, 1, 1).normalize();
 		
-		Quaternionf q = new Quaternionf(new Vec3f(1f, 0f, 0f), (float) Math.toRadians(90));
+		Quaternionf q = new Quaternionf().setVectorAngleI(new Vec3f(1f, 0f, 0f), (float) Math.toRadians(90), false);
 		
-		Vec3f v3 = v1.transform(q);
+		Vec3f v3 = q.transform(v1);
 		
 		System.out.println("RRRR: " + v3);
+
+		Matrix3d matr = Matrix3d.rotation(q).mul(Matrix3d.scale(new Vec3d(0.5, 2.0, 1.0)));
+		Quaterniond qm = new Quaterniond();
+		Matrix3d.decompose(null, qm, matr);
+		
+		System.out.println(q + " -> " + qm);
 		
 	}
 	

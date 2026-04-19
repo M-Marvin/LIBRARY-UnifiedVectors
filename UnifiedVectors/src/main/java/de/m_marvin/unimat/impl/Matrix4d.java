@@ -184,7 +184,6 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 				2.0F * (qki - qjr),		2.0F * (qjk + qir),		1.0F - qi2 - qj2,		0,
 				0,						0,						0,						1.0F
 		);
-		
 	}
 	
 	public static Matrix4d perspective(double fov, double aspect, double near, double far) {
@@ -210,8 +209,9 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 				0,				0,				0,				1
 		);
 	}
+	
 	public static void decompose(Vec3d translation, Vec3d scale, IMatrix<Double> rotation, IMatrix<Double> matrix) {
-		Objects.requireNonNull(matrix, "matrix vector can not be null");
+		Objects.requireNonNull(matrix, "matrix can not be null");
 		if (rotation != null && (rotation.width() != 3 || rotation.height() != 3))
 			throw new IllegalArgumentException("rotation matrix must be 3x3");
 		if (matrix.width() != 4 || matrix.height() != 4)
@@ -220,30 +220,23 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 		if (translation != null)
 			translation.setI(matrix.m(3, 0).doubleValue(), matrix.m(3, 1).doubleValue(), matrix.m(3, 2).doubleValue());
 		
-		if (scale != null || rotation != null) {
-			if (scale == null)
-				scale = new Vec3d();
-			scale.setX(new Vec3d(matrix.m(0, 0).doubleValue(), matrix.m(1, 0).doubleValue(), matrix.m(2, 0).doubleValue()).length());
-			scale.setY(new Vec3d(matrix.m(0, 1).doubleValue(), matrix.m(1, 1).doubleValue(), matrix.m(2, 1).doubleValue()).length());
-			scale.setZ(new Vec3d(matrix.m(0, 2).doubleValue(), matrix.m(1, 2).doubleValue(), matrix.m(2, 2).doubleValue()).length());
-		}
+		Matrix3d.decompose(scale, rotation, matrix);
+	}
+
+	public static void decompose(Vec3d translation, Vec3d scale, Quaterniond rotation, IMatrix<Double> matrix) {
+		Objects.requireNonNull(matrix, "matrix can not be null");
+		if (matrix.width() != 4 || matrix.height() != 4)
+			throw new IllegalArgumentException("input matrix must be 4x4");
 		
-		if (rotation != null) {
-			rotation.set(0, 1, matrix.m(0, 1).doubleValue() / scale.y());
-			rotation.set(0, 0, matrix.m(0, 0).doubleValue() / scale.x());
-			rotation.set(0, 2, matrix.m(0, 2).doubleValue() / scale.z());
-			rotation.set(1, 0, matrix.m(1, 0).doubleValue() / scale.x());
-			rotation.set(1, 1, matrix.m(1, 1).doubleValue() / scale.y());
-			rotation.set(1, 2, matrix.m(1, 2).doubleValue() / scale.z());
-			rotation.set(2, 0, matrix.m(2, 0).doubleValue() / scale.x());
-			rotation.set(2, 1, matrix.m(2, 1).doubleValue() / scale.y());
-			rotation.set(2, 2, matrix.m(2, 2).doubleValue() / scale.z());
-		}
+		if (translation != null)
+			translation.setI(matrix.m(3, 0).doubleValue(), matrix.m(3, 1).doubleValue(), matrix.m(3, 2).doubleValue());
+		
+		Matrix3d.decompose(scale, rotation, matrix);
 	}
 	
 	public static Vec3d extractTranslation(IMatrix<Double> matrix) {
 		Vec3d translation = new Vec3d();
-		decompose(translation, null, null, matrix);
+		decompose(translation, null, (Matrix3d) null, matrix);
 		return translation;
 	}
 

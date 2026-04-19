@@ -408,12 +408,6 @@ public class Vec3d implements IVector3Math<Double, Vec3d, Quaterniond> {
 	}
 
 	@Override
-	public Vec3d transform(Quaterniond quaternion) {
-		Quaterniond q = quaternion.mul(new Quaterniond(x, y, z, 0.0)).mul(quaternion.conj());
-		return new Vec3d(q.i(), q.j(), q.k());
-	}
-
-	@Override
 	public Quaterniond relativeRotationQuat(IVector3<? extends Number> reference) {		
 		Vec3d v = new Vec3d(reference.x().doubleValue(), reference.y().doubleValue(), reference.z().doubleValue()).cross(this);
 		if (v.length() == 0) {

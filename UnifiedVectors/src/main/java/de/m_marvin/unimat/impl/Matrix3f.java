@@ -1,5 +1,8 @@
 package de.m_marvin.unimat.impl;
 
+import java.util.Objects;
+
+import de.m_marvin.unimat.api.IMatrix;
 import de.m_marvin.unimat.api.IQuaternion;
 import de.m_marvin.univec.impl.Vec2f;
 import de.m_marvin.univec.impl.Vec3f;
@@ -147,6 +150,86 @@ public class Matrix3f extends BaseFloatMatrix<Matrix3f> {
 				0,		vec.y, 	0,
 				0,		0,		1
 		);
+	}
+
+	public static void decompose(Vec3f scale, IMatrix<Float> rotation, IMatrix<Float> matrix) {
+		Objects.requireNonNull(matrix, "matrix can not be null");
+		if (rotation != null && (rotation.width() != 3 || rotation.height() != 3))
+			throw new IllegalArgumentException("rotation matrix must be 3x3");
+		if ((matrix.width() != 4 || matrix.height() != 4) && (matrix.width() != 3 || matrix.height() != 3))
+			throw new IllegalArgumentException("input matrix must be 3x3 or 4x4");
+		
+		if (scale != null || rotation != null) {
+			if (scale == null)
+				scale = new Vec3f();
+			scale.setX(new Vec3f(matrix.m(0, 0).floatValue(), matrix.m(1, 0).floatValue(), matrix.m(2, 0).floatValue()).length());
+			scale.setY(new Vec3f(matrix.m(0, 1).floatValue(), matrix.m(1, 1).floatValue(), matrix.m(2, 1).floatValue()).length());
+			scale.setZ(new Vec3f(matrix.m(0, 2).floatValue(), matrix.m(1, 2).floatValue(), matrix.m(2, 2).floatValue()).length());
+		}
+		
+		if (rotation != null) {
+			rotation.set(0, 1, matrix.m(0, 1).floatValue() / scale.y());
+			rotation.set(0, 0, matrix.m(0, 0).floatValue() / scale.x());
+			rotation.set(0, 2, matrix.m(0, 2).floatValue() / scale.z());
+			rotation.set(1, 0, matrix.m(1, 0).floatValue() / scale.x());
+			rotation.set(1, 1, matrix.m(1, 1).floatValue() / scale.y());
+			rotation.set(1, 2, matrix.m(1, 2).floatValue() / scale.z());
+			rotation.set(2, 0, matrix.m(2, 0).floatValue() / scale.x());
+			rotation.set(2, 1, matrix.m(2, 1).floatValue() / scale.y());
+			rotation.set(2, 2, matrix.m(2, 2).floatValue() / scale.z());
+		}
+	}
+
+	public static void decompose(Vec3f scale, Quaternionf rotation, IMatrix<Float> matrix) {
+		Matrix3f rotationMatrix = rotation != null ? new Matrix3f() : null;
+		decompose(scale, rotationMatrix, matrix);
+		
+		if (rotation != null) {
+
+			float trace = rotationMatrix.trace();
+			
+			if (trace > 0) {
+				
+				float w2 = (float) Math.sqrt(1 + trace);
+				float w4 = w2 * 2;
+				float x = (rotationMatrix.m21() - rotationMatrix.m12()) / w4;
+				float y = (rotationMatrix.m02() - rotationMatrix.m20()) / w4;
+				float z = (rotationMatrix.m10() - rotationMatrix.m01()) / w4;
+				rotation.setI(x, y, z, w2 * 0.5F);
+				
+			} else if (rotationMatrix.m00() > rotationMatrix.m11() && rotationMatrix.m00() > rotationMatrix.m22()) {
+
+				float x2 = (float) Math.sqrt(1 + rotationMatrix.m00() - rotationMatrix.m11() - rotationMatrix.m22());
+				float x4 = x2 * 2;
+				float w = (rotationMatrix.m21() - rotationMatrix.m12()) / x4;
+				float y = (rotationMatrix.m01() + rotationMatrix.m10()) / x4;
+				float z = (rotationMatrix.m02() + rotationMatrix.m20()) / x4;
+				rotation.setI(x2 * 0.5F, y, z, w);
+				
+			} else if (rotationMatrix.m11() > rotationMatrix.m00() && rotationMatrix.m11() > rotationMatrix.m22()) {
+
+				float y2 = (float) Math.sqrt(1 + rotationMatrix.m11() - rotationMatrix.m00() - rotationMatrix.m22());
+				float y4 = y2 * 2;
+				float w = (rotationMatrix.m02() - rotationMatrix.m20()) / y4;
+				float x = (rotationMatrix.m01() + rotationMatrix.m10()) / y4;
+				float z = (rotationMatrix.m12() + rotationMatrix.m21()) / y4;
+				rotation.setI(x, y2 * 0.5F, z, w);
+				
+			} else {
+
+				float z2 = (float) Math.sqrt(1 + rotationMatrix.m22() - rotationMatrix.m00() - rotationMatrix.m11());
+				float z4 = z2 * 2;
+				float w = (rotationMatrix.m10() - rotationMatrix.m01()) / z4;
+				float x = (rotationMatrix.m02() + rotationMatrix.m20()) / z4;
+				float y = (rotationMatrix.m12() + rotationMatrix.m21()) / z4;
+				rotation.setI(x, y, z2 * 0.5F, w);
+				
+			}
+			
+			rotation.normalizeI();
+			
+		}
+		
 	}
 	
 }

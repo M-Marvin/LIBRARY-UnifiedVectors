@@ -616,6 +616,17 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		
 		return develop(x, y).determinant() * ((x + y) % 2 == 0 ? 1 : -1);
 	}
+
+	@Override
+	public Float trace() {
+		if (!isSquare())
+			throw new MatrixMathException("not defined for non square matrix", this);
+		
+		float trace = 0;
+		for (int i = 0; i < this.width(); i++)
+			trace += m(i, i);
+		return trace;
+	}
 	
 	@Override
 	public String toString() {

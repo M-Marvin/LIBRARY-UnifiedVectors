@@ -292,10 +292,10 @@ public class Vec4d implements IVector4Math<Double, Vec4d> {
 	
 	@Override
 	public Vec4d clampI(Double min, Double max) {
-		this.x = Math.max((Double) min, Math.min(this.x, (Double) max));
-		this.y = Math.max((Double) min, Math.min(this.y, (Double) max));
-		this.z = Math.max((Double) min, Math.min(this.z, (Double) max));
-		this.w = Math.max((Double) min, Math.min(this.w, (Double) max));
+		this.x = Math.max(min, Math.min(this.x, max));
+		this.y = Math.max(min, Math.min(this.y, max));
+		this.z = Math.max(min, Math.min(this.z, max));
+		this.w = Math.max(min, Math.min(this.w, max));
 		return this;
 	}
 
@@ -381,7 +381,7 @@ public class Vec4d implements IVector4Math<Double, Vec4d> {
 	
 	@Override
 	public Double length() {
-		return (Double) Math.sqrt(this.lengthSqr());
+		return Math.sqrt(this.lengthSqr());
 	}
 
 	@Override

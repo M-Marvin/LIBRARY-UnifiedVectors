@@ -101,9 +101,6 @@ public interface IVector3Math<N extends Number, VO extends IVector3<N> & IVector
 	default public VO tryNormalize() { return this.copy().tryNormalizeI(); }
 	public VO tryNormalizeI();
 	
-	public VO transform(Q quaternion);
-	default public VO transformI(Q quaternion) { return setI(transform(quaternion)); }
-
 	public VO anyOrthogonal();
 	public VO[] orthogonals(IVector3<? extends Number> vec2);
 	

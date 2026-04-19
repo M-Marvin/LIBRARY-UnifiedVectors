@@ -419,12 +419,6 @@ public class Vec3f implements IVector3Math<Float, Vec3f, Quaternionf> {
 	}
 
 	@Override
-	public Vec3f transform(Quaternionf quaternion) {
-		Quaternionf q = quaternion.mul(new Quaternionf(x, y, z, 0.0F)).mul(quaternion.conj());;
-		return new Vec3f(q.i(), q.j(), q.k());
-	}
-
-	@Override
 	public Quaternionf relativeRotationQuat(IVector3<? extends Number> reference) {
 		Vec3f v = new Vec3f(reference.x().floatValue(), reference.y().floatValue(), reference.z().floatValue()).cross(this);
 		if (v.length() == 0) {

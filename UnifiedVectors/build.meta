@@ -4,7 +4,7 @@ import de.m_marvin.metabuild.maven.types.Repository.Credentials;
 
 public class Buildfile extends JavaBuildScript {
 	
-	public String version = "1.7.7-SNAPSHOT";
+	public String version = "1.8.0-SNAPSHOT";
 	
 	@Override
 	public void init() {
@@ -14,6 +14,9 @@ public class Buildfile extends JavaBuildScript {
 		super.init();
 
 		withSourcesJar();
+		
+		compileJava.sourceCompatibility = "17";
+		compileJava.targetCompatibility = "17";
 		
 	}
 	
