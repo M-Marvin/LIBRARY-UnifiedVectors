@@ -1,8 +1,10 @@
 package de.m_marvin.unimat.impl;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -653,6 +655,21 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 			sb.append("]\n");
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.w, this.h, this.v, Arrays.deepHashCode(this.m));
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof BaseFloatMatrix other) {
+			return	this.w == other.w && this.h == other.h &&
+					Objects.equals(this.m, other.m) &&
+					Objects.equals(this.v, other.v);
+		}
+		return false;
 	}
 	
 }

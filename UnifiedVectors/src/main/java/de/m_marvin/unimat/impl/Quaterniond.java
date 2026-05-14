@@ -205,9 +205,13 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 		if (degree) angle = Math.toRadians(angle);
 		double f = Math.sin(angle / 2);
 		this.r = Math.cos(angle / 2);
-		this.i = f * axis.x().doubleValue() / angle;
-		this.j = f * axis.y().doubleValue() / angle;
-		this.k = f * axis.z().doubleValue() / angle;
+		if (angle != 0.0) {
+			this.i = f * axis.x().doubleValue() / angle;
+			this.j = f * axis.y().doubleValue() / angle;
+			this.k = f * axis.z().doubleValue() / angle;
+		} else {
+			this.i = this.j = this.k = 0.0;
+		}
 		return this;
 	}
 
@@ -280,7 +284,7 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 	}
 	
 	@Override
-	public Vec3d transform(Vec3d vector) {
+	public Vec3d transform(IVector3<? extends Number> vector) {
 		Quaterniond qvec = this.mul(new Quaterniond(vector, 0.0)).mulI(conj());
 		return new Vec3d(qvec.i(), qvec.j(), qvec.k());
 	}

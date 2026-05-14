@@ -46,9 +46,9 @@ public interface IQuaternionMath<N extends Number, QO extends IQuaternion<N> & I
 	default public QO conj() { return this.copy().conjI(); }
 	public QO conjI();
 	
-	public QO setVectorI(IVector3<?> axis, boolean degree);
-	public QO setVectorAngleI(IVector3<?> axis, N angle, boolean degree);
-	public QO setEulerI(IVector3<?> euler, EulerOrder order, boolean degree);
+	public QO setVectorI(IVector3<? extends Number> axis, boolean degree);
+	public QO setVectorAngleI(IVector3<? extends Number> axis, N angle, boolean degree);
+	public QO setEulerI(IVector3<? extends Number> euler, EulerOrder order, boolean degree);
 	
 	public V vector(boolean degree);
 	public V euler(EulerOrder order, boolean degree);
@@ -57,6 +57,6 @@ public interface IQuaternionMath<N extends Number, QO extends IQuaternion<N> & I
 		XYZ, ZYX, ZXY, YXZ;
 	}
 	
-	public V transform(V vector);
+	public V transform(IVector3<? extends Number> vector);
 	
 }
