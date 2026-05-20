@@ -246,6 +246,67 @@ public class Vec4f implements IVector4Math<Float, Vec4f> {
 	}
 
 	@Override
+	public Vec4f powI(IVector4<? extends Number> vec) {
+		this.x = (float) Math.pow(this.x, vec.x().doubleValue());
+		this.y = (float) Math.pow(this.y, vec.y().doubleValue());
+		this.z = (float) Math.pow(this.z, vec.z().doubleValue());
+		this.w = (float) Math.pow(this.w, vec.w().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec4f powI(Float x, Float y, Float z, Float w) {
+		this.x = (float) Math.pow(this.x, x);
+		this.y = (float) Math.pow(this.y, y);
+		this.z = (float) Math.pow(this.z, z);
+		this.w = (float) Math.pow(this.w, w);
+		return this;
+	}
+
+	@Override
+	public Vec4f powI(Float n) {
+		this.x = (float) Math.pow(this.x, n);
+		this.y = (float) Math.pow(this.y, n);
+		this.z = (float) Math.pow(this.z, n);
+		this.w = (float) Math.pow(this.w, n);
+		return this;
+	}
+	
+	@Override
+	public Vec4f rootI(IVector4<? extends Number> vec) {
+		this.x = vec.x().doubleValue() == 2.0 ? (float) Math.sqrt(this.x) : (float) Math.pow(this.x, 1.0 / vec.x().doubleValue());
+		this.y = vec.y().doubleValue() == 2.0 ? (float) Math.sqrt(this.y) : (float) Math.pow(this.y, 1.0 / vec.y().doubleValue());
+		this.z = vec.z().doubleValue() == 2.0 ? (float) Math.sqrt(this.z) : (float) Math.pow(this.z, 1.0 / vec.z().doubleValue());
+		this.w = vec.w().doubleValue() == 2.0 ? (float) Math.sqrt(this.w) : (float) Math.pow(this.w, 1.0 / vec.w().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec4f rootI(Float x, Float y, Float z, Float w) {
+		this.x = x == 2.0 ? (float) Math.sqrt(this.x) : (float) Math.pow(this.x, 1.0 / x);
+		this.y = y == 2.0 ? (float) Math.sqrt(this.y) : (float) Math.pow(this.y, 1.0 / y);
+		this.z = z == 2.0 ? (float) Math.sqrt(this.z) : (float) Math.pow(this.z, 1.0 / z);
+		this.w = w == 2.0 ? (float) Math.sqrt(this.w) : (float) Math.pow(this.w, 1.0 / w);
+		return this;
+	}
+	
+	@Override
+	public Vec4f rootI(Float n) {
+		if (n == 2.0) {
+			this.x = (float) Math.sqrt(this.x);
+			this.y = (float) Math.sqrt(this.y);
+			this.z = (float) Math.sqrt(this.z);
+			this.w = (float) Math.sqrt(this.w);
+		} else {
+			this.x = (float) Math.pow(this.x, 1.0 / n);
+			this.y = (float) Math.pow(this.y, 1.0 / n);
+			this.z = (float) Math.pow(this.z, 1.0 / n);
+			this.w = (float) Math.pow(this.w, 1.0 / n);
+		}
+		return this;
+	}
+
+	@Override
 	public Vec4f clampI(IVector4<? extends Number> min, IVector4<? extends Number> max) {
 		this.x = (float) Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue()));
 		this.y = (float) Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()));

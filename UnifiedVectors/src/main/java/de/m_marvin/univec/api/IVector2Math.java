@@ -55,6 +55,20 @@ public interface IVector2Math<N extends Number, VO extends IVector2<N> & IVector
 	public VO clampI(IVector2<? extends Number> min, IVector2<? extends Number> max);
 	public VO clampI(N min, N max);
 
+	default public VO pow(IVector2<? extends Number> vec) { return this.copy().powI(vec); }
+	default public VO pow(N x, N y) { return this.copy().powI(x, y); }
+	default public VO pow(N n) { return this.copy().powI(n); }
+	public VO powI(IVector2<? extends Number> vec);
+	public VO powI(N x, N y);
+	public VO powI(N n);
+
+	default public VO root(IVector2<? extends Number> vec) { return this.copy().rootI(vec); }
+	default public VO root(N x, N y) { return this.copy().rootI(x, y); }
+	default public VO root(N n) { return this.copy().rootI(n); }
+	public VO rootI(IVector2<? extends Number> vec);
+	public VO rootI(N x, N y);
+	public VO rootI(N n);
+
 	public VO negateI();
 	default public VO negate() { return this.copy().negateI(); }
 	

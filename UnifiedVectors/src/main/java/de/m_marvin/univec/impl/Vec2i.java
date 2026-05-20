@@ -179,6 +179,53 @@ public class Vec2i implements IVector2Math<Integer, Vec2i> {
 	}
 
 	@Override
+	public Vec2i powI(IVector2<? extends Number> vec) {
+		this.x = (int) Math.pow(this.x, vec.x().doubleValue());
+		this.y = (int) Math.pow(this.y, vec.y().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec2i powI(Integer x, Integer y) {
+		this.x = (int) Math.pow(this.x, x);
+		this.y = (int) Math.pow(this.y, y);
+		return this;
+	}
+
+	@Override
+	public Vec2i powI(Integer n) {
+		this.x = (int) Math.pow(this.x, n);
+		this.y = (int) Math.pow(this.y, n);
+		return this;
+	}
+	
+	@Override
+	public Vec2i rootI(IVector2<? extends Number> vec) {
+		this.x = vec.x().doubleValue() == 2.0 ? (int) Math.sqrt(this.x) : (int) Math.pow(this.x, 1.0 / vec.x().doubleValue());
+		this.y = vec.y().doubleValue() == 2.0 ? (int) Math.sqrt(this.y) : (int) Math.pow(this.y, 1.0 / vec.y().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec2i rootI(Integer x, Integer y) {
+		this.x = x == 2.0 ? (int) Math.sqrt(this.x) : (int) Math.pow(this.x, 1.0 / x);
+		this.y = y == 2.0 ? (int) Math.sqrt(this.y) : (int) Math.pow(this.y, 1.0 / y);
+		return this;
+	}
+	
+	@Override
+	public Vec2i rootI(Integer n) {
+		if (n == 2.0) {
+			this.x = (int) Math.sqrt(this.x);
+			this.y = (int) Math.sqrt(this.y);
+		} else {
+			this.x = (int) Math.pow(this.x, 1.0 / n);
+			this.y = (int) Math.pow(this.y, 1.0 / n);
+		}
+		return this;
+	}
+
+	@Override
 	public Vec2i clampI(IVector2<? extends Number> min, IVector2<? extends Number> max) {
 		this.x = (int) Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue()));
 		this.y = (int) Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()));

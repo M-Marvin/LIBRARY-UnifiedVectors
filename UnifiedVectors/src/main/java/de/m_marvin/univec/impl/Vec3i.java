@@ -214,6 +214,60 @@ public class Vec3i implements IVector3Math<Integer, Vec3i, Quaternionf> {
 	}
 
 	@Override
+	public Vec3i powI(IVector3<? extends Number> vec) {
+		this.x = (int) Math.pow(this.x, vec.x().floatValue());
+		this.y = (int) Math.pow(this.y, vec.y().floatValue());
+		this.z = (int) Math.pow(this.z, vec.z().floatValue());
+		return this;
+	}
+	
+	@Override
+	public Vec3i powI(Integer x, Integer y, Integer z) {
+		this.x = (int) Math.pow(this.x, x);
+		this.y = (int) Math.pow(this.y, y);
+		this.z = (int) Math.pow(this.z, z);
+		return this;
+	}
+
+	@Override
+	public Vec3i powI(Integer n) {
+		this.x = (int) Math.pow(this.x, n);
+		this.y = (int) Math.pow(this.y, n);
+		this.z = (int) Math.pow(this.z, n);
+		return this;
+	}
+	
+	@Override
+	public Vec3i rootI(IVector3<? extends Number> vec) {
+		this.x = vec.x().floatValue() == 2.0 ? (int) Math.sqrt(this.x) : (int) Math.pow(this.x, 1.0 / vec.x().floatValue());
+		this.y = vec.y().floatValue() == 2.0 ? (int) Math.sqrt(this.y) : (int) Math.pow(this.y, 1.0 / vec.y().floatValue());
+		this.z = vec.z().floatValue() == 2.0 ? (int) Math.sqrt(this.z) : (int) Math.pow(this.z, 1.0 / vec.z().floatValue());
+		return this;
+	}
+	
+	@Override
+	public Vec3i rootI(Integer x, Integer y, Integer z) {
+		this.x = x == 2.0 ? (int) Math.sqrt(this.x) : (int) Math.pow(this.x, 1.0 / x);
+		this.y = y == 2.0 ? (int) Math.sqrt(this.y) : (int) Math.pow(this.y, 1.0 / y);
+		this.z = z == 2.0 ? (int) Math.sqrt(this.z) : (int) Math.pow(this.z, 1.0 / z);
+		return this;
+	}
+	
+	@Override
+	public Vec3i rootI(Integer n) {
+		if (n == 2.0) {
+			this.x = (int) Math.sqrt(this.x);
+			this.y = (int) Math.sqrt(this.y);
+			this.z = (int) Math.sqrt(this.z);
+		} else {
+			this.x = (int) Math.pow(this.x, 1.0 / n);
+			this.y = (int) Math.pow(this.y, 1.0 / n);
+			this.z = (int) Math.pow(this.z, 1.0 / n);
+		}
+		return this;
+	}
+
+	@Override
 	public Vec3i clampI(IVector3<? extends Number> min, IVector3<? extends Number> max) {
 		this.x = (int) Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue()));
 		this.y = (int) Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()));

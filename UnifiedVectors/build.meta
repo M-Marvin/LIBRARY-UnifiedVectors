@@ -29,7 +29,7 @@ public class Buildfile extends JavaBuildScript {
 		
 		publishMaven.coordinates("de.m_marvin.univec:univec:" + version);
 		publishMaven.repository(new Repository(
-				"GHP [SerialPortAccess]", 
+				"GHP [UnifiedVectors]", 
 				"https://maven.pkg.github.com/m-marvin/library-unifiedvectors",
 				new Credentials(
 						() -> System.getenv("GITHUB_ACTOR"), 

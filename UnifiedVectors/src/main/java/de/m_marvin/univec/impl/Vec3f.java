@@ -127,9 +127,9 @@ public class Vec3f implements IVector3Math<Float, Vec3f, Quaternionf> {
 
 	@Override
 	public Vec3f addI(IVector3<? extends Number> vec) {
-		this.x += vec.x().doubleValue();
-		this.y += vec.y().doubleValue();
-		this.z += vec.z().doubleValue();
+		this.x += vec.x().floatValue();
+		this.y += vec.y().floatValue();
+		this.z += vec.z().floatValue();
 		return this;
 	}
 
@@ -143,9 +143,9 @@ public class Vec3f implements IVector3Math<Float, Vec3f, Quaternionf> {
 
 	@Override
 	public Vec3f subI(IVector3<? extends Number> vec) {
-		this.x -= vec.x().doubleValue();
-		this.y -= vec.y().doubleValue();
-		this.z -= vec.z().doubleValue();
+		this.x -= vec.x().floatValue();
+		this.y -= vec.y().floatValue();
+		this.z -= vec.z().floatValue();
 		return this;
 	}
 
@@ -159,9 +159,9 @@ public class Vec3f implements IVector3Math<Float, Vec3f, Quaternionf> {
 
 	@Override
 	public Vec3f mulI(IVector3<? extends Number> vec) {
-		this.x *= vec.x().doubleValue();
-		this.y *= vec.y().doubleValue();
-		this.z *= vec.z().doubleValue();
+		this.x *= vec.x().floatValue();
+		this.y *= vec.y().floatValue();
+		this.z *= vec.z().floatValue();
 		return this;
 	}
 
@@ -183,9 +183,9 @@ public class Vec3f implements IVector3Math<Float, Vec3f, Quaternionf> {
 	
 	@Override
 	public Vec3f divI(IVector3<? extends Number> vec) {
-		this.x /= vec.x().doubleValue();
-		this.y /= vec.y().doubleValue();
-		this.z /= vec.z().doubleValue();
+		this.x /= vec.x().floatValue();
+		this.y /= vec.y().floatValue();
+		this.z /= vec.z().floatValue();
 		return this;
 	}
 
@@ -210,6 +210,60 @@ public class Vec3f implements IVector3Math<Float, Vec3f, Quaternionf> {
 		this.x %= m;
 		this.y %= m;
 		this.z %= m;
+		return this;
+	}
+
+	@Override
+	public Vec3f powI(IVector3<? extends Number> vec) {
+		this.x = (float) Math.pow(this.x, vec.x().doubleValue());
+		this.y = (float) Math.pow(this.y, vec.y().doubleValue());
+		this.z = (float) Math.pow(this.z, vec.z().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec3f powI(Float x, Float y, Float z) {
+		this.x = (float) Math.pow(this.x, x);
+		this.y = (float) Math.pow(this.y, y);
+		this.z = (float) Math.pow(this.z, z);
+		return this;
+	}
+
+	@Override
+	public Vec3f powI(Float n) {
+		this.x = (float) Math.pow(this.x, n);
+		this.y = (float) Math.pow(this.y, n);
+		this.z = (float) Math.pow(this.z, n);
+		return this;
+	}
+	
+	@Override
+	public Vec3f rootI(IVector3<? extends Number> vec) {
+		this.x = vec.x().doubleValue() == 2.0 ? (float) Math.sqrt(this.x) : (float) Math.pow(this.x, 1.0 / vec.x().doubleValue());
+		this.y = vec.y().doubleValue() == 2.0 ? (float) Math.sqrt(this.y) : (float) Math.pow(this.y, 1.0 / vec.y().doubleValue());
+		this.z = vec.z().doubleValue() == 2.0 ? (float) Math.sqrt(this.z) : (float) Math.pow(this.z, 1.0 / vec.z().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec3f rootI(Float x, Float y, Float z) {
+		this.x = x == 2.0 ? (float) Math.sqrt(this.x) : (float) Math.pow(this.x, 1.0 / x);
+		this.y = y == 2.0 ? (float) Math.sqrt(this.y) : (float) Math.pow(this.y, 1.0 / y);
+		this.z = z == 2.0 ? (float) Math.sqrt(this.z) : (float) Math.pow(this.z, 1.0 / z);
+		return this;
+	}
+	
+	@Override
+	public Vec3f rootI(Float n) {
+		if (n == 2.0) {
+			this.x = (float) Math.sqrt(this.x);
+			this.y = (float) Math.sqrt(this.y);
+			this.z = (float) Math.sqrt(this.z);
+		} else {
+			this.x = (float) Math.pow(this.x, 1.0 / n);
+			this.y = (float) Math.pow(this.y, 1.0 / n);
+			this.z = (float) Math.pow(this.z, 1.0 / n);
+		}
 		return this;
 	}
 
@@ -321,8 +375,8 @@ public class Vec3f implements IVector3Math<Float, Vec3f, Quaternionf> {
 	
 	@Override
 	public double angle(IVector3<? extends Number> vec) {
-		double f1 = this.dot(vec);
-		double f2 = this.length() * (Float) vec.length();
+		float f1 = this.dot(vec);
+		float f2 = this.length() * (Float) vec.length();
 		return Math.acos(f1 / f2);
 	}
 

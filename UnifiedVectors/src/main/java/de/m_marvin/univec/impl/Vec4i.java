@@ -246,6 +246,67 @@ public class Vec4i implements IVector4Math<Integer, Vec4i> {
 	}
 
 	@Override
+	public Vec4i powI(IVector4<? extends Number> vec) {
+		this.x = (int) Math.pow(this.x, vec.x().doubleValue());
+		this.y = (int) Math.pow(this.y, vec.y().doubleValue());
+		this.z = (int) Math.pow(this.z, vec.z().doubleValue());
+		this.w = (int) Math.pow(this.w, vec.w().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec4i powI(Integer x, Integer y, Integer z, Integer w) {
+		this.x = (int) Math.pow(this.x, x);
+		this.y = (int) Math.pow(this.y, y);
+		this.z = (int) Math.pow(this.z, z);
+		this.w = (int) Math.pow(this.w, w);
+		return this;
+	}
+
+	@Override
+	public Vec4i powI(Integer n) {
+		this.x = (int) Math.pow(this.x, n);
+		this.y = (int) Math.pow(this.y, n);
+		this.z = (int) Math.pow(this.z, n);
+		this.w = (int) Math.pow(this.w, n);
+		return this;
+	}
+	
+	@Override
+	public Vec4i rootI(IVector4<? extends Number> vec) {
+		this.x = vec.x().doubleValue() == 2.0 ? (int) Math.sqrt(this.x) : (int) Math.pow(this.x, 1.0 / vec.x().doubleValue());
+		this.y = vec.y().doubleValue() == 2.0 ? (int) Math.sqrt(this.y) : (int) Math.pow(this.y, 1.0 / vec.y().doubleValue());
+		this.z = vec.z().doubleValue() == 2.0 ? (int) Math.sqrt(this.z) : (int) Math.pow(this.z, 1.0 / vec.z().doubleValue());
+		this.w = vec.w().doubleValue() == 2.0 ? (int) Math.sqrt(this.w) : (int) Math.pow(this.w, 1.0 / vec.w().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec4i rootI(Integer x, Integer y, Integer z, Integer w) {
+		this.x = x == 2.0 ? (int) Math.sqrt(this.x) : (int) Math.pow(this.x, 1.0 / x);
+		this.y = y == 2.0 ? (int) Math.sqrt(this.y) : (int) Math.pow(this.y, 1.0 / y);
+		this.z = z == 2.0 ? (int) Math.sqrt(this.z) : (int) Math.pow(this.z, 1.0 / z);
+		this.w = w == 2.0 ? (int) Math.sqrt(this.w) : (int) Math.pow(this.w, 1.0 / w);
+		return this;
+	}
+	
+	@Override
+	public Vec4i rootI(Integer n) {
+		if (n == 2.0) {
+			this.x = (int) Math.sqrt(this.x);
+			this.y = (int) Math.sqrt(this.y);
+			this.z = (int) Math.sqrt(this.z);
+			this.w = (int) Math.sqrt(this.w);
+		} else {
+			this.x = (int) Math.pow(this.x, 1.0 / n);
+			this.y = (int) Math.pow(this.y, 1.0 / n);
+			this.z = (int) Math.pow(this.z, 1.0 / n);
+			this.w = (int) Math.pow(this.w, 1.0 / n);
+		}
+		return this;
+	}
+
+	@Override
 	public Vec4i clampI(IVector4<? extends Number> min, IVector4<? extends Number> max) {
 		this.x = (int) Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue()));
 		this.y = (int) Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()));

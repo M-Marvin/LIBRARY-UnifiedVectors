@@ -179,6 +179,53 @@ public class Vec2f implements IVector2Math<Float, Vec2f> {
 	}
 
 	@Override
+	public Vec2f powI(IVector2<? extends Number> vec) {
+		this.x = (float) Math.pow(this.x, vec.x().doubleValue());
+		this.y = (float) Math.pow(this.y, vec.y().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec2f powI(Float x, Float y) {
+		this.x = (float) Math.pow(this.x, x);
+		this.y = (float) Math.pow(this.y, y);
+		return this;
+	}
+
+	@Override
+	public Vec2f powI(Float n) {
+		this.x = (float) Math.pow(this.x, n);
+		this.y = (float) Math.pow(this.y, n);
+		return this;
+	}
+	
+	@Override
+	public Vec2f rootI(IVector2<? extends Number> vec) {
+		this.x = vec.x().doubleValue() == 2.0 ? (float) Math.sqrt(this.x) : (float) Math.pow(this.x, 1.0 / vec.x().doubleValue());
+		this.y = vec.y().doubleValue() == 2.0 ? (float) Math.sqrt(this.y) : (float) Math.pow(this.y, 1.0 / vec.y().doubleValue());
+		return this;
+	}
+	
+	@Override
+	public Vec2f rootI(Float x, Float y) {
+		this.x = x == 2.0 ? (float) Math.sqrt(this.x) : (float) Math.pow(this.x, 1.0 / x);
+		this.y = y == 2.0 ? (float) Math.sqrt(this.y) : (float) Math.pow(this.y, 1.0 / y);
+		return this;
+	}
+	
+	@Override
+	public Vec2f rootI(Float n) {
+		if (n == 2.0) {
+			this.x = (float) Math.sqrt(this.x);
+			this.y = (float) Math.sqrt(this.y);
+		} else {
+			this.x = (float) Math.pow(this.x, 1.0 / n);
+			this.y = (float) Math.pow(this.y, 1.0 / n);
+		}
+		return this;
+	}
+
+	@Override
 	public Vec2f clampI(IVector2<? extends Number> min, IVector2<? extends Number> max) {
 		this.x = (float) Math.max(min.x().doubleValue(), Math.min(this.x, max.x().doubleValue()));
 		this.y = (float) Math.max(min.y().doubleValue(), Math.min(this.y, max.y().doubleValue()));
