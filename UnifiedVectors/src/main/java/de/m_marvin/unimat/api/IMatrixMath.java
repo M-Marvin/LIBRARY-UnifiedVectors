@@ -76,6 +76,9 @@ public interface IMatrixMath<N extends Number, MO extends IMatrix<N>, VO2 extend
 	
 	public MO invert();
 	public default MO invertI() { return setI( invert()); }
+
+	public MO tryInvert();
+	public default MO tryInvertI() { return setI( tryInvert()); }
 	
 	public MO transpose();
 	public default MO transposeI() {

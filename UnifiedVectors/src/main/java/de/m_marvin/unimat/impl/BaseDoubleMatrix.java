@@ -504,9 +504,25 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 		if (!isSquare())
 			throw new MatrixMathException("inverse not defined for non square matrix", this);
 		
-		return adjungate().scalarDiv(determinant());
+		double det = determinant();
+		if (det == 0.0)
+			throw new MatrixMathException("determinate == 0 -> no inversion possible");
+		
+		return adjungate().scalarDiv(det);
 	}
-
+	
+	@Override
+	public M tryInvert() {
+		if (!isSquare())
+			throw new MatrixMathException("inverse not defined for non square matrix", this);
+		
+		double det = determinant();
+		if (det == 0.0)
+			return copy();
+		
+		return adjungate().scalarDiv(det);
+	}
+	
 	@Override
 	public M transpose() {
 		M m = newMatrix(height(), width(), isSparse());

@@ -518,9 +518,25 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		if (!isSquare())
 			throw new MatrixMathException("inverse not defined for non square matrix", this);
 		
-		return adjungate().scalarDiv(determinant());
+		float det = determinant();
+		if (det == 0.0)
+			throw new MatrixMathException("determinate == 0 -> no inversion possible");
+		
+		return adjungate().scalarDiv(det);
 	}
-
+	
+	@Override
+	public M tryInvert() {
+		if (!isSquare())
+			throw new MatrixMathException("inverse not defined for non square matrix", this);
+		
+		float det = determinant();
+		if (det == 0.0)
+			return copy();
+		
+		return adjungate().scalarDiv(det);
+	}
+	
 	@Override
 	public M transpose() {
 		M m = newMatrix(height(), width(), isSparse());
