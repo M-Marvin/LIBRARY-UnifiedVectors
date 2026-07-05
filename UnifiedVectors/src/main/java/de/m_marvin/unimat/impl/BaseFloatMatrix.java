@@ -159,7 +159,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 	@SuppressWarnings("unchecked")
 	@Override
 	public M setI(IMatrix<? extends Number> mat) {
-		if (this.width() != mat.height() || this.height() != mat.height())
+		if (this.width() != mat.width() || this.height() != mat.height())
 			throw new MatrixMathException("incompatible matrix dimensions", this, mat);
 		
 		for (int x = 0; x < width(); x++)

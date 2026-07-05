@@ -145,7 +145,7 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public M setI(IMatrix<? extends Number> mat) {
-		if (this.width() != mat.height() || this.height() != mat.height())
+		if (this.width() != mat.width() || height() != mat.height())
 			throw new MatrixMathException("incompatible matrix dimensions", this, mat);
 		
 		for (int x = 0; x < width(); x++)
