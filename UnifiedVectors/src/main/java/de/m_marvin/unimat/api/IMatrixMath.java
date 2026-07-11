@@ -45,7 +45,7 @@ public interface IMatrixMath<N extends Number, MO extends IMatrix<N>, VO2 extend
 	
 	public MO mul(IMatrix<? extends Number> mat);
 	public default MO mulI(IMatrix<? extends Number> mat) {
-		if (!isSquare() && !mat.isSquare())
+		if (!isSquare() || !mat.isSquare())
 			throw new IllegalArgumentException("self multiplication not supported for non square matrices");
 		
 		return setI( mul(mat));
