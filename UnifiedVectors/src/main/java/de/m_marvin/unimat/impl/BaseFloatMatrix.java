@@ -116,6 +116,34 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 			return this.m;
 		}
 	}
+
+	public void setArray(float[] array) {
+		if (isSparse()) {
+			this.v.clear();
+			for (int i = 0; i < this.width(); i++)
+				for (int j = 0; j < this.height(); j++)
+					if (array[j * this.w + i] != 0.0)
+						set(i, j, array[j * this.w + i]);
+		} else {
+			for (int i = 0; i < this.width(); i++)
+				for (int j = 0; j < this.height(); j++)
+					this.m[j][i] = array[j * this.w + i];
+		}
+	}
+	
+	public void set2DArray(float[][] array) {
+		if (isSparse()) {
+			this.v.clear();
+			for (int i = 0; i < this.width(); i++)
+				for (int j = 0; j < this.height(); j++)
+					if (array[j][i] != 0.0)
+						set(i, j, array[j][i]);
+		} else {
+			for (int i = 0; i < this.width(); i++)
+				for (int j = 0; j < this.height(); j++)
+					this.m[j][i] = array[j][i];
+		}
+	}
 	
 	public Map<Vec2i, Float> getNonZeroes() {
 		if (isSparse()) {

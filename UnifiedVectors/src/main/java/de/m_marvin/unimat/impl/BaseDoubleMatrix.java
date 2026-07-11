@@ -103,6 +103,34 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 		}
 	}
 	
+	public void setArray(double[] array) {
+		if (isSparse()) {
+			this.v.clear();
+			for (int i = 0; i < this.width(); i++)
+				for (int j = 0; j < this.height(); j++)
+					if (array[j * this.w + i] != 0.0)
+						set(i, j, array[j * this.w + i]);
+		} else {
+			for (int i = 0; i < this.width(); i++)
+				for (int j = 0; j < this.height(); j++)
+					this.m[j][i] = array[j * this.w + i];
+		}
+	}
+	
+	public void set2DArray(double[][] array) {
+		if (isSparse()) {
+			this.v.clear();
+			for (int i = 0; i < this.width(); i++)
+				for (int j = 0; j < this.height(); j++)
+					if (array[j][i] != 0.0)
+						set(i, j, array[j][i]);
+		} else {
+			for (int i = 0; i < this.width(); i++)
+				for (int j = 0; j < this.height(); j++)
+					this.m[j][i] = array[j][i];
+		}
+	}
+	
 	public Map<Vec2i, Double> getNonZeroes() {
 		if (isSparse()) {
 			return Collections.unmodifiableMap(this.v);
