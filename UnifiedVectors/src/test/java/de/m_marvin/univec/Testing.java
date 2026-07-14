@@ -97,12 +97,24 @@ public class Testing {
 		//Vec2i vd = new Vec2i(23, 23);
 		System.out.println(new Vec2i().dist(new Vec2i()));
 		
-		Vec3d v = new Vec3d(25, 5, 56);
+		Vec3d v = new Vec3d(90, 0, 0);
 		Quaterniond quat = new Quaterniond().setEulerI(v, EulerOrder.YXZ, true);
+		System.out.println(quat.transform(new Vec3d(1, 0, 0)));
 		
 		Vec3d c2 = quat.euler(EulerOrder.YXZ, true);
 		
 		System.out.println(v + " -> " + c2);
+		
+		
+		Vec3d r1 = new Vec3d(0, 45, 0);
+		Vec3d r2 = new Vec3d(0, 0, 90);
+		Quaterniond qr1 = new Quaterniond().setVectorI(r1, true);
+		Quaterniond qr2 = new Quaterniond().setVectorI(r2, true);
+		Quaterniond qr12 = new Quaterniond().setVectorI(qr2.mul(qr1).vector(true), true);
+		Vec3d p1 = qr2.transform(qr1.transform(new Vec3d(1, 0, 0)));
+		Vec3d p2 = qr12.transform(new Vec3d(1, 0, 0));
+		System.out.println(p1 + " == " + p2);
+		System.out.println(qr2.vector(true) + " * " + qr1.vector(true) + " = " + qr12.vector(true));
 		
 		Vec3f v1 = new Vec3f(0f, 1f, 0f);
 //		Vec3d v2 = new Vec3d(0, 1, 1).normalize();

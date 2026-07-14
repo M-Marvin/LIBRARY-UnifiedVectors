@@ -202,13 +202,14 @@ public class Quaternionf implements IQuaternionMath<Float, Quaternionf, IQuatern
 	@Override
 	public Quaternionf setVectorI(IVector3<?> axis, boolean degree) {
 		float angle = axis.length().floatValue();
+		axis = new Vec3f(axis).divI(angle);
 		if (degree) angle = (float) Math.toRadians(angle);
 		float f = (float) Math.sin(angle / 2);
 		this.r = (float) Math.cos(angle / 2);
 		if (angle != 0.0) {
-			this.i = f * axis.x().floatValue() / angle;
-			this.j = f * axis.y().floatValue() / angle;
-			this.k = f * axis.z().floatValue() / angle;
+			this.i = f * axis.x().floatValue();
+			this.j = f * axis.y().floatValue();
+			this.k = f * axis.z().floatValue();
 		} else {
 			this.i = this.j = this.k = 0.0F;
 		}

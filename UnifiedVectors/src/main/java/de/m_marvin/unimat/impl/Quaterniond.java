@@ -202,13 +202,14 @@ public class Quaterniond implements IQuaternionMath<Double, Quaterniond, IQuater
 	@Override
 	public Quaterniond setVectorI(IVector3<?> axis, boolean degree) {
 		double angle = axis.length().doubleValue();
+		axis = new Vec3d(axis).divI(angle);
 		if (degree) angle = Math.toRadians(angle);
 		double f = Math.sin(angle / 2);
 		this.r = Math.cos(angle / 2);
 		if (angle != 0.0) {
-			this.i = f * axis.x().doubleValue() / angle;
-			this.j = f * axis.y().doubleValue() / angle;
-			this.k = f * axis.z().doubleValue() / angle;
+			this.i = f * axis.x().doubleValue();
+			this.j = f * axis.y().doubleValue();
+			this.k = f * axis.z().doubleValue();
 		} else {
 			this.i = this.j = this.k = 0.0;
 		}
