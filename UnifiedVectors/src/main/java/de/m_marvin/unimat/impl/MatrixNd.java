@@ -28,8 +28,8 @@ public class MatrixNd extends BaseDoubleMatrix<MatrixNd> {
 		setI(mat);
 	}
 	
-	public MatrixNd(double[][] m) {
-		super(m);
+	public MatrixNd(double[] m, int w, int h, boolean rowMaj) {
+		super(m, w, h, rowMaj);
 	}
 	
 	@Override

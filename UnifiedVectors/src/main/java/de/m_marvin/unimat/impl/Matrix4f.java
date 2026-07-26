@@ -24,12 +24,12 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 			float m02, float m12, float m22, float m32,
 			float m03, float m13, float m23, float m33
 	) {
-		super(new float[][] {
-			new float[] { m00, m10, m20, m30 },
-			new float[] { m01, m11, m21, m31 },
-			new float[] { m02, m12, m22, m32 },
-			new float[] { m03, m13, m23, m33 }
-		});
+		super(new float[] {
+			m00, m01, m02, m03,
+			m10, m11, m12, m13,
+			m20, m21, m22, m23,
+			m30, m31, m32, m33
+		}, 4, 4, false);
 	}
 
 	public float m00() {
@@ -104,7 +104,7 @@ public class Matrix4f extends BaseFloatMatrix<Matrix4f> {
 	}
 	
 	public MatrixNf getGeneric() {
-		return new MatrixNf(get2DArray());
+		return new MatrixNf(getArray(false), 4, 4, false);
 	}
 
 	public static Matrix4f translate(IVector3<? extends Number> vec) {

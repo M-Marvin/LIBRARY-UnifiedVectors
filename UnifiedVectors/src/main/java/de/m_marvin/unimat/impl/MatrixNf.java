@@ -28,8 +28,8 @@ public class MatrixNf extends BaseFloatMatrix<MatrixNf> {
 		setI(mat);
 	}
 	
-	public MatrixNf(float[][] m) {
-		super(m);
+	public MatrixNf(float[] m, int w, int h, boolean rowMaj) {
+		super(m, w, h, rowMaj);
 	}
 	
 	@Override

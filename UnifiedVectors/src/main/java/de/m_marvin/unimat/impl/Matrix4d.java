@@ -24,12 +24,12 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 			double m02, double m12, double m22, double m32,
 			double m03, double m13, double m23, double m33
 	) {
-		super(new double[][] {
-			new double[] { m00, m10, m20, m30 },
-			new double[] { m01, m11, m21, m31 },
-			new double[] { m02, m12, m22, m32 },
-			new double[] { m03, m13, m23, m33 }
-		});
+		super(new double[] {
+			m00, m01, m02, m03,
+			m10, m11, m12, m13,
+			m20, m21, m22, m23,
+			m30, m31, m32, m33
+		}, 4, 4, false);
 	}
 
 	public double m00() {
@@ -104,7 +104,7 @@ public class Matrix4d extends BaseDoubleMatrix<Matrix4d> {
 	}
 	
 	public MatrixNd getGeneric() {
-		return new MatrixNd(get2DArray());
+		return new MatrixNd(getArray(false), 4, 4, false);
 	}
 	
 	public static Matrix4d translate(IVector3<? extends Number> vec) {

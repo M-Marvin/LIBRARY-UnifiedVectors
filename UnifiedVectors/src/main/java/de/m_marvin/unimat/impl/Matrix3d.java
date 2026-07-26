@@ -23,11 +23,11 @@ public class Matrix3d extends BaseDoubleMatrix<Matrix3d> {
 			double m01, double m11, double m21,
 			double m02, double m12, double m22
 	) {
-		super(new double[][] {
-			new double[] { m00, m10, m20 },
-			new double[] { m01, m11, m21 },
-			new double[] { m02, m12, m22 }
-		});
+		super(new double[] {
+			m00, m01, m02,
+			m10, m11, m12,
+			m20, m21, m22
+		}, 3, 3, false);
 	}
 	
 	public double m00() {
@@ -74,7 +74,7 @@ public class Matrix3d extends BaseDoubleMatrix<Matrix3d> {
 	}
 	
 	public MatrixNd getGeneric() {
-		return new MatrixNd(get2DArray());
+		return new MatrixNd(getArray(false), 3, 3, false);
 	}
 	
 	public static Matrix3d scale(Vec3d vec) {

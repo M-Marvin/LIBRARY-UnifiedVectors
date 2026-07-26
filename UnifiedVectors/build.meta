@@ -4,7 +4,7 @@ import de.m_marvin.metabuild.maven.types.Repository.Credentials;
 
 public class Buildfile extends JavaBuildScript {
 	
-	public String version = "1.8.1";
+	public String version = "1.9.0-SNAPSHOT";
 	
 	@Override
 	public void init() {

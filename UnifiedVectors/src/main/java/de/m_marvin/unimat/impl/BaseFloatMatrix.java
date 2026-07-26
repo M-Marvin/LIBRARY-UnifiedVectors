@@ -21,19 +21,14 @@ import de.m_marvin.univec.impl.Vec4f;
 
 public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements IMatrix<Float>, IMatrixMath<Float, M, Vec2f, Vec3f, Vec4f> {
 	
-	private final float[][] m;
+	private final float[] m;
 	private final Map<Vec2i, Float> v;
 	private final int w;
 	private final int h;
 	
 	public BaseFloatMatrix(int w, int h, boolean sparse) {
 		if (!sparse) {
-			this.m = new float[h][w];
-			for (int y = 0; y < h; y++) {
-				this.m[y] = new float[w];
-				for (int x = 0; x < w; x++)
-					this.m[y][x] = 0.0F;
-			}
+			this.m = new float[h * w];
 			this.v = null;
 		} else {
 			this.m = null;
@@ -43,19 +38,28 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		this.h = h;
 	}
 	
-	public BaseFloatMatrix(float[][] m) {
+	public BaseFloatMatrix(float[] m, int w, int h, boolean rowMaj) {
 		if (m.length == 0)
 			throw new MatrixMathException("matrix can not be empty");
-		this.w = m[0].length;
-		this.h = m.length;
-		if (w == 0)
-			throw new MatrixMathException("matrix can not be empty");
-		for (float[] l : m)
-			if (w != l.length)
-				throw new MatrixMathException("matrix values do not foram an rectangular array");
-		
-		this.m = m;
+		this.w = w;
+		this.h = h;
+		if (m.length != this.w * this.h)
+			throw new MatrixMathException("array length mismatch for matrix size: " + this.w + "x" + this.h);
 		this.v = null;
+		
+		if (rowMaj) {
+			this.m = new float[m.length];
+			transposeArray(m, w, this.m);
+		} else {
+			this.m = m;
+		}
+	}
+
+	protected static void transposeArray(float[] src, int lad, float[] dest) {
+		int sad = src.length / lad;
+		for (int j = 0; j < sad; j++)
+			for (int i = 0; i < lad; i++)
+				dest[i * sad + j] = src[i + j * lad];
 	}
 	
 	protected abstract M newMatrix(int width, int height, boolean sparse);
@@ -85,63 +89,38 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		return this.m == null;
 	}
 	
-	public float[] getArray() {
+	public float[] getArray(boolean rowMaj) {
 		if (isSparse()) {
 			float[] arr = new float[this.w * this.h];
 			for (int y = 0; y < this.h; y++) {
 				for (int x = 0; x < this.w; x++) {
-					arr[y * this.w + x] = m(x, y);
+					arr[rowMaj ? y * this.w + x : y + x * this.h] = m(x, y);
 				}
 			}
 			return arr;
 		} else {
-			float[] arr = new float[this.w * this.h];
-			for (int y = 0; y < this.h; y++) {
-				System.arraycopy(this.m[y], 0, arr, y * this.w, this.w);
+			float[] arr = this.m;
+			if (rowMaj) {
+				arr = new float[this.m.length];transposeArray(this.m, this.h, arr);
 			}
 			return arr;
 		}
 	}
 	
-	public float[][] get2DArray() {
-		if (isSparse()) {
-			float[][] arr = new float[this.h][this.w];
-			for (int y = 0; y < this.h; y++) {
-				for (int x = 0; x < this.w; x++) {
-					arr[y][x] = m(x, y);
-				}
-			}
-			return arr;
-		} else {
-			return this.m;
-		}
-	}
-
-	public void setArray(float[] array) {
+	public void setArray(float[] array, boolean rowMaj) {
 		if (isSparse()) {
 			this.v.clear();
-			for (int i = 0; i < this.width(); i++)
-				for (int j = 0; j < this.height(); j++)
-					if (array[j * this.w + i] != 0.0)
-						set(i, j, array[j * this.w + i]);
+			for (int x = 0; x < this.width(); x++)
+				for (int y = 0; y < this.height(); y++)
+					if (array[y + x * this.h] != 0.0)
+						set(x, y, array[rowMaj ? y * this.w + x : y + x * this.h]);
 		} else {
-			for (int i = 0; i < this.width(); i++)
-				for (int j = 0; j < this.height(); j++)
-					this.m[j][i] = array[j * this.w + i];
-		}
-	}
-	
-	public void set2DArray(float[][] array) {
-		if (isSparse()) {
-			this.v.clear();
-			for (int i = 0; i < this.width(); i++)
-				for (int j = 0; j < this.height(); j++)
-					if (array[j][i] != 0.0)
-						set(i, j, array[j][i]);
-		} else {
-			for (int i = 0; i < this.width(); i++)
-				for (int j = 0; j < this.height(); j++)
-					this.m[j][i] = array[j][i];
+			if (array.length != this.m.length)
+				throw new IllegalArgumentException("matrix data array mismatch: " + m.length + "!=" + this.m.length);
+			if (rowMaj)
+				transposeArray(array, this.w, this.m);
+			else
+				System.arraycopy(array, 0, this.m, 0, this.m.length);
 		}
 	}
 	
@@ -163,7 +142,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 		if (isSparse()) {
 			return this.v.getOrDefault(new Vec2i(x, y), 0.0F);
 		} else {
-			return this.m[y][x];
+			return this.m[y + x * this.h];
 		}
 	}
 
@@ -180,7 +159,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 			else
 				this.v.put(new Vec2i(x, y), m);
 		} else {
-			this.m[y][x] = m;
+			this.m[y + x * this.h] = m;
 		}
 	}
 
@@ -703,7 +682,7 @@ public abstract class BaseFloatMatrix<M extends BaseFloatMatrix<M>> implements I
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.w, this.h, this.v, Arrays.deepHashCode(this.m));
+		return Objects.hash(this.w, this.h, this.v, Arrays.hashCode(this.m));
 	}
 	
 	@Override

@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import de.m_marvin.unimat.MatrixMathException;
 import de.m_marvin.unimat.api.IMatrix;
@@ -23,19 +21,14 @@ import de.m_marvin.univec.impl.Vec4d;
 
 public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements IMatrix<Double>, IMatrixMath<Double, M, Vec2d, Vec3d, Vec4d> {
 	
-	private final double[][] m;
+	private final double[] m;
 	private final Map<Vec2i, Double> v;
 	private final int w;
 	private final int h;
 	
 	public BaseDoubleMatrix(int w, int h, boolean sparse) {
 		if (!sparse) {
-			this.m = new double[h][w];
-			for (int y = 0; y < h; y++) {
-				this.m[y] = new double[w];
-				for (int x = 0; x < w; x++)
-					this.m[y][x] = 0.0;
-			}
+			this.m = new double[h * w];
 			this.v = null;
 		} else {
 			this.m = null;
@@ -45,19 +38,28 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 		this.h = h;
 	}
 	
-	public BaseDoubleMatrix(double[][] m) {
+	public BaseDoubleMatrix(double[] m, int w, int h, boolean rowMaj) {
 		if (m.length == 0)
 			throw new MatrixMathException("matrix can not be empty");
-		this.w = m[0].length;
-		this.h = m.length;
-		if (w == 0)
-			throw new MatrixMathException("matrix can not be empty");
-		for (double[] l : m)
-			if (w != l.length)
-				throw new MatrixMathException("matrix values do not foram an rectangular array");
-		
-		this.m = m;
+		this.w = w;
+		this.h = h;
+		if (m.length != this.w * this.h)
+			throw new MatrixMathException("array length mismatch for matrix size: " + this.w + "x" + this.h);
 		this.v = null;
+		
+		if (rowMaj) {
+			this.m = new double[m.length];
+			transposeArray(m, w, this.m);
+		} else {
+			this.m = m;
+		}
+	}
+
+	protected static void transposeArray(double[] src, int lad, double[] dest) {
+		int sad = src.length / lad;
+		for (int j = 0; j < sad; j++)
+			for (int i = 0; i < lad; i++)
+				dest[i * sad + j] = src[i + j * lad];
 	}
 	
 	protected abstract M newMatrix(int width, int height, boolean sparse);
@@ -86,48 +88,41 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 	public boolean isSparse() {
 		return this.m == null;
 	}
-	
-	public double[] getArray() {
+
+	public double[] getArray(boolean rowMaj) {
 		if (isSparse()) {
-			return IntStream.range(0, this.h).boxed().flatMapToDouble(y -> IntStream.range(0, this.w).mapToDouble(x -> m(x, y))).toArray();
+			double[] arr = new double[this.w * this.h];
+			for (int y = 0; y < this.h; y++) {
+				for (int x = 0; x < this.w; x++) {
+					arr[rowMaj ? y * this.w + x : y + x * this.h] = m(x, y);
+				}
+			}
+			return arr;
 		} else {
-			return Stream.of(this.m).flatMapToDouble(r -> DoubleStream.of(r)).toArray();
+			double[] arr = this.m;
+			if (rowMaj) {
+				arr = new double[this.m.length];
+				transposeArray(this.m, this.h, arr);
+			}
+			return arr;
 		}
 	}
 	
-	public double[][] get2DArray() {
-		if (isSparse()) {
-			return IntStream.range(0, this.h).boxed().map(y -> IntStream.range(0, this.w).mapToDouble(x -> m(x, y)).toArray()).toArray(double[][]::new);
-		} else {
-			return this.m;
-		}
-	}
-	
-	public void setArray(double[] array) {
+	public void setArray(double[] array, boolean rowMaj) {
 		if (isSparse()) {
 			this.v.clear();
-			for (int i = 0; i < this.width(); i++)
-				for (int j = 0; j < this.height(); j++)
-					if (array[j * this.w + i] != 0.0)
-						set(i, j, array[j * this.w + i]);
+			for (int x = 0; x < this.width(); x++)
+				for (int y = 0; y < this.height(); y++)
+					if (array[y + x * this.h] != 0.0)
+						set(x, y, array[rowMaj ? y * this.w + x : y + x * this.h]);
 		} else {
-			for (int i = 0; i < this.width(); i++)
-				for (int j = 0; j < this.height(); j++)
-					this.m[j][i] = array[j * this.w + i];
-		}
-	}
-	
-	public void set2DArray(double[][] array) {
-		if (isSparse()) {
-			this.v.clear();
-			for (int i = 0; i < this.width(); i++)
-				for (int j = 0; j < this.height(); j++)
-					if (array[j][i] != 0.0)
-						set(i, j, array[j][i]);
-		} else {
-			for (int i = 0; i < this.width(); i++)
-				for (int j = 0; j < this.height(); j++)
-					this.m[j][i] = array[j][i];
+			if (array.length != this.m.length)
+				throw new IllegalArgumentException("matrix data array mismatch: " + m.length + "!=" + this.m.length);
+			if (rowMaj)
+				transposeArray(array, this.w, this.m);
+			else
+				System.arraycopy(array, 0, this.m, 0, this.m.length);
+				
 		}
 	}
 	
@@ -149,7 +144,7 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 		if (isSparse()) {
 			return this.v.getOrDefault(new Vec2i(x, y), 0.0);
 		} else {
-			return this.m[y][x];
+			return this.m[y + x * this.h];
 		}
 	}
 
@@ -166,7 +161,7 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 			else
 				this.v.put(new Vec2i(x, y), m);
 		} else {
-			this.m[y][x] = m;
+			this.m[y + x * this.h] = m;
 		}
 	}
 
@@ -689,7 +684,7 @@ public abstract class BaseDoubleMatrix<M extends BaseDoubleMatrix<M>> implements
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.w, this.h, this.v, Arrays.deepHashCode(this.m));
+		return Objects.hash(this.w, this.h, this.v, Arrays.hashCode(this.m));
 	}
 	
 	@Override
