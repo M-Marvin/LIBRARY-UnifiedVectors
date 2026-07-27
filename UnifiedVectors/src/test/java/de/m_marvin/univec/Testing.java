@@ -14,17 +14,22 @@ import de.m_marvin.univec.impl.Vec3f;
 import de.m_marvin.univec.impl.Vec3i;
 
 public class Testing {
-	
+
 	public static void main(String... args) {
 		
 		System.out.println("Testing ...");
 		
-		MatrixNd m = new MatrixNd(new double[][] {
-			new double[] { 2.0,  3.0,  3.0,  1.0 },
-			new double[] { 0.0,  0.0,  3.0, -3.0 },
-			new double[] { 2.0, -1.0, -1.0, -3.0 },
-			new double[] { 0.0, -4.0, -3.0,  2.0 },
-		});
+		MatrixNd m = new MatrixNd(new double[] {
+			2.0,  3.0,  3.0,  1.0,
+			0.0,  0.0,  3.0, -3.0,
+			2.0, -1.0, -1.0, -3.0,
+			0.0, -4.0, -3.0,  2.0,
+		}, 4, 4, true);
+		
+		double[] arrt = m.getArray(false);
+		
+		MatrixNd m2 = new MatrixNd(4, 4);
+		m2.setArray(arrt, false);
 		
 		System.out.println("Determinant: " + m.determinant());
 		System.out.println("Ajungate:\n" + m.adjungate());
